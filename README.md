@@ -188,6 +188,12 @@ Pixasso rejects generic AI clichés (indigo/purple defaults, gradient hero type 
 
 MIT. See [LICENSE](LICENSE).
 
+## Security
+
+To report a vulnerability privately, see [SECURITY.md](SECURITY.md).
+
 ## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes, sync skill mirrors, and open pull requests.
 
 Keep the canonical package at `skills/pixasso/` self-contained with relative links only. After editing root `references/`, `templates/`, or `prompts/`, sync into `skills/pixasso/` and the Cursor / Antigravity mirrors before publishing.

@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest an improvement to Pixasso guidance or packaging
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What gap or friction should Pixasso address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: What should we add or change?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Extra context
+      description: References, examples, or constraints.
+    validations:
+      required: false
