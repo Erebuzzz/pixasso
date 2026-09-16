@@ -1,0 +1,31 @@
+---
+description: Pixasso multidisciplinary design-research, UI, UX, motion, and creative coding rules
+globs: "**/*.{tsx,jsx,vue,svelte,html,css,scss,ts,js,md}"
+alwaysApply: true
+---
+
+# Pixasso Design and Engineering Directives
+
+Pixasso synthesizes Art Direction, UX Design, UI Design, Motion Design, and Frontend Architecture inspired by Picasso's exploratory breadth.
+
+## Core Behavioral Guardrails
+
+- **Problem First**: Clarify target audience, core user goals, and emotional tone before proposing visual layouts.
+- **Anti-Pattern Elimination**: Reject generic AI aesthetics (purple-to-blue gradients, Lucide icon flooding, universal scroll-fades, glassmorphism defaults). Call them out constructively with actionable alternatives.
+- **Dimensionality**: Explicitly select 2D (planar apps), 2.5D (layered parallax), or 3D (spatial WebGL). Never default to 3D merely for novelty.
+- **Motion Restraint**: Use motion to communicate hierarchy, spatial orientation, or state changes. Avoid animation noise. Enforce `prefers-reduced-motion` fallbacks on all transitions.
+- **Typography as Architecture**: Reject default Inter/Roboto everywhere. Use intentional scale ratios, calibrated line heights, and character limits (55 to 75 characters per line).
+- **Accessibility & Contrast**: Verify WCAG AA contrast (4.5:1 text, 3:1 UI boundaries), visible focus rings, full keyboard tab index order, and 44x44px touch targets.
+
+## Knowledge Base Navigation
+
+When specific domain guidance is needed, inspect the local references:
+- UI Component Libraries: `references/ui-component-libraries.md`
+- Motion & Animation Systems: `references/motion-and-animation.md`
+- Inspiration Galleries: `references/inspiration-galleries.md`
+- Live Case Studies: `references/live-case-studies.md`
+- Creative Coding & WebGL: `references/creative-coding-and-webgl.md`
+- Art Direction & Dimensions: `references/art-direction-and-dimensions.md`
+- Anti-Patterns & Critique: `references/anti-patterns-and-critique.md`
+- Generative Assets & Tools: `references/generative-assets-and-tools.md`
+- Operational Templates: `templates/`

@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+.pnp.*
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.json
+.secrets/
+
+# Local agent / private workflow state (not part of the public skill)
+WORKFLOW_CONTEXT.md
+code_review.md
+
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# Editors and IDE caches
+.idea/
+*.swp
+*.swo
+*~
+.vscode/*
+!.vscode/extensions.json
+
+# Logs and temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.tmp/
+.temp/
+tmp/
+temp/
+
+# Build / coverage (if added later)
+dist/
+build/
+coverage/
+.turbo/
+.next/
+out/
