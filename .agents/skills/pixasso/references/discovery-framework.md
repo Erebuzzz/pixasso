@@ -1,0 +1,100 @@
+# Discovery Framework
+
+Intent Discovery turns underspecified creative requests into a validated Design Genome. Pixasso behaves like a senior creative technologist extracting intent, not a form wizard running a spreadsheet interrogation.
+
+Deep prompt: [prompts/discovery.md](../prompts/discovery.md)
+Brief scaffold (lightweight): [templates/design-brief.md](../templates/design-brief.md)
+Genome output: [templates/design-genome.yaml](../templates/design-genome.yaml)
+
+---
+
+## When to Discover
+
+Run discovery when the request is underspecified for intentional design. Skip or compress when the user already supplied a clear brief, existing design system, or locked genome.
+
+Material ambiguity means a wrong assumption would waste significant design or engineering work. Cosmetic preference questions can wait.
+
+---
+
+## Conversational Stance
+
+- Speak as a senior creative director who has already skimmed the brief
+- Reflect what you understood, then ask the next useful question
+- Group questions into short conversational stages (usually 2 to 4 questions per turn)
+- Adapt later questions based on answers; do not replay a fixed checklist
+- Infer safely; label inferences for confirmation
+- Never dump a twelve-field questionnaire unless the user asks for a full brief form
+
+### Tone example
+
+> You want something that feels like a late-night film lab more than a SaaS dashboard. Before I lock color and type, is the primary job conversion on a landing page, or daily use inside a product shell?
+
+Not:
+
+> Please fill: (1) Product type (2) Audience (3) Palette (4) Fonts (5) Motion level...
+
+---
+
+## Discovery Dimensions
+
+Discover these dimensions. Order is adaptive, not rigid.
+
+| Dimension | What to learn | Notes |
+| :--- | :--- | :--- |
+| Build category | What it is, semantically open-ended | Interpret phrases like "film lab for prompts"; do not force a closed taxonomy |
+| Feel | Emotional temperature and energy | Calm, urgent, playful, solemn, clinical, lush |
+| Theme / world / narrative | Metaphor and story world | Design-system input; not sticker clutter |
+| Visual language | Formal style separate from theme | Resolve style vs theme conflicts early |
+| Color emotion → palette | Mood before hex | Expand into role-based palette system |
+| Typography | First-class; full protocol | See [typography-discovery.md](typography-discovery.md) |
+| Dimensionality | Infer from spatial desire | Desire for depth ≠ always 3D |
+| Motion feel | Restrained / polished / kinetic | Tie to communication goals |
+| Audience | Who and in what context | Literacy and environment matter |
+| Goals | Job-to-be-done | Primary and secondary |
+| Emotional outcome | How they should feel after | Distinct from brand adjective soup |
+| Primary action | The one action that must win | CTA or core task |
+
+---
+
+## Suggested Stage Flow
+
+Adapt stages; merge or skip when already clear.
+
+### Stage A: Frame
+Product essence, primary action, audience, emotional outcome.
+
+### Stage B: World and Language
+Theme/narrative versus visual language. Surface conflicts.
+
+### Stage C: Type and Color
+Typography personality and system; color emotion into roles. Typography influences layout geometry.
+
+### Stage D: Space and Motion
+Dimensionality, motion feel, performance and accessibility constraints.
+
+### Stage E: Genome Check
+Human-readable genome interpretation; confirm inferences; lock or revise.
+
+---
+
+## Inference Rules
+
+- Prefer sparse, high-confidence inferences over many weak ones
+- Mark every inference in the genome
+- If two interpretations are equally plausible and costly to reverse, ask
+- If one interpretation dominates and is cheap to reverse, proceed and note it
+
+---
+
+## Exit Criteria
+
+Discovery is complete enough to draft a genome when:
+
+1. Build category and primary action are known or strongly inferred
+2. Audience and emotional outcome are known or strongly inferred
+3. Visual language and theme are compatible or conflicts are logged
+4. Typography direction has at least personality + category intent (exact faces may still be uncertain)
+5. Dimensionality posture is chosen or explicitly deferred with a safe default
+6. Open questions are limited to non-blocking preferences
+
+Then run the Genome Validation gate ([design-genome.md](design-genome.md)) and surface the user-visible [Design Brain](design-brain.md) before Task DAG implementation work.

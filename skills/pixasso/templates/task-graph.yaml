@@ -1,0 +1,174 @@
+# Pixasso Task Graph (Decision Graph + Execution DAG)
+# See references/task-graph.md and references/agent-orchestration.md
+
+schema_version: "1.0"
+project_id: ""
+updated_at: ""
+genome_path: "design-genome.yaml"
+status: planning # planning | executing | paused | complete
+
+nodes:
+  - id: genome.validate
+    title: "Validate Design Genome"
+    goal: "Human confirms human-readable genome interpretation"
+    inputs: ["genome.*"]
+    outputs: ["genome.status=validated"]
+    depends_on: []
+    agent_role: Discovery
+    tools: []
+    validation:
+      - "User confirmed or corrected inferences"
+      - "Blocking open_questions empty or deferred explicitly"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: research.refs
+    title: "Reference research"
+    goal: "Deconstruct relevant references into principles"
+    inputs: ["genome.visual_language", "genome.identity"]
+    outputs: ["artifacts/research-notes.md"]
+    depends_on: ["genome.validate"]
+    agent_role: Design Research
+    tools: []
+    validation:
+      - "Principles extracted; no blind cloning"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: type.system
+    title: "Typography system"
+    goal: "Lock typography-spec with availability states"
+    inputs: ["genome.typography", "genome.narrative"]
+    outputs: ["typography-spec.yaml", "genome.typography"]
+    depends_on: ["genome.validate"]
+    agent_role: Typography Director
+    tools: []
+    validation:
+      - "No unavailable face marked as final"
+      - "Scale and measure defined"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: art.direction
+    title: "Art direction"
+    goal: "Cohesive visual language and color roles"
+    inputs: ["genome.visual_language", "genome.color", "genome.narrative"]
+    outputs: ["genome.color", "genome.visual_language"]
+    depends_on: ["genome.validate"]
+    agent_role: Art Director
+    tools: []
+    validation:
+      - "Contrast targets addressed"
+      - "Anti-pattern avoid list present"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: ux.flows
+    title: "UX architecture"
+    goal: "IA, primary flows, states"
+    inputs: ["genome.identity", "genome.audience"]
+    outputs: ["artifacts/ux-outline.md"]
+    depends_on: ["genome.validate"]
+    agent_role: UX Architect
+    tools: []
+    validation:
+      - "Primary action is unambiguous"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: motion.spec
+    title: "Motion direction"
+    goal: "Motion vocabulary and reduced-motion policy"
+    inputs: ["genome.motion", "genome.dimensionality"]
+    outputs: ["artifacts/motion-spec.md"]
+    depends_on: ["genome.validate"]
+    agent_role: Motion Director
+    tools: []
+    validation:
+      - "prefers-reduced-motion policy explicit"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: integrate.tokens
+    title: "Integrate design tokens"
+    goal: "Merge type, color, space into shared tokens"
+    inputs: ["type.system", "art.direction", "ux.flows", "motion.spec"]
+    outputs: ["artifacts/tokens.md"]
+    depends_on: ["type.system", "art.direction", "ux.flows", "motion.spec"]
+    agent_role: Implementation Architect
+    tools: []
+    validation:
+      - "No conflicting token names"
+      - "Typography precedes layout assumptions"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: impl.ui
+    title: "UI implementation"
+    goal: "Ship accessible responsive UI"
+    inputs: ["integrate.tokens", "genome.*"]
+    outputs: ["code"]
+    depends_on: ["integrate.tokens"]
+    agent_role: UI Implementation
+    tools: []
+    validation:
+      - "Semantic HTML and focus states"
+      - "Responsive breakpoints checked"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: qa.design
+    title: "Design QA"
+    goal: "Craft and anti-pattern audit"
+    inputs: ["impl.ui"]
+    outputs: ["artifacts/qa-design.md"]
+    depends_on: ["impl.ui"]
+    agent_role: QA / Critique
+    tools: []
+    validation:
+      - "Anti-pattern scan complete"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: qa.impl
+    title: "Implementation QA"
+    goal: "Browser, responsive, a11y, security gates"
+    inputs: ["impl.ui"]
+    outputs: ["artifacts/qa-impl.md"]
+    depends_on: ["impl.ui"]
+    agent_role: QA / Critique
+    tools: ["browser.validate"]
+    validation:
+      - "Browser validation attempted or explicit self-audit"
+      - "Security checklist applied when relevant"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+  - id: critique.final
+    title: "Final critique"
+    goal: "Five-pillar rubric pass"
+    inputs: ["qa.design", "qa.impl"]
+    outputs: ["artifacts/critique-final.md"]
+    depends_on: ["qa.design", "qa.impl"]
+    agent_role: QA / Critique
+    tools: []
+    validation:
+      - "Weakest link identified with remediations"
+    status: pending
+    confidence: 0.0
+    notes: ""
+
+edges_notes: |
+  type.system, art.direction, ux.flows, motion.spec may run in parallel after genome.validate.
+  research.refs may run in parallel with direction nodes.
+  Add spatial.3d node only when genome.dimensionality requires it.

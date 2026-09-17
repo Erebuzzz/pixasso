@@ -1,0 +1,63 @@
+# Pixasso Project State
+# Persistent project memory. Pair with design-genome.yaml and task-graph.yaml.
+# Do not commit secrets. See references/design-genome.md and references/tool-registry.md
+
+schema_version: "1.0"
+project_id: ""
+created_at: ""
+updated_at: ""
+phase: discovery # discovery | genome_validation | research | planning | execution | qa | complete
+
+paths:
+  genome: "design-genome.yaml"
+  typography: "typography-spec.yaml"
+  task_graph: "task-graph.yaml"
+  design_brain: "design-brain.md"
+  artifacts_dir: "artifacts/"
+
+memory:
+  summary: ""
+  decisions: []
+  # - at: ""
+  #   decision: ""
+  #   rationale: ""
+  #   genome_fields: []
+  mutations_applied: []
+  risks: []
+  # - description: ""
+  #   severity: low | medium | high
+  #   mitigation: ""
+
+capabilities:
+  tools: []
+  # - id: browser.validate
+  #   name: ""
+  #   capability_tags: []
+  #   usefulness: ""
+  #   status: proposed # proposed | approved | rejected | unavailable
+  #   notes: ""
+  last_discovery_at: ""
+
+agents:
+  active_roles: []
+  # last packets / run ids optional
+  runs: []
+  # - task_id: ""
+  #   role: ""
+  #   at: ""
+  #   result_summary: ""
+  #   confidence: 0.0
+
+validation_gates:
+  genome_validated: false
+  design_qa: false
+  implementation_qa: false
+  browser_validation: false
+  security_review: false
+  responsive_pass: false
+  final_critique: false
+
+continuation:
+  next_task_ids: []
+  blocked_on: []
+  handoff_notes: ""

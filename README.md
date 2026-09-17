@@ -1,15 +1,17 @@
 # Pixasso
 
-Pixasso is a public **Agent Skill** for multidisciplinary design research and implementation. It helps agents (and humans) discover, critique, prototype, and ship digital experiences with intentional art direction instead of generic AI UI defaults.
+Pixasso is a public **Agent Skill** for multidisciplinary design research, intent discovery, planning, and implementation. It helps agents (and humans) discover design intent, lock a Design Genome, orchestrate specialist work via a Task DAG, then critique and ship digital experiences with intentional art direction instead of generic AI UI defaults.
 
 Inspired by Picasso's exploratory breadth, Pixasso synthesizes:
 - **Art Director**: Visual language, composition, surface, emotional tone
 - **UX Architect**: Hierarchy, flows, accessibility, cognitive load
 - **UI Designer**: Components, responsive layout, typographic systems
+- **Typography Director**: First-class type systems before layout lock
 - **Motion Designer**: Communicative animation, scroll, springs, scene transitions
 - **Design Researcher**: Benchmark deconstruction and principle extraction
 - **Creative Technologist**: WebGL, WebGPU, canvas, shaders, generative assets
 - **Frontend Architect**: Semantic, WCAG AA, production-ready web code
+- **Orchestrator**: Genome-backed task graphs and capability-aware agent assignment
 
 ## When to use it
 
@@ -100,6 +102,21 @@ flowchart TB
         SKILL["skills/pixasso/SKILL.md"]
     end
 
+    subgraph Intent ["Intent and genome"]
+        DISC["Discovery framework"]
+        GENOME["Design Genome"]
+        BRAIN["Design Brain map"]
+        TYPE["Typography system"]
+        MEM["Project state memory"]
+    end
+
+    subgraph Plan ["Planning and agents"]
+        DAG["Task DAG"]
+        ORCH["Agent orchestration"]
+        TOOLS["Tool / MCP registry"]
+        CONTR["Contradiction resolution"]
+    end
+
     subgraph References ["Knowledge catalogs"]
         UI_REF["UI and component libraries"]
         MOTION_REF["Motion and animation"]
@@ -112,7 +129,11 @@ flowchart TB
     end
 
     subgraph Templates ["Operational templates"]
-        BRIEF["Design brief"]
+        BRIEF["Adaptive design brief"]
+        GYAML["design-genome.yaml"]
+        BRAINMD["design-brain.md"]
+        TYAML["typography-spec.yaml"]
+        TG["task-graph.yaml"]
         CRITIQUE["Critique rubric"]
         MODE["Design mode spec"]
         COMP["Component implementation spec"]
@@ -126,31 +147,58 @@ flowchart TB
         PROMPTS["prompts/"]
     end
 
+    SKILL --> Intent
+    SKILL --> Plan
     SKILL --> References
     SKILL --> Templates
     Adapters --> SKILL
+    Intent --> Plan
 ```
 
 ## Design pipeline
+
+Operating principle: **Intent → Design Genome → Decision Graph → Capability Graph → Task DAG → Agents → Validation**
+
+The Design Genome and Task DAG are also surfaced to users as a Graphify-style **Design Brain** (`templates/design-brain.md`): Mermaid decision tree + DAG with status and known/inferred markers, paired with YAML sidecars for machine truth.
+
+```mermaid
+flowchart LR
+    A[Intent Discovery] --> B[Design Genome]
+    B --> C[Genome Validation]
+    C --> Brain[Design Brain map]
+    Brain --> D[Reference Research]
+    D --> E[Task DAG]
+    E --> Brain
+    E --> F[Tool Discovery]
+    F --> G[Agent Assignment]
+    G --> H[Parallel Execution]
+    H --> I[Integration]
+    I --> J[Design QA]
+    J --> K[Implementation QA]
+    K --> L[Final Critique]
+```
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor User as User
     participant Pixasso as Pixasso Agent
-    participant Research as Reference Catalog
-    participant Spec as Specification Engine
+    participant Genome as Design Genome
+    participant DAG as Task DAG
+    participant Agents as Specialist Agents
     participant Code as Frontend Delivery
 
     User->>Pixasso: Design request
-    Pixasso->>User: Targeted brief questions
+    Pixasso->>User: Adaptive discovery stages
     User-->>Pixasso: Clarifications
-    Pixasso->>Research: Deconstruct references
-    Research-->>Pixasso: Principles and tokens
-    Pixasso->>Spec: Dimensional and motion strategy
-    Spec->>Pixasso: Validated design mode
-    Pixasso->>Code: Implement accessible components
-    Pixasso->>User: Code, rationale, tradeoffs
+    Pixasso->>Genome: Draft with epistemic states
+    Pixasso->>User: Human-readable genome validation
+    User-->>Genome: Corrections / lock
+    Pixasso->>DAG: Plan dependencies and roles
+    DAG->>Agents: Focused task packets
+    Agents-->>Pixasso: Direction + implementation outputs
+    Pixasso->>Code: Integrate tokens and ship UI
+    Pixasso->>User: QA gates, critique, tradeoffs
 ```
 
 ## Dimensionality

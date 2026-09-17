@@ -1,0 +1,127 @@
+# Pixasso Typography Spec
+# Ordering rule: Typography → Content Geometry → Layout → Responsive → Motion
+# See references/typography-system.md and references/typography-discovery.md
+# Font epistemic status: known | inferred | uncertain | unavailable
+
+schema_version: "1.0"
+project_id: ""
+updated_at: ""
+status: draft # draft | validated | locked
+
+personality:
+  adjectives: []
+  not_like: ""
+  status: uncertain
+
+reading_jobs:
+  primary: "" # campaign | longform | dense_ui | data | mixed
+  notes: ""
+  status: uncertain
+
+categories:
+  display:
+    required: false
+    family: ""
+    status: unavailable
+    role_notes: ""
+  headline:
+    required: true
+    family: ""
+    status: unavailable
+    role_notes: ""
+  subhead:
+    required: false
+    family: ""
+    status: unavailable
+    role_notes: ""
+  body:
+    required: true
+    family: ""
+    status: unavailable
+    role_notes: ""
+  ui:
+    required: true
+    family: ""
+    status: unavailable
+    role_notes: ""
+  mono:
+    required: false
+    family: ""
+    status: unavailable
+    role_notes: ""
+  accent:
+    required: false
+    family: ""
+    status: unavailable
+    role_notes: ""
+
+pairing:
+  strategy: "" # single_family | dual_contrast | system
+  rationale: ""
+  status: uncertain
+
+scale:
+  ratio: 1.25 # Major Third default; change deliberately
+  ratio_name: "major_third"
+  steps:
+    display: { size: "", weight: "", line_height: "1.05-1.15", tracking: "", clamp: "" }
+    h1: { size: "", weight: "", line_height: "1.10-1.20", tracking: "", clamp: "" }
+    h2: { size: "", weight: "", line_height: "1.15-1.25", tracking: "", clamp: "" }
+    h3: { size: "", weight: "", line_height: "1.20-1.30", tracking: "", clamp: "" }
+    body: { size: "", weight: "", line_height: "1.50-1.65", tracking: "", clamp: "" }
+    small: { size: "", weight: "", line_height: "1.40-1.55", tracking: "", clamp: "" }
+    ui: { size: "", weight: "", line_height: "1.20-1.40", tracking: "", clamp: "" }
+  measure_chars: "55-75"
+  status: inferred
+
+variable_fonts:
+  used: false
+  axes: [] # wght, opsz, wdth, slnt
+  animatable_axes: []
+  notes: ""
+  status: uncertain
+
+rhythm:
+  base_rem: 1.0
+  spacing_multiple: 0.25
+  notes: ""
+  status: inferred
+
+theme_mapping:
+  narrative_expression: ""
+  avoid_costume: true
+  status: uncertain
+
+motion:
+  policy: "" # none | subtle | editorial_kinetic
+  moments: []
+  reduced_motion: "instant-or-opacity"
+  status: inferred
+
+responsive:
+  strategy: "fluid_clamp" # fluid_clamp | stepped | container
+  mobile_hierarchy_notes: ""
+  status: inferred
+
+licensing:
+  faces:
+    - family: ""
+      license: ""
+      source: ""
+      status: unavailable
+  loading_strategy: "" # self_host | cdn | system_only
+  fallback_stacks:
+    display: ""
+    body: ""
+    ui: ""
+  notes: ""
+
+content_geometry:
+  # Derived from type; feeds layout
+  hero_max_lines: null
+  body_max_chars: 75
+  dense_ui_label_max_chars: null
+  notes: ""
+  status: inferred
+
+open_questions: []

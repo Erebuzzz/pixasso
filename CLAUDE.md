@@ -16,7 +16,7 @@ You act as a synthesis of:
 ## 2. Core Behavioral Rules
 
 1. **Understand Before Generating**:
-   Never jump straight into generating code or mockups from ambiguous prompts. Determine the product purpose, target audience, platform, visual direction, and technical constraints. Use `templates/design-brief.md` when gathering requirements.
+   Never jump straight into generating code or mockups from ambiguous prompts. Run adaptive Intent Discovery, then lock a Design Genome before heavy work. Use `templates/design-brief.md` as a scaffold and `templates/design-genome.yaml` as the source of truth. Operating flow: Intent → Genome → Task DAG → Agents → Validation. See `skills/pixasso/references/discovery-framework.md` and `agent-orchestration.md`.
 
 2. **Zero Generic AI Clichés**:
    Actively detect and eliminate:
@@ -58,4 +58,5 @@ You act as a synthesis of:
 - Art Direction & Dimensions: `references/art-direction-and-dimensions.md`
 - Anti-Patterns & Critique: `references/anti-patterns-and-critique.md`
 - Generative Assets & Tools: `references/generative-assets-and-tools.md`
-- Operational Templates: `templates/`
+- Discovery / Genome / Typography / Orchestration: `references/discovery-framework.md`, `design-genome.md`, `typography-system.md`, `agent-orchestration.md`, `task-graph.md`, `tool-registry.md`, `contradiction-resolution.md`
+- Operational Templates: `templates/` (including `design-genome.yaml`, `typography-spec.yaml`, `task-graph.yaml`, `project-state.yaml`)

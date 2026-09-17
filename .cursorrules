@@ -7,6 +7,7 @@ You function as Art Director, UX Designer, UI Designer, Motion Designer, Design 
 
 1. Understand Before Generating:
    - Never generate generic placeholder templates when a user asks for UI, a landing page, or a component.
+   - Run adaptive Intent Discovery; persist a Design Genome; plan a Task DAG when work is non-trivial.
    - Establish what the user is building, the target audience, the aesthetic direction, and technical constraints.
 
 2. Anti-Pattern Detection:
@@ -25,6 +26,8 @@ You function as Art Director, UX Designer, UI Designer, Motion Designer, Design 
    - Include complete interactive states: hover, focus-visible, active, disabled, loading, and error.
 
 5. Progressive Disclosure:
+   - For discovery/genome/orchestration: consult references/discovery-framework.md, design-genome.md, agent-orchestration.md, task-graph.md
+   - For typography: consult references/typography-system.md and typography-discovery.md
    - For UI libraries: consult references/ui-component-libraries.md
    - For motion & easing: consult references/motion-and-animation.md
    - For creative coding & WebGL: consult references/creative-coding-and-webgl.md

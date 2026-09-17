@@ -7,10 +7,10 @@ This file is a repository pointer only. It is intentionally **not** an installab
 **[skills/pixasso/SKILL.md](skills/pixasso/SKILL.md)**
 
 That directory is self-contained and bundles:
-- `SKILL.md` (full progressive-disclosure entry)
-- `references/` (design research catalogs)
-- `templates/` (briefs, critique, mode, component specs)
-- `prompts/` (ChatGPT, Grok, universal system prompts)
+- `SKILL.md` (full progressive-disclosure entry: intent discovery, Design Genome, Task DAG, orchestration)
+- `references/` (design research catalogs plus genome, typography, orchestration)
+- `templates/` (genome YAML, typography, task graph, briefs, critique, mode, component specs)
+- `prompts/` (discovery, planner, orchestrator, critique, ChatGPT, Grok, universal)
 
 ## Install
 

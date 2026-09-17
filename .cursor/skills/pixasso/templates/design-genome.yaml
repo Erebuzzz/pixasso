@@ -1,0 +1,192 @@
+# Pixasso Design Genome
+# Machine-readable source of truth. Agents reference this file, not the raw prompt.
+# Epistemic states: known | inferred | uncertain | unavailable
+# See references/design-genome.md
+
+schema_version: "1.0"
+project_id: ""
+updated_at: ""
+status: draft # draft | validated | locked | revising
+
+identity:
+  product_name:
+    value: ""
+    status: uncertain
+  build_category:
+    value: "" # open-ended semantic label
+    status: uncertain
+  purpose_one_liner:
+    value: ""
+    status: uncertain
+  primary_action:
+    value: ""
+    status: uncertain
+
+audience:
+  who:
+    value: ""
+    status: uncertain
+  literacy:
+    value: "" # novice | mixed | expert | unknown
+    status: uncertain
+  context:
+    value: "" # enterprise | consumer | creative | mixed | other
+    status: uncertain
+  emotional_outcome:
+    value: ""
+    status: uncertain
+
+narrative:
+  theme:
+    value: ""
+    status: uncertain
+  world:
+    value: ""
+    status: uncertain
+  metaphor:
+    value: ""
+    status: uncertain
+  notes: ""
+
+visual_language:
+  style_axes:
+    value: [] # e.g. [editorial, tactile, restrained]
+    status: uncertain
+  materiality:
+    value: ""
+    status: uncertain
+  composition:
+    value: "" # asymmetric | centered | modular | dense | sparse | ...
+    status: uncertain
+  avoid:
+    value: []
+    status: inferred
+  conflicts_with_theme:
+    value: []
+    status: known
+
+color:
+  emotion:
+    value: ""
+    status: uncertain
+  mode_policy:
+    value: "" # light | dark | both | system
+    status: uncertain
+  palette:
+    bg: { value: "", status: uncertain }
+    surface: { value: "", status: uncertain }
+    text: { value: "", status: uncertain }
+    text_muted: { value: "", status: uncertain }
+    accent: { value: "", status: uncertain }
+    border: { value: "", status: uncertain }
+    success: { value: "", status: uncertain }
+    warning: { value: "", status: uncertain }
+    danger: { value: "", status: uncertain }
+  contrast_targets:
+    body_text: "4.5:1"
+    large_text: "3:1"
+    ui_boundaries: "3:1"
+
+typography:
+  personality:
+    value: []
+    status: uncertain
+  # Full detail may live in typography-spec.yaml; keep summary here
+  spec_path: "typography-spec.yaml"
+  display:
+    family: { value: "", status: unavailable }
+    fallback: { value: "", status: inferred }
+  headline:
+    family: { value: "", status: unavailable }
+    fallback: { value: "", status: inferred }
+  body:
+    family: { value: "", status: unavailable }
+    fallback: { value: "", status: inferred }
+  ui:
+    family: { value: "", status: unavailable }
+    fallback: { value: "", status: inferred }
+  mono:
+    family: { value: "", status: unavailable }
+    fallback: { value: "", status: inferred }
+  scale_ratio:
+    value: 1.25
+    status: inferred
+  measure_chars:
+    value: "55-75"
+    status: known
+  variable_axes:
+    value: []
+    status: uncertain
+  licensing_notes:
+    value: ""
+    status: uncertain
+
+dimensionality:
+  mode:
+    value: "" # 2d | 2_5d | 3d | hybrid
+    status: uncertain
+  rationale:
+    value: ""
+    status: uncertain
+  spatial_desire:
+    value: ""
+    status: uncertain
+  fallback:
+    value: ""
+    status: inferred
+
+motion:
+  feel:
+    value: "" # restrained | polished | kinetic
+    status: uncertain
+  vocabulary:
+    value: []
+    status: inferred
+  duration_ui_ms:
+    value: [150, 350]
+    status: known
+  reduced_motion:
+    value: "instant-or-opacity"
+    status: known
+
+constraints:
+  stack:
+    value: ""
+    status: uncertain
+  performance_budget:
+    value: ""
+    status: uncertain
+  a11y_bar:
+    value: "WCAG AA"
+    status: known
+  existing_design_system:
+    value: ""
+    status: uncertain
+  licensing_limits:
+    value: ""
+    status: uncertain
+
+confidence:
+  identity: 0.0
+  audience: 0.0
+  narrative: 0.0
+  visual_language: 0.0
+  color: 0.0
+  typography: 0.0
+  dimensionality: 0.0
+  motion: 0.0
+  constraints: 0.0
+  overall_ready_for_implementation: 0.0
+
+open_questions:
+  - id: q1
+    prompt: ""
+    blocks_implementation: true
+
+mutations: []
+# - at: ""
+#   fields: []
+#   from: ""
+#   to: ""
+#   reason: ""
+#   confidence_delta: 0.0
