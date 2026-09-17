@@ -29,10 +29,72 @@ Pixasso chooses tools based on project velocity, team constraints, and fidelity 
 | **Figma** | Interface Design & Systems | Multi-screen application flows, design systems, vector icons | Reusable token libraries, auto-layout specs |
 | **Framer** | Interactive Web Production | High-fidelity marketing sites with native scroll and motion | Production-ready React/web landing pages |
 | **Brik** | Visual Component Assembly | Rapid component prototyping and layout exploration | Clean HTML/CSS component structures |
+| **DialKit** | Live Feel Tuning | Shaping spacing, color, springs, and timelines by feel in the running UI | Tuned token values and Motion spring/easing configs |
+| **GetLayers** | Agent-Native Layer Library | Prompt-copyable sections, scenes, gradients, and MCP site assembly | Self-contained HTML layers or Next.js-oriented prompts |
 | **Code Editor (VS Code / Cursor)** | Production Implementation | Full-stack application UI, custom motion pipelines, WebGL | Production TypeScript, React, CSS codebases |
 | **Browser DevTools** | Performance & Audit | Real-time DOM inspection, frame profiling, accessibility tree | Performance profiles, CSS token overrides |
 
 Do not force every project into Figma, Framer, or WebGL. Select the workflow that delivers the highest quality result with minimal translation friction.
+
+### DialKit
+- **URL**: https://www.dialkit.dev/
+- **Classification**: Design Tool, Live Parameter Editor (feel-first)
+- **Core Strengths**: Runtime dials for numbers, colors, springs, easings, pads, folders, and animation timelines so craft decisions are shaped by feel instead of guessing CSS constants.
+- **When to Use**: Early visual exploration, motion timing calibration, and layout density tuning while a component is already mounted. Especially useful when the brief is emotional ("tighter", "softer spring") rather than numeric.
+- **Guardrail**: Keep the DialRoot editor out of production unless explicitly enabled. Copy finalized values into tokens or Motion configs, then remove temporary bindings. Never treat live dial defaults as a finished design system.
+
+### GetLayers
+- **URL**: https://www.getlayers.ai/
+- **Classification**: Generator, Agent-Native Template / Layer Library
+- **Core Strengths**: Curated motion sections, tunable 3D scenes and gradients, and copyable prompts that reconstruct a self-contained layer in an agent workflow (plus MCP-oriented full-site assembly).
+- **When to Use**: Marketing heroes, scroll sections, and atmospheric backgrounds when the team wants a high-craft starting layer rather than inventing motion from a blank canvas.
+- **Guardrail**: A layer is a foundation, not a finished brand. Restyle copy, palette, and subject matter. Do not ship free trial layers unchanged for client work. Strip decorative intensity that conflicts with Pixasso anti-patterns (purple dream defaults, stacked glow effects).
+
+---
+
+## 2b. Agent Design Systems (DESIGN.md)
+
+DESIGN.md is an agent-readable design-system format (tokens in YAML front matter plus prose rationale). Prefer verified tokens and rationale over inventing Inter-plus-indigo defaults.
+
+### DesignMD (Extractor)
+- **URL**: https://designmd.me/
+- **Classification**: Generator, Design System / Documentation
+- **Core Strengths**: Turns a live website URL into a structured DESIGN.md (colors, type, spacing, radius, elevation, components, breakpoints) with optional HTML preview and Figma import.
+- **When to Use**: Capturing an existing brand or reference site into agent-ready tokens before implementation.
+- **Guardrail**: Validate contrast and semantic naming after extraction. Treat crawl output as a draft system; resolve conflicts with product constraints and WCAG AA.
+
+### DesignMD (Catalog + MCP)
+- **URL**: https://www.designmd.co/
+- **Classification**: Design System / Documentation, Catalog, MCP Tooling
+- **Core Strengths**: Brand DESIGN.md catalog, generation from description or URL, MCP tools for search/install of systems and UI blocks, certification against anti-slop distinctiveness.
+- **When to Use**: Giving coding agents persistent visual identity context (Claude Code, Cursor, Windsurf, and other MCP clients) instead of guessing fonts and palettes.
+- **Guardrail**: Adapt brand systems legally and ethically for the user's product. Do not clone a third-party brand wholesale for commercial shipping without rights. Prefer principles and token structure over literal trademarked identity.
+
+### DesignMD Supply
+- **URL**: https://www.designmd.supply/
+- **Classification**: Generator, Design System / Documentation
+- **Core Strengths**: Supply-side generation of Google-format DESIGN.md files from public websites (screenshots, brand signals, scraped structure) for agent consumption.
+- **When to Use**: Bulk or alternate generation pipelines when catalog entries are missing and a public reference URL is available.
+- **Guardrail**: Automated browser challenges may block some agent fetches. Prefer cached catalog entries from designmd.co or getdesign.md when live generation is unavailable. Always review tokens for accessibility before shipping.
+
+### getdesign.md
+- **URL**: https://getdesign.md/
+- **Classification**: Design System / Documentation, Catalog
+- **Core Strengths**: Large collection of site analyses as reusable DESIGN.md references aligned with the Google DESIGN.md spec, oriented to Claude Code, Cursor, and Codex.
+- **When to Use**: Picking a coherent visual language (or matching a known product aesthetic) and handing a single file to the agent so multi-page builds stay consistent.
+- **Guardrail**: Use the file as a brief, not a license to impersonate the analyzed brand. Remap accents, imagery, and voice to the user's product.
+
+---
+
+## 2c. Agent-Facing Site Readiness
+
+### Ora
+- **URL**: https://ora.ai/
+- **Classification**: Design Tool / Audit Utility (Agent Readiness)
+- **Site status (checked)**: Live and usable for agents. Public scans return scores, category leaderboards, and intent walkthroughs. Average web readiness remains low, so treat Ora as a readiness diagnostic rather than a design library.
+- **Core Strengths**: Scores how agents find, read, and use a site; surfaces crawl/search/use issues; offers terminal scanning for continuous monitoring.
+- **When to Use**: Marketing sites, docs, and product surfaces that must be discoverable and operable by AI agents (pricing lookup, feature extraction, structured content).
+- **Guardrail**: High Ora score does not replace WCAG, performance, or visual craft. Pair agent-readiness fixes (clear structure, readable content, stable selectors) with human accessibility and responsive design.
 
 ---
 

@@ -20,9 +20,9 @@ Inspiration galleries serve as broad observational environments for studying con
 
 ### Refero Styles
 - **URL**: https://styles.refero.design/
-- **Focus**: Real-world product UI patterns, SaaS application flows, authenticated screens.
-- **What to Study**: Functional typography, multi-column navigation systems, complex data tables, settings drawers, and onboarding flows from live products.
-- **Deconstruction Lens**: Analyze how high-growth production software solves density and information hierarchy problems without sacrificing aesthetic polish.
+- **Focus**: Real-world product UI patterns, SaaS application flows, authenticated screens, and style-level pattern browsing across live products.
+- **What to Study**: Functional typography, multi-column navigation systems, complex data tables, settings drawers, onboarding flows, and recurring visual motifs (surface, density, chrome) extracted from production software.
+- **Deconstruction Lens**: Analyze how high-growth production software solves density and information hierarchy problems without sacrificing aesthetic polish. Prefer patterns that survive real content length, empty states, and dense data over marketing-only screenshots.
 
 ### Vivid Sites
 - **URL**: https://www.vividsites.app/

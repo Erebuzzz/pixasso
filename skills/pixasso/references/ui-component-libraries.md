@@ -55,6 +55,13 @@ Never ship visually untouched generic component-library defaults. Always tailor 
 - **When to Use**: Rapid exploration of state-of-the-art interface patterns and finding specific interactive widgets.
 - **Implementation Note**: Never paste full components without reviewing dependency overhead and accessibility. Adapt the Tailwind classes to match your project token system.
 
+### shadcn/ui
+- **URL**: https://ui.shadcn.com/
+- **Classification**: UI / Component Library, Copy-Paste Primitive System (Radix + Tailwind)
+- **Core Strengths**: Accessible headless primitives composed into ownership-friendly source components, strong docs for variants and theming, CLI-driven install into the project tree rather than a locked npm black box.
+- **When to Use**: Product UI, SaaS dashboards, marketing sites that need Radix-grade accessibility with full control over markup and tokens, and design systems that start from open components instead of a closed kit.
+- **Implementation Note**: Treat installed files as starting points. Restyle CSS variables and Tailwind tokens to the project identity. Prefer official docs and the component registry over third-party clones. Pair with a DESIGN.md or project tokens so agents do not ship default zinc/neutral lookalike chrome.
+
 ### Watermelon UI
 - **URL**: https://ui.watermelon.sh/
 - **Classification**: UI Component Library
