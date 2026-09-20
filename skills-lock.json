@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "pixasso": {
+      "source": "Erebuzzz/pixasso",
+      "sourceType": "github",
+      "skillPath": "skills/pixasso/SKILL.md",
+      "computedHash": "6aa4c80ff9ad946a21e0133562274ef88b19afc286116b9702688f7e6c34137e"
+    }
+  }
+}

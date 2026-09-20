@@ -87,6 +87,25 @@ Discover tools, explain usefulness, get user approval, register capabilities. To
 
 ---
 
+## Agent Harnesser: Installed Skills and MCP Coordination
+
+Pixasso acts as an intelligent harnesser across already installed skills and active MCP servers:
+
+1. **Installed Skills Collaboration**:
+   - Inspect environment skills (such as `generative_ui` for interactive HTML component previews, `gemini-api-dev` for multimodal asset processing, or mobile CLI skills).
+   - Delegate specialized sub-tasks to matching skills rather than re-implementing existing procedures.
+
+2. **Browser Automation (`chrome-devtools-mcp` / browser-use)**:
+   - Navigate live references to inspect DOM structures, computed styles, and layout transitions.
+   - Automate 3D workflows: navigate to Spline 3D (https://spline.design/), submit generative 3D prompts (with user authorization or active session), and extract embeddable scene URLs or React component wrappers.
+   - Perform automated viewport screenshot audits, evaluate responsive breakpoints, and verify focus indicator states.
+
+3. **Design MCP Integrations (StitchMCP, Figma, Framer)**:
+   - Use StitchMCP for screen generation, layout variants, and design system synchronization.
+   - Connect to Figma or Framer when MCP tools are mounted to read vector nodes, styles, and token definitions.
+
+---
+
 ## Validation Ladder
 
 1. **Genome validation** (human) before expensive build

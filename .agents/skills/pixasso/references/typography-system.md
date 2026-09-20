@@ -85,6 +85,9 @@ Avoid reflexive Inter / Roboto / Arial / system-ui as the entire brand voice unl
 
 When defaults are correct (dense tools, design-system continuity), say so deliberately in the genome rather than by habit.
 
+### Curated Typeface Benchmarking
+- **Typeface.fyi**: https://www.typeface.fyi/ (Explore curated type specimens, foundry pairings, historical notes, and personality mappings).
+
 ---
 
 ## Decision Tree (Short)

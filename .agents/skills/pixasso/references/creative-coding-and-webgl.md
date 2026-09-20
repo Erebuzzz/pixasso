@@ -30,6 +30,30 @@ Experimental rendering technologies allow interfaces to transcend traditional DO
 - **Implementation Strategy**: Build or utilize a retained-mode scene graph over a canvas. Map pointer events via bounding box hit tests or picking buffers.
 - **Crucial Requirement**: You must maintain an off-screen accessible DOM mirror tree for screen readers and keyboard focus management.
 
+### 5. Spline 3D & Agent Browser Automation
+- **Reference**: https://spline.design/
+- **Classification**: Collaborative 3D Web Design Tool, AI 3D Generation
+- **Core Strengths**: Interactive web-first 3D design, real-time physics, game controls, camera animations, and native React runtime export (`@splinetool/react-spline` or vanilla web components).
+- **Agent Browser Automation Workflow**:
+  - When the user provides authorization or an active session, autonomous agents can use browser tools (such as `chrome-devtools-mcp` or browser-use) to navigate to Spline.
+  - The agent can input tailored creative prompts into Spline AI, adjust materials, camera angles, and physics states, and retrieve the exported scene URL or embed code directly for the frontend.
+- **When to Use**: Interactive hero centerpieces, 3D landing page interactions, and tactile web models where hand-coded Three.js would take significantly longer.
+- **Implementation Note**: Set scene background to transparent, disable default mouse zoom if it conflicts with document scrolling, and lazy-load the Spline canvas.
+
+### 6. ThreeUI
+- **Reference**: https://threeui.com/browse
+- **Classification**: 3D Animated Website Directory, WebGL Benchmarks
+- **Core Strengths**: Curated collection of live 3D animated websites and spatial interface patterns built with Three.js and WebGL.
+- **When to Use**: Benchmarking camera pacing, lighting setups, 3D scroll-scrubbing mechanics, and hybrid 2D/3D component layering.
+- **Deconstruction Lens**: Analyze how 3D canvas backgrounds synchronize with foreground HTML typography and navigation.
+
+### 7. Glass by Sam Asante
+- **Reference**: https://glass.samasante.com/
+- **Classification**: Optical Refraction Shader, Realistic Glass Generator
+- **Core Strengths**: Physically accurate optical refraction, chromatic dispersion, adjustable surface roughness, thickness, and lighting highlights rendered via WebGL.
+- **When to Use**: High-end tactile surfaces, futuristic lens interfaces, and creative portfolio backdrops where generic CSS `backdrop-filter: blur()` looks flat and unconvincing.
+- **Implementation Note**: Extract the exact GLSL shader uniforms or use the generator to calibrate optical distortion parameters without introducing heavy runtime overhead.
+
 ---
 
 ## 2. Technical Evaluation Checklist

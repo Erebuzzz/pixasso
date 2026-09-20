@@ -60,6 +60,37 @@ Inspiration galleries serve as broad observational environments for studying con
 - **What to Study**: Reusable design patterns, design system architectures, and technical integration benchmarks.
 - **Deconstruction Lens**: Evaluate whether patterns can be implemented cleanly using modern CSS and lightweight component primitives.
 
+### Curated.design
+- **URL**: https://curated.design/
+- **Focus**: High-craft web design inspiration, editorial digital publications, agency showcases.
+- **What to Study**: Impeccable typography pairings, layout pacing, innovative hero treatments, and spatial balance.
+- **Deconstruction Lens**: Notice how elite designs establish luxury and prestige through disciplined margins and refined typographic scale rather than sensory overload.
+
+### Recent.design
+- **URL**: https://recent.design/
+- **Focus**: Daily curated stream of freshly launched web designs and experimental digital products.
+- **What to Study**: Emerging layout patterns, cutting-edge micro-interactions, responsive navigation shifts, and contemporary color combinations.
+- **Deconstruction Lens**: Distinguish between enduring design innovations and fleeting gimmicks. Adopt structural breakthroughs while discarding noisy tropes.
+
+### VibeUI
+- **URL**: https://vibeui.online/
+- **Focus**: Scenario-based design references categorized by emotional vibe, product category, and operational context.
+- **What to Study**: Contextual aesthetics (e.g., retro-technical, warm editorial, brutalist utilitarian, playful consumer, serene luxury).
+- **Deconstruction Lens**: Use when aligning design feel with user intent. Study how spacing density and palette shift across differing emotional goals.
+
+### DesignPrompts.dev
+- **URL**: https://www.designprompts.dev/
+- **Focus**: Structured design prompts, 2D website aesthetics, and prompt formulas for visual exploration.
+- **What to Study**: Formal art-direction vocabularies, layout descriptor keywords, lighting instructions, and composition parameters.
+- **Deconstruction Lens**: Translate design prompts into actionable CSS variables, typography tokens, and layout grid configurations.
+
+### Framer Portfolio Templates Showcase
+- **Creatie**: https://www.framer.com/marketplace/templates/creatie/ (Creative portfolio benchmark with bold typography and crisp grid framing).
+- **UXfolio**: https://www.framer.com/marketplace/templates/uxfolio/ (Case-study-first UX architecture with deep process storytelling and structured problem-solution sections).
+- **Foldex**: https://www.framer.com/marketplace/templates/foldex/ (Tactile folding card mechanics, dimensional page sectioning, and smooth component reveals).
+- **Aurorix**: https://www.framer.com/marketplace/templates/aurorix/ (Atmospheric luminosity, refined dark-mode surfaces, subtle rim lighting, and elegant typography rhythm).
+- **Deconstruction Lens**: Analyze how top portfolio templates organize the narrative arc from hero introduction to case study deep dives and contact capture.
+
 ---
 
 ## 2. Deconstruction Framework: The 8-Point Lens

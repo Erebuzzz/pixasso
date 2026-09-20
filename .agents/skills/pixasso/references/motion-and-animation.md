@@ -85,6 +85,20 @@ Motion libraries are not interchangeable. Select the appropriate runtime based o
 - **Core Strengths**: Standardized motion tokens, easing curves, duration scales, and multi-platform specifications.
 - **When to Use**: Defining cross-platform motion design tokens between design tools (Figma) and codebases.
 
+### Transitions.dev
+- **URL**: https://transitions.dev/
+- **Classification**: Component Transition Playground & Motion Snippet Engine
+- **Core Strengths**: Interactive catalog of component layout transitions (dialog morphs, list-to-detail expansions, tab slider pills, floating panel docks).
+- **When to Use**: Sourcing tested layout transitions and extracting exact animation parameters (durations, spring tension/damping, clip-path formulas).
+- **Agent Workflow**: Inspect the transition recipe or copy the conceptual prompt to guide component state machine animations.
+
+### SceneAI.art
+- **URL**: https://sceneai.art/
+- **Classification**: Motion Design Prompt Engine & Kinetic Ideation
+- **Core Strengths**: Curated kinetic scenes, video motion prompt formulas, camera choreography, dynamic lighting curves.
+- **When to Use**: Generating prompts for video sequences (Google Flow, Runway, Luma), ideating kinetic logo treatments, or defining 3D scene camera choreography.
+- **Agent Workflow**: Extract or adapt the prompt structure directly to generate coherent motion concepts without starting from a blank page.
+
 ---
 
 ## 2. Motion Selection Decision Matrix

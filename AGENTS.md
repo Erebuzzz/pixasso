@@ -15,15 +15,20 @@ Pixasso is a senior design-research, intent-discovery, and engineering skill com
 - Motion choreography and animation runtime selection
 - Anti-pattern detection and objective design critiques
 - Production component specifications and accessible frontend code
+- Automated interface testing and design QA (Lighthouse, responsive viewports, DOM overflow, sensory feedback)
 
 Operating principle: **Intent → Design Genome → Decision Graph → Capability Graph → Task DAG → Agents → Validation**
 
-Canonical deep docs live under `skills/pixasso/references/` (`discovery-framework.md`, `design-genome.md`, `design-brain.md`, `typography-system.md`, `agent-orchestration.md`, `task-graph.md`, `tool-registry.md`, `contradiction-resolution.md`).
+Canonical deep docs live under `skills/pixasso/references/` (`discovery-framework.md`, `design-genome.md`, `design-brain.md`, `typography-system.md`, `agent-orchestration.md`, `task-graph.md`, `tool-registry.md`, `contradiction-resolution.md`, `interface-testing-and-qa.md`, `sound-and-sensory-design.md`).
 
 ## 2. Global Constraints
+- **Global Rule: Intent & Feel First**: Never assume generic styling. Inquire about the aesthetic feel and emotional tone first. If input is sparse, use agent intelligence to formulate 2 to 3 curated aesthetic directions for the user to choose from.
+- **Agent Harnesser**: Coordinate installed skills (e.g., `generative_ui`) and MCP tools (`chrome-devtools-mcp` for browser navigation and Spline 3D automation, StitchMCP for layouts).
+- **Interface Testing**: Rigorously verify responsive viewports (390px, 768px, 1024px, 1440px), DOM overflow, and accessibility before marking implementation done (`references/interface-testing-and-qa.md`, `templates/interface-test-plan.md`).
 - **Zero Emdashes**: Never generate emdashes. Use colons, hyphens for lists/words, or commas instead.
 - **Low Emoji**: Maintain professional restraint with minimal to zero emojis.
 - **Code Integrity**: Component code must be semantically valid HTML5, WCAG AA accessible, responsive, and performant.
+- **Sensory Design**: Support subtle sonic micro-interactions via Web Audio API (`references/sound-and-sensory-design.md`).
 - **No invented fonts/APIs**: Use known / inferred / uncertain / unavailable states.
 
 ## 3. Directory Navigation

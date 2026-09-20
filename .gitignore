@@ -17,6 +17,9 @@ secrets.json
 
 # Local agent / private workflow state (not part of the public skill)
 WORKFLOW_CONTEXT.md
+workflow_context.md
+*workflow_context*
+*.workflow_context.md
 code_review.md
 
 # OS junk

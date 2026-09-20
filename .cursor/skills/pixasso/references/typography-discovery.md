@@ -38,6 +38,10 @@ Ask like a typography director in a design review, not a font-picker quiz. Refle
 
 Never invent font names or claim a face is free/open without basis. Prefer describing characteristics ("high-contrast modern serif with sharp serifs") until a real face is selected.
 
+### Typeface Reference Resource
+- **Typeface.fyi**: https://www.typeface.fyi/
+  - Use to explore curated contemporary typefaces, study detailed glyph specimens, discover authentic foundry pairings, and analyze letterform personality traits before locking the typography spec.
+
 ---
 
 ## Stage Prompts (Adaptive)

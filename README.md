@@ -118,11 +118,13 @@ flowchart TB
     end
 
     subgraph References ["Knowledge catalogs"]
-        UI_REF["UI and component libraries"]
-        MOTION_REF["Motion and animation"]
-        GALLERY_REF["Inspiration galleries"]
+        UI_REF["UI and component libraries<br/>(Aceternity, Originkit, Dialkit, RareUI, etc.)"]
+        MOTION_REF["Motion and animation<br/>(Transitions.dev, SceneAI.art, Motion, GSAP)"]
+        GALLERY_REF["Inspiration galleries<br/>(Curated.design, Recent.design, VibeUI, Framer)"]
         CASES_REF["Live case studies"]
-        CREATIVE_REF["Creative coding and WebGL"]
+        CREATIVE_REF["Creative coding, Spline 3D & WebGL<br/>(Spline, ThreeUI, Glass Samasante)"]
+        SOUND_REF["Sound and sensory design<br/>(UISFX, Web Audio API)"]
+        QA_REF["Interface testing & QA<br/>(chrome-devtools-mcp, Lighthouse, Overflow)"]
         ART_REF["Art direction and dimensions"]
         ANTIPATTERN_REF["Anti-patterns and critique"]
         GEN_REF["Generative assets and tools"]
@@ -134,6 +136,7 @@ flowchart TB
         BRAINMD["design-brain.md"]
         TYAML["typography-spec.yaml"]
         TG["task-graph.yaml"]
+        TEST_PLAN["interface-test-plan.md"]
         CRITIQUE["Critique rubric"]
         MODE["Design mode spec"]
         COMP["Component implementation spec"]
@@ -153,6 +156,45 @@ flowchart TB
     SKILL --> Templates
     Adapters --> SKILL
     Intent --> Plan
+```
+
+## Global Rule: Intent & Feel First
+
+Pixasso strictly avoids assuming generic styling defaults. It enforces an upfront inquiry into the emotional atmosphere, aesthetic vibe, and tactile feel before planning layouts or components.
+
+```mermaid
+flowchart TD
+    Req["Initial User Request"] --> AskFeel["Inquire on Vibe & Emotional Temperature<br/>(calm, austere, playful, technical, editorial, luxurious)"]
+    AskFeel --> UserResponse{"User response clarity?"}
+
+    UserResponse -->|"Clear, descriptive vision"| LockGenome["Incorporate into Design Genome"]
+    UserResponse -->|"Minimal input or 'make it look good'"| Fallback["Agent Intelligence Fallback Protocol"]
+
+    Fallback --> OptionA["Persona A: Obsidian Precision<br/>(Dark slate, crisp mono type, technical restraint)"]
+    Fallback --> OptionB["Persona B: Warm Editorial<br/>(Ivory ground, commanding serifs, literary poise)"]
+    Fallback --> OptionC["Persona C: Tactile Minimalist<br/>(Bone and charcoal, physical micro-interactions)"]
+
+    OptionA --> UserSelect["User selects or refines persona"]
+    OptionB --> UserSelect
+    OptionC --> UserSelect
+    UserSelect --> LockGenome
+```
+
+## Agent Harnesser: Installed Skills & MCP Coordination
+
+Pixasso functions as an orchestrator across your active development environment, delegating tasks to installed skills and coordinating with MCP tools:
+
+```mermaid
+flowchart LR
+    PixassoCore["Pixasso Core Orchestrator"] --> InstalledSkills["Installed Agent Skills"]
+    PixassoCore --> MCPTools["Active MCP Servers"]
+
+    InstalledSkills --> GenUI["generative_ui<br/>(Interactive HTML/React previews)"]
+    InstalledSkills --> GeminiDev["gemini-api-dev<br/>(Multimodal asset processing)"]
+
+    MCPTools --> BrowserMCP["chrome-devtools-mcp / browser-use<br/>(Reference deconstruction, responsive testing)"]
+    MCPTools --> SplineWorkflow["Spline 3D Automation<br/>(Prompt generation & scene embeds)"]
+    MCPTools --> DesignMCP["StitchMCP / Figma / Framer<br/>(Screen generation & token sync)"]
 ```
 
 ## Design pipeline
@@ -227,6 +269,38 @@ Motion is communicative, not decorative. Prefer `transform` and `opacity`, durat
 | Smooth page scroll | Lenis |
 | 3D scenes | React Three Fiber |
 | Ambient shaders | Custom GLSL / shader tools |
+
+## Interface Testing and Automated Design QA
+
+Testing in Pixasso is an integral design discipline rather than an afterthought. Pixasso coordinates installed environment tools (such as `chrome-devtools-mcp`, browser automation, and `generative_ui`) to execute comprehensive multi-viewport verification across visual stability, accessibility, motion performance, and sensory cues before completing implementation.
+
+```mermaid
+flowchart TD
+    Build["Generated UI / Component Implementation"] --> Preview["Visual Isolation Preview<br/>(generative_ui / dev server)"]
+    Preview --> ViewportSuite["Multi-Viewport Sweep<br/>(chrome-devtools-mcp: resize_page)"]
+
+    subgraph Viewports ["Responsive Verification Matrix"]
+        Mobile["Mobile: 390px<br/>(Single column, >= 44px touch targets)"]
+        Tablet["Tablet: 768px<br/>(Adaptive grid, medium density)"]
+        Laptop["Laptop: 1024px<br/>(Multi-column, hover activation)"]
+        Desktop["Desktop: 1440px+<br/>(Max container constraints, no stretch)"]
+    end
+
+    ViewportSuite --> Viewports
+    Viewports --> DOMAudit["DOM Layout & Overflow Inspection<br/>(evaluate_script: scrollWidth vs innerWidth)"]
+
+    subgraph HealthGates ["Automated Health & Quality Gates"]
+        A11y["Accessibility & Keyboard Traversal<br/>(Tab navigation, visible focus rings, ARIA)"]
+        Perf["Performance & Kinetic Trace<br/>(Lighthouse score >= 90, 60fps frame stability)"]
+        Console["Console & Asset Integrity<br/>(Zero unhandled exceptions, zero 404s)"]
+        Sensory["Sensory & Audio Validation<br/>(Web Audio latency < 10ms, global mute verified)"]
+    end
+
+    DOMAudit --> HealthGates
+    HealthGates --> Report["Operational Test Plan Sign-Off<br/>(templates/interface-test-plan.md)"]
+```
+
+See [references/interface-testing-and-qa.md](references/interface-testing-and-qa.md) for automated evaluation scripts, keyboard accessibility assertions, and Lighthouse target thresholds. Document operational test cycles with [templates/interface-test-plan.md](templates/interface-test-plan.md).
 
 ## Anti-pattern stance
 

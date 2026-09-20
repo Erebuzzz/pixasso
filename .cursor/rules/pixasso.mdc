@@ -10,23 +10,28 @@ Pixasso synthesizes Art Direction, UX Design, UI Design, Motion Design, and Fron
 
 ## Core Behavioral Guardrails
 
-- **Problem First**: Clarify target audience, core user goals, and emotional tone before proposing visual layouts. Prefer Intent → Design Genome → Task DAG → Agents → Validation for non-trivial work.
+- **Global Rule: Intent & Feel First**: Never assume generic SaaS styling or templates. Inquire about aesthetic feel, vibe, and emotional resonance. If the user provides minimal input, use agent intelligence to present 2 to 3 curated aesthetic directions (personas) rather than defaulting to generic tropes.
+- **Agent Harnesser**: Coordinate installed agent skills (such as `generative_ui`) and MCP tools (`chrome-devtools-mcp` / browser-use for live references and Spline 3D automation; StitchMCP and Figma for layouts).
 - **Anti-Pattern Elimination**: Reject generic AI aesthetics (purple-to-blue gradients, Lucide icon flooding, universal scroll-fades, glassmorphism defaults). Call them out constructively with actionable alternatives.
 - **Dimensionality**: Explicitly select 2D (planar apps), 2.5D (layered parallax), or 3D (spatial WebGL). Never default to 3D merely for novelty.
 - **Motion Restraint**: Use motion to communicate hierarchy, spatial orientation, or state changes. Avoid animation noise. Enforce `prefers-reduced-motion` fallbacks on all transitions.
-- **Typography as Architecture**: Reject default Inter/Roboto everywhere. Use intentional scale ratios, calibrated line heights, and character limits (55 to 75 characters per line).
+- **Typography as Architecture**: Reject default Inter/Roboto everywhere. Use intentional scale ratios, calibrated line heights, and character limits (55 to 75 characters per line). Cross-reference with Typeface.fyi.
 - **Accessibility & Contrast**: Verify WCAG AA contrast (4.5:1 text, 3:1 UI boundaries), visible focus rings, full keyboard tab index order, and 44x44px touch targets.
+- **Sensory Design**: Incorporate subtle sonic micro-interactions via Web Audio API where tactile confirmation enhances user experience (`references/sound-and-sensory-design.md`).
+- **Interface Testing & QA**: Execute multi-viewport verification (390px, 768px, 1024px, 1440px), automated overflow detection, and keyboard/ARIA checks via `chrome-devtools-mcp` before marking complete (`references/interface-testing-and-qa.md`, `templates/interface-test-plan.md`).
 
 ## Knowledge Base Navigation
 
 When specific domain guidance is needed, inspect the local references:
-- UI Component Libraries: `references/ui-component-libraries.md`
-- Motion & Animation Systems: `references/motion-and-animation.md`
-- Inspiration Galleries: `references/inspiration-galleries.md`
+- UI Component Libraries: `references/ui-component-libraries.md` (Aceternity, Originkit, Dialkit, RareUI, Libraries.dev, React Bits)
+- Motion & Animation Systems: `references/motion-and-animation.md` (Transitions.dev, SceneAI.art, GSAP, Motion)
+- Inspiration Galleries: `references/inspiration-galleries.md` (Curated.design, Recent.design, VibeUI, Framer templates)
 - Live Case Studies: `references/live-case-studies.md`
-- Creative Coding & WebGL: `references/creative-coding-and-webgl.md`
+- Creative Coding & WebGL: `references/creative-coding-and-webgl.md` (Spline 3D, ThreeUI, Glass Samasante)
+- Sound & Sensory Design: `references/sound-and-sensory-design.md` (UISFX)
+- Interface Testing & QA: `references/interface-testing-and-qa.md`, `templates/interface-test-plan.md`
 - Art Direction & Dimensions: `references/art-direction-and-dimensions.md`
 - Anti-Patterns & Critique: `references/anti-patterns-and-critique.md`
 - Generative Assets & Tools: `references/generative-assets-and-tools.md`
 - Discovery / Genome / Typography / Orchestration: `references/discovery-framework.md`, `design-genome.md`, `typography-system.md`, `agent-orchestration.md`, `task-graph.md`, `tool-registry.md`, `contradiction-resolution.md`
-- Operational Templates: `templates/`
+- Operational Templates: `templates/` (including `interface-test-plan.md`)

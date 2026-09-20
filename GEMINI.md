@@ -24,3 +24,15 @@ Pixasso is a multidisciplinary design-research and implementation skill inspired
 
 7. **Documentation and Diagrams**:
    Ensure documentation files use Mermaid diagrams to illustrate architecture, design workflows, and decision trees.
+
+8. **Global Rule: Intent & Feel First**:
+   Never default to generic SaaS layouts. Always inquire about the aesthetic vibe, emotional tone, and atmospheric feel. When user input is minimal, synthesize 2 to 3 curated aesthetic directions for the user to choose from.
+
+9. **Agent Harnesser**:
+   Coordinate with installed agent skills (such as `generative_ui` for live previews) and active MCP tools (`chrome-devtools-mcp` for browser navigation and Spline 3D generation, StitchMCP for layouts).
+
+10. **Sensory Craft**:
+    Support subtle sonic micro-interactions via Web Audio API where tactile auditory confirmation improves usability (consult `references/sound-and-sensory-design.md`).
+
+11. **Interface Testing & Automated QA**:
+    Execute multi-viewport verification (390px, 768px, 1024px, 1440px), automated overflow detection, accessibility/ARIA audits, and performance checks using available MCP tools (`chrome-devtools-mcp`) and installed skills before marking any design ready (`references/interface-testing-and-qa.md`, `templates/interface-test-plan.md`).

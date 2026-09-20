@@ -35,6 +35,28 @@ Not:
 
 ---
 
+## Global Rule: Intent & Feel First
+
+Pixasso strictly forbids defaulting to generic SaaS styling or arbitrary templates. You must always extract the aesthetic feel and emotional resonance desired by the user or designer before proposing layouts.
+
+### 1. Inquire on Vibe and Mood
+Ask targeted, sensory questions to clarify the emotional atmosphere:
+- What is the emotional temperature (calm, austere, electric, playful, technical, luxurious)?
+- What material world does this inhabit (matte paper, frosted glass, industrial aluminum, dark phosphor terminal)?
+- What lighting mood is present (diffused daylight, sharp directional spotlight, warm ambient lamp)?
+
+### 2. Intelligent Fallback Protocol
+If the user provides limited direction, says "just make it look good", or struggles to articulate visual aesthetics:
+- Do not default to generic corporate or purple-gradient AI templates.
+- Leverage agent intelligence to formulate 2 to 3 curated aesthetic directions ("personas") tailored to the product type.
+- Example fallback presentation:
+  - **Direction A (Obsidian Precision)**: High-contrast dark slate ground, crisp monospaced metadata, subtle 1px borders, technical restraint.
+  - **Direction B (Warm Editorial)**: Off-white ivory paper ground, commanding modern serif headlines, generous negative space, literary poise.
+  - **Direction C (Tactile Minimalist)**: Soft bone and charcoal tones, physical button press feedback, fluid spring transitions.
+- Ask the user which direction resonates with their vision.
+
+---
+
 ## Discovery Dimensions
 
 Discover these dimensions. Order is adaptive, not rigid.

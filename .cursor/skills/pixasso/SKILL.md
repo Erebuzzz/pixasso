@@ -40,6 +40,11 @@ Determine what the user is actually building, who it is for, what the experience
 
 Speak as a senior creative director extracting intent, not a form wizard. Reflect what you understood, then ask the next useful question.
 
+### Global Rule: Intent & Feel First
+Pixasso strictly forbids defaulting to generic SaaS styling or boilerplate templates. You must always extract the aesthetic feel, emotional resonance, and vibe from the designer or user before proposing layouts:
+- **Inquire on Atmosphere**: Ask evocative sensory questions about emotional temperature (calm, austere, playful, clinical, electric), material texture (paper, matte slate, frosted glass, terminal phosphor), and lighting mood (diffused studio, dark ambient, crisp daylight).
+- **Intelligent Fallback Protocol**: If the user provides minimal direction, says "just make it look good", or struggles to articulate visual aesthetics, do not revert to generic corporate templates. Use agent intelligence to synthesize 2 to 3 curated aesthetic directions ("personas") tailored to the product category (for example: Obsidian Precision vs Warm Editorial vs Tactile Minimalist) and present them with brief rationales for the user to select or critique.
+
 ### Intent Discovery
 When underspecified, follow the [Discovery Framework](references/discovery-framework.md) and [Discovery Prompt](prompts/discovery.md). Use the adaptive [Design Brief](templates/design-brief.md) as a scaffold, not a mandatory form.
 
@@ -74,8 +79,12 @@ Deep rules: [Agent Orchestration](references/agent-orchestration.md), [Task Grap
 - Spawn roles only when needed: Discovery, Art Director, Typography Director, UX Architect, Motion Director, Spatial/3D, Design Research, Implementation Architect, Asset, UI Implementation, QA/Critique.
 - Delegate with focused [agent task packets](templates/agent-task.md) and context isolation (genome excerpts, not full chat dumps).
 
-### Tool / MCP Discovery
-Discover available tools, explain usefulness, get approval, register capabilities ([Tool Registry](references/tool-registry.md)). Tools never dictate design. Intent and genome lead.
+### Agent Harnesser: Installed Skills and MCP Coordination
+Pixasso coordinates existing environment tools and capabilities via [Agent Orchestration](references/agent-orchestration.md) and [Tool Registry](references/tool-registry.md):
+- **Installed Skills Collaboration**: Identify and delegate specialized sub-tasks to installed skills (such as `generative_ui` for rich interactive HTML/React component previews, or `gemini-api-dev`).
+- **Browser Automation (`chrome-devtools-mcp` / browser-use)**: Navigate live references for visual/DOM deconstruction, conduct automated responsive audits, and automate 3D workflows on platforms like Spline (https://spline.design/) with user session authorization.
+- **Design System MCPs (StitchMCP, Figma, Framer)**: Ingest Figma/Framer nodes, generate UI screens and design variants via StitchMCP, and bind them directly to production code tokens.
+- **Tool Policy**: Tools never dictate design intent; the Design Genome and user intent lead.
 
 ---
 
@@ -137,7 +146,14 @@ When evaluating or recommending a technical library, component system, or animat
 
 ## 7. UI and Component Reference Corpus
 
-Consult the [UI Component Libraries Reference](references/ui-component-libraries.md) for detailed technical breakdowns (Componentry, Balsa UI, Canvas UI, Cult UI, 21st.dev, shadcn/ui, Watermelon UI, Magic UI, Skiper UI, Vengence UI, Anim Master Lib, React Bits, and peers).
+Consult the [UI Component Libraries Reference](references/ui-component-libraries.md) for detailed technical breakdowns:
+- **Componentry**, **Balsa UI**, **Canvas UI**, **Cult UI**, **21st.dev**, **shadcn/ui**, **Watermelon UI**, **Magic UI**, **Skiper UI**, **Vengence UI**, **Anim Master Lib**.
+- **Aceternity UI** (https://ui.aceternity.com/): Visual blocks, lamp effects, 3D card perspectives, glowing backdrops, bento grids.
+- **Originkit** (https://www.originkit.dev/): Clean functional Tailwind and React primitives for production dashboards and landing pages.
+- **Dialkit Agent** (https://www.dialkit.dev/agent): AI agent canvas, audio visualizers, slider dials, tactile knobs, and parameter tuners.
+- **Libraries.dev** (https://libraries.dev/): Curated directory of distinct UI elements and animated components.
+- **RareUI** (https://www.rareui.com/): Avant-garde animated React components and creative interactions.
+- **React Bits** (https://reactbits.dev/): Lightweight self-contained animation and UI snippets.
 
 Always distinguish between visual inspiration, structural primitives, and reusable code. Never ship unstyled, generic component library defaults.
 
@@ -151,7 +167,9 @@ Consult the [Motion and Animation Systems Reference](references/motion-and-anima
 - **React Spring (react-spring.dev)**: Physics for gesture-driven interruptible UI.
 - **Lenis**: Lightweight smooth scroll preserving native accessibility.
 - **React Three Fiber**: Declarative WebGL scene graphs.
-- **Vanta.js / Liquid Glass / ShaderGradient / Liquid Logo / OpenMotion**: Ambient and tokenized motion tools as appropriate.
+- **Vanta.js / Liquid Glass / ShaderGradient / Liquid Logo / OpenMotion**: Ambient and tokenized motion tools.
+- **Transitions.dev** (https://transitions.dev/): Component transition playground, prompt copying, and spring layout transitions.
+- **SceneAI.art** (https://sceneai.art/): Motion design prompt catalog and kinetic scene ideation.
 
 ---
 
@@ -176,7 +194,17 @@ Every animation must answer: What does this movement communicate, reveal, guide,
 
 ## 11. Inspiration Galleries
 
-Consult the [Inspiration Galleries Reference](references/inspiration-galleries.md) when benchmarking visual craft (Godly, Collect UI, Refero Styles, Vivid Sites, Minifolio, Rare UI, Nicely Done, Motion Sites, Sourcey, and peers).
+Consult the [Inspiration Galleries Reference](references/inspiration-galleries.md) when benchmarking visual craft:
+- **Godly**, **Collect UI**, **Refero Styles**, **Vivid Sites**, **Minifolio**, **Rare UI**, **Nicely Done**, **Motion Sites**, **Sourcey**.
+- **Curated.design** (https://curated.design/): High-craft web inspiration, luxury editorial layouts, agency showcases.
+- **Recent.design** (https://recent.design/): Daily stream of newly launched web designs and layout innovations.
+- **VibeUI** (https://vibeui.online/): Scenario-based design references categorized by emotional vibe and product context.
+- **DesignPrompts.dev** (https://www.designprompts.dev/): 2D website aesthetics, art-direction prompt formulas, and visual styles.
+- **Framer Portfolio Templates Showcase**:
+  - Creatie (https://www.framer.com/marketplace/templates/creatie/): Bold typography and disciplined grid framing.
+  - UXfolio (https://www.framer.com/marketplace/templates/uxfolio/): Case-study first UX architecture with deep process storytelling.
+  - Foldex (https://www.framer.com/marketplace/templates/foldex/): Tactile folding card mechanics and dimensional reveals.
+  - Aurorix (https://www.framer.com/marketplace/templates/aurorix/): Atmospheric luminosity and dark-mode craft.
 
 Synthesize principles from multiple sources. Never clone an entire page layout.
 
@@ -196,7 +224,17 @@ Consult the [Generative Assets and Tools Reference](references/generative-assets
 
 ---
 
-## 14. Art Direction and Visual Dimensions
+## 14. Sound and Sensory Design
+
+Consult the [Sound and Sensory Design Reference](references/sound-and-sensory-design.md):
+- **UISFX** (https://uisfx.com/): Curated interface sound effects (mechanical clicks, confirmations, spatial swooshes, alerts).
+- **Sonic Micro-Interactions**: Pair critical UI actions (button presses, drawer slides, published items) with crisp, short audio cues (20ms to 120ms).
+- **Web Audio API**: Use pre-decoded `AudioBuffer` objects for zero-latency feedback rather than standard `<audio>` tags.
+- **Sensory Accessibility**: Require an explicit user gesture before audio playback, provide a prominent global mute toggle, and honor reduced-sensory user settings.
+
+---
+
+## 15. Art Direction and Visual Dimensions
 
 Consult the [Art Direction and Dimensionality Reference](references/art-direction-and-dimensions.md):
 - **Composition**: Asymmetric, centered, editorial, modular bento, radial, dense utility, or sparse contemplative.
@@ -205,7 +243,7 @@ Consult the [Art Direction and Dimensionality Reference](references/art-directio
 
 ---
 
-## 15. Dimensionality Strategy
+## 16. Dimensionality Strategy
 
 Explicitly choose the dimensional approach:
 - **2D**: Planar precision for SaaS, dashboards, data tools, and content-dense sites. Zero GPU cost, maximum accessibility.
@@ -215,9 +253,12 @@ Explicitly choose the dimensional approach:
 
 ---
 
-## 16. Creative Coding, WebGL, and WebGPU
+## 17. Creative Coding, WebGL, and WebGPU
 
 Consult the [Creative Coding and WebGL Reference](references/creative-coding-and-webgl.md):
+- **Spline 3D** (https://spline.design/): Collaborative 3D web design with AI prompt generation. Agents can use browser tools (with user authorization) to generate and extract embeddable scenes.
+- **ThreeUI** (https://threeui.com/browse): Curated benchmark directory of 3D animated websites and interactive WebGL patterns.
+- **Glass by Sam Asante** (https://glass.samasante.com/): Real-time optical glass refraction shaders, chromatic dispersion, and tactile distortion.
 - Evaluate browser support, device battery limits, accessibility fallbacks, and mobile GPU constraints before using WebGL.
 - Clamp device pixel ratio (DPR) to maximum 1.5x.
 - Set frameloops to `demand` where scenes are not continuously animated.
@@ -225,13 +266,14 @@ Consult the [Creative Coding and WebGL Reference](references/creative-coding-and
 
 ---
 
-## 17. Typography Architecture (First-Class)
+## 18. Typography Architecture (First-Class)
 
 Typography is structural, not decorative. It influences layout; layout does not dictate type as an afterthought.
 
 **Ordering rule:** Typography → Content Geometry → Layout → Responsive → Motion
 
 - Follow [Typography System](references/typography-system.md) and [Typography Discovery](references/typography-discovery.md); use [Typography Director](prompts/typography-director.md) and [templates/typography-spec.yaml](templates/typography-spec.yaml).
+- Benchmark contemporary typefaces, specimens, and pairings with **Typeface.fyi** (https://www.typeface.fyi/).
 - Discover personality, categories, pairing, scale/hierarchy, variable fonts, rhythm, theme mapping, type motion, responsive behavior, and licensing.
 - Avoid defaulting to Inter, Roboto, or generic sans-serif on every design unless the genome explicitly wants neutral chrome.
 - Define explicit scale ratios (Major Second 1.125, Minor Third 1.200, Major Third 1.250, Augmented Fourth 1.414).
@@ -241,7 +283,7 @@ Typography is structural, not decorative. It influences layout; layout does not 
 
 ---
 
-## 18. UX Before Decoration
+## 19. UX Before Decoration
 
 Never allow visual novelty to compromise usability. Establish first:
 - Information architecture and content hierarchy
@@ -254,7 +296,7 @@ A visually stunning interface that confuses users is a failed interface.
 
 ---
 
-## 19. Responsive and Adaptive Design
+## 20. Responsive and Adaptive Design
 
 Desktop is never the sole real design. Deliver complete dynamic interfaces with mobile and web support, not a single fixed canvas.
 
@@ -269,7 +311,7 @@ Tie every responsive pass to the WCAG and accessibility rules in the next sectio
 
 ---
 
-## 20. Accessibility as Core Design
+## 21. Accessibility as Core Design
 
 - Contrast ratios: Minimum 4.5:1 for body copy; 3:1 for large display type and interactive borders.
 - Full keyboard operability: Tab index ordering, visible custom focus rings, Enter/Space activation, Escape dismissal.
@@ -278,7 +320,26 @@ Tie every responsive pass to the WCAG and accessibility rules in the next sectio
 
 ---
 
-## 21. Quality Verification Gates
+## 22. Interface Testing and Automated Design QA
+
+Testing is an essential design discipline. Follow the [Interface Testing and Design QA Reference](references/interface-testing-and-qa.md) and document test runs using [templates/interface-test-plan.md](templates/interface-test-plan.md):
+
+- **Browser Automation QA (`chrome-devtools-mcp` / browser-use)**:
+  - Responsive Viewport Run: Test viewports at 390px, 768px, 1024px, and 1440px widths via `resize_page` and `take_screenshot`.
+  - Overflow Detection: Run automated DOM checks via `evaluate_script` to ensure zero unexpected horizontal scroll (`scrollWidth > innerWidth`).
+  - Interactive State Traversal: Test hover, active, focus-visible (`Tab`), and escape dismissal (`Escape`) via keyboard and pointer simulation.
+  - Console & Network Health: Verify zero unhandled exceptions (`list_console_messages`) and zero 404 broken assets (`list_network_requests`).
+  - Lighthouse Audits: Execute automated audits targeting Accessibility (>= 95), Best Practices (>= 95), and Performance (>= 90).
+- **Installed Skills Collaboration**:
+  - Leverage `generative_ui` for real-time visual inspection of component states (hover, disabled, loading, error) before embedding into complex application trees.
+- **Sensory & Audio Testing**:
+  - Verify that audio cues (UISFX) require user gesture, have zero latency via Web Audio API, and respect the persistent global mute setting.
+- **Motion & Jank Profiling**:
+  - Verify 60fps frame stability and confirm complete support for `prefers-reduced-motion` media queries.
+
+---
+
+## 23. Quality Verification Gates
 
 Do not skip verification on design implementation. These gates run together before calling the work done:
 
@@ -291,7 +352,7 @@ If subagents or browser tools are unavailable, still perform an explicit self-au
 
 ---
 
-## 22. Security Review on Implementation
+## 24. Security Review on Implementation
 
 When shipping or substantially changing implementation (components, auth-adjacent UI, forms, third-party scripts, markdown/HTML injection surfaces):
 
@@ -301,7 +362,7 @@ When shipping or substantially changing implementation (components, auth-adjacen
 
 ---
 
-## 23. Performance and Resource Budgets
+## 25. Performance and Resource Budgets
 
 - Monitor bundle footprints and dependency weights.
 - Lazy-load heavy visual assets, 3D glTF models, and WebGL canvases.
@@ -423,9 +484,11 @@ Always provide specific, literate, and implementation-ready recommendations. Rep
 | Orchestration | [agent-orchestration.md](references/agent-orchestration.md), [task-graph.md](references/task-graph.md) |
 | Tools | [tool-registry.md](references/tool-registry.md) |
 | Conflicts | [contradiction-resolution.md](references/contradiction-resolution.md) |
+| Sound & Sensory | [sound-and-sensory-design.md](references/sound-and-sensory-design.md) |
+| Testing & QA | [interface-testing-and-qa.md](references/interface-testing-and-qa.md), [interface-test-plan.md](templates/interface-test-plan.md) |
 | Critique | [prompts/critique.md](prompts/critique.md), [design-critique-rubric.md](templates/design-critique-rubric.md) |
 
-Existing catalogs remain authoritative: UI libraries, motion, galleries, case studies, creative coding, art direction, anti-patterns, generative tools under `references/`.
+Existing catalogs remain authoritative: UI libraries, motion, galleries, case studies, creative coding, sound, testing, art direction, anti-patterns, generative tools under `references/`.
 
 ---
 

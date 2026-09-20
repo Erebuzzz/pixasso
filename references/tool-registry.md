@@ -47,14 +47,15 @@ tools:
 
 | Tag | Example use |
 | :--- | :--- |
-| `browser` | Implementation QA, visual verification |
-| `design-file` | Figma read/write, tokens |
+| `browser` | Implementation QA, visual verification, Spline 3D web prompting |
+| `design-file` | Figma read/write, StitchMCP screen generation, tokens |
+| `interactive-preview` | Delegating to `generative_ui` for live interactive widget rendering |
 | `docs` | Official API documentation fetch |
 | `asset-gen` | Image/SVG/shader generation |
-| `motion-tune` | Dial/timeline feel tools |
+| `motion-tune` | Dial/timeline feel tools (Dialkit, Transitions.dev) |
 | `deploy` | Preview deployments |
 | `security` | Dependency or secret scans |
-| `research` | Live site deconstruction |
+| `research` | Live site deconstruction, web search |
 
 ---
 

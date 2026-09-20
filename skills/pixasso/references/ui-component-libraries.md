@@ -98,11 +98,46 @@ Never ship visually untouched generic component-library defaults. Always tailor 
 - **Implementation Note**: Review animation curves and durations. Avoid long intro delays that hinder user task completion.
 
 ### React Bits
-- **URL**: https://github.com/DavidHDev/react-bits
+- **URL**: https://reactbits.dev/ (also https://github.com/DavidHDev/react-bits)
 - **Classification**: Reusable React Animations and Components
 - **Core Strengths**: Self-contained React snippets for text animations, background animations, interactive cards, and animations without heavy external frameworks.
 - **When to Use**: Adding focused, lightweight interactive moments to an existing React application without installing monolithic dependencies.
 - **Implementation Note**: Review internal math calculations and cleanup functions in useEffect hooks to prevent memory leaks during rapid re-mounts.
+
+### Aceternity UI
+- **URL**: https://ui.aceternity.com/components and https://ui.aceternity.com/blocks
+- **Classification**: High-Impact Component and Block Library (React, Tailwind, Motion, Three.js)
+- **Core Strengths**: Striking visual blocks, 3D card perspective effects, lamp containers, canvas reveals, glowing backgrounds, animated bento grids, and interactive floating docks.
+- **When to Use**: Landing pages for modern developer tools, AI startups, creative products, and hero moments that demand immediate visual intrigue.
+- **Implementation Note**: Aceternity blocks are visually assertive. Integrate them selectively: use one hero block per viewport rather than chaining multiple glowing effects together. Adjust tailwind color variables to match the project design genome.
+
+### Originkit
+- **URL**: https://www.originkit.dev/
+- **Classification**: Component Library, Tailwind & React Primitives
+- **Core Strengths**: Clean functional components, accessible layouts, polished interactive states, modern styling defaults.
+- **When to Use**: Production web applications, administrative dashboards, and marketing pages requiring balanced, reliable component primitives.
+- **Implementation Note**: Study their compound component patterns for cards, filters, and list views. Ensure focus indicators conform to WCAG contrast standards.
+
+### Dialkit Agent
+- **URL**: https://www.dialkit.dev/agent
+- **Classification**: Agent UI Primitives, Interactive Audio & Dial Controls
+- **Core Strengths**: Tangible knobs, audio visualizers, slider dials, tactile agent interface surfaces, and generative canvas controls.
+- **When to Use**: AI agent interfaces, voice assistants, audio production web apps, creative coding consoles, and interactive parameter tuners.
+- **Implementation Note**: Deconstruct their rotational drag math and pointer event bindings. Provide keyboard-accessible step increments (Arrow keys) alongside radial dragging.
+
+### Libraries.dev
+- **URL**: https://libraries.dev/
+- **Classification**: UI Component Catalog, Animated Interface Primitives
+- **Core Strengths**: Curated directory of distinct UI elements spanning animated buttons, text masks, layout transitions, and creative components.
+- **When to Use**: Discovering alternative component implementations and exploring fresh micro-interaction ideas across various component frameworks.
+- **Implementation Note**: Review dependency requirements before copying. Isolate pure CSS or single-file solutions to avoid dependency bloat.
+
+### RareUI
+- **URL**: https://www.rareui.com/
+- **Classification**: Animated React Components, Experimental Interactions
+- **Core Strengths**: Unconventional animated components, fluid hover physics, kinetic cards, and dynamic navigation layouts.
+- **When to Use**: Boutique agency sites, creative portfolios, and brand landing pages seeking non-standard interaction affordances.
+- **Implementation Note**: Ensure that expressive animations degrade gracefully on mobile screens and do not interfere with screen reader navigation.
 
 ---
 
