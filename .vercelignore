@@ -1,0 +1,12 @@
+node_modules
+**/node_modules
+.git
+.agents
+.cursor
+.gemini
+plugins
+skills
+mcp-server
+tests
+scratch
+*.log

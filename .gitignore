@@ -53,3 +53,8 @@ coverage/
 .turbo/
 .next/
 out/
+
+.vercel
+site/examples/
+site/assets/
+site/CNAME
