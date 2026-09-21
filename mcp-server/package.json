@@ -1,6 +1,6 @@
 {
   "name": "pixasso-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Model Context Protocol server for Pixasso: the end-to-end frontend engineering and design orchestrator.",
   "main": "build/index.js",
   "bin": {
