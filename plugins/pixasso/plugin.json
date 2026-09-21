@@ -1,0 +1,18 @@
+{
+  "name": "pixasso",
+  "version": "1.0.0",
+  "description": "Complete end-to-end frontend engineering and design orchestrator across 16 pillars (UI/UX, HTML/JSX, CSS/Tailwind, TypeScript, Frameworks, State, API/Sockets, Auth UX, Forms & Zod, Motion, Responsive, A11y, Performance, Testing, Tooling, Deployment).",
+  "author": "Erebuzzz",
+  "license": "MIT",
+  "keywords": [
+    "frontend-engineering",
+    "design-system",
+    "typography",
+    "motion-design",
+    "uisfx",
+    "mcp",
+    "antigravity-plugin"
+  ],
+  "skills": ["skills/pixasso"],
+  "rules": ["rules/GEMINI.md", "rules/AGENTS.md"]
+}

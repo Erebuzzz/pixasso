@@ -1,0 +1,25 @@
+{
+  "name": "pixasso",
+  "version": "1.0.0",
+  "description": "The complete end-to-end frontend engineering and design skill, plugin, and MCP server.",
+  "main": "mcp-server/build/index.js",
+  "scripts": {
+    "build": "npm run build --prefix mcp-server",
+    "start": "node mcp-server/build/index.js",
+    "serve": "node scripts/serve.js",
+    "install:all": "node scripts/install.js",
+    "test:mcp": "node scripts/test-mcp.js"
+  },
+  "keywords": [
+    "pixasso",
+    "mcp-server",
+    "frontend-engineering",
+    "design-system",
+    "typography",
+    "motion",
+    "antigravity-plugin",
+    "cursor-skill"
+  ],
+  "author": "Erebuzzz",
+  "license": "MIT"
+}

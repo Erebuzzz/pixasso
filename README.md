@@ -1,322 +1,417 @@
 # Pixasso
 
-Pixasso is a public **Agent Skill** for multidisciplinary design research, intent discovery, planning, and implementation. It helps agents (and humans) discover design intent, lock a Design Genome, orchestrate specialist work via a Task DAG, then critique and ship digital experiences with intentional art direction instead of generic AI UI defaults.
+> **The Complete End-to-End Frontend Engineering & Design Orchestrator for AI Agents and Humans.**
 
-Inspired by Picasso's exploratory breadth, Pixasso synthesizes:
-- **Art Director**: Visual language, composition, surface, emotional tone
-- **UX Architect**: Hierarchy, flows, accessibility, cognitive load
-- **UI Designer**: Components, responsive layout, typographic systems
-- **Typography Director**: First-class type systems before layout lock
-- **Motion Designer**: Communicative animation, scroll, springs, scene transitions
-- **Design Researcher**: Benchmark deconstruction and principle extraction
-- **Creative Technologist**: WebGL, WebGPU, canvas, shaders, generative assets
-- **Frontend Architect**: Semantic, WCAG AA, production-ready web code
-- **Orchestrator**: Genome-backed task graphs and capability-aware agent assignment
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![MCP Server](https://img.shields.io/badge/MCP%20Server-JSON--RPC%202.0-orange)](mcp-server/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](mcp-server/src/)
+[![Platform Support](https://img.shields.io/badge/Platforms-Cursor%20|%20Antigravity%20|%20Claude%20|%20VS%20Code-brightgreen)](scripts/install.js)
+[![Live Showcase](https://img.shields.io/badge/Live%20Showcase-pixasso.erebuzzz.tech-purple)](https://pixasso.erebuzzz.tech)
 
-## When to use it
+Live Documentation and Showcase: **[pixasso.erebuzzz.tech](https://pixasso.erebuzzz.tech)**
 
-Use Pixasso when you need help with:
-- Landing pages, marketing sites, portfolios, and editorial layouts
-- Product UI, dashboards, design systems, and component specs
-- Motion systems, scroll choreography, and dimensionality choices (2D / 2.5D / 3D)
-- Design critiques that reject purple-gradient / Lucide-flood / glassmorphism clichés
-- Creative coding, WebGL scenes, and hybrid canvas + DOM interfaces
+---
 
-## Install
+## Overview
 
-Canonical package path: `skills/pixasso/` (self-contained `SKILL.md` + `references/` + `templates/` + `prompts/`).
-
-### skills.sh / npx (recommended)
-
-```bash
-npx skills add Erebuzzz/pixasso@pixasso
-```
-
-Because this repo contains a single discoverable skill under `skills/pixasso/`, you can also run:
-
-```bash
-npx skills add Erebuzzz/pixasso
-```
-
-Global install example:
-
-```bash
-npx skills add Erebuzzz/pixasso@pixasso -g
-```
-
-### Cursor personal skill
-
-Copy or symlink the package into your Cursor skills directory:
-
-```bash
-# macOS / Linux
-cp -R skills/pixasso ~/.cursor/skills/pixasso
-# or: ln -s /path/to/pixasso/skills/pixasso ~/.cursor/skills/pixasso
-```
-
-```powershell
-# Windows (PowerShell)
-robocopy ".\skills\pixasso" "$env:USERPROFILE\.cursor\skills\pixasso" /MIR
-```
-
-Restart Cursor or open a new agent chat so skill discovery refreshes.
-
-### Cursor project skill
-
-This repository already mirrors the package at `.cursor/skills/pixasso/` for project-scoped use after clone.
-
-### Other agents
-
-- **Claude Code**: root `CLAUDE.md` plus the package under `skills/pixasso/`
-- **Gemini / Antigravity**: `GEMINI.md` and `.agents/skills/pixasso/`
-- **ChatGPT / Grok / local LLMs**: prompts under `skills/pixasso/prompts/`
-
-## Package layout
+Pixasso is a senior design-research, intent-discovery, and full-spectrum frontend engineering orchestrator inspired by Picasso's exploratory breadth. It rejects cookie-cutter AI interfaces, purple gradients, Lucide icon flooding, and superficial templates. Instead, Pixasso guides autonomous coding agents (and human engineers) through a rigorous pipeline:
 
 ```text
-pixasso/
-├── SKILL.md                    # Repo pointer only (not installable frontmatter)
-├── README.md
-├── LICENSE                     # MIT
-├── AGENTS.md / CLAUDE.md / GEMINI.md
-├── .cursorrules
-├── .cursor/
-│   ├── rules/pixasso.mdc
-│   └── skills/pixasso/         # Project mirror of the canonical package
-├── .agents/skills/pixasso/     # Antigravity mirror
-├── skills/pixasso/             # CANONICAL publishable skill
-│   ├── SKILL.md
-│   ├── references/
-│   ├── templates/
-│   └── prompts/
-├── references/                 # Editable source catalogs (sync into package)
-├── templates/
-└── prompts/
+Intent Discovery -> Design Genome -> Decision Graph -> Capability Graph -> Task DAG -> Specialist Agents -> Automated QA
 ```
 
-## Architecture
+Pixasso unifies **Art Direction**, **UX Architecture**, **Typography Direction**, **Motion Systems**, **Full-Stack Frontend Implementation**, and **Automated Multi-Viewport Testing** into a single cohesive skill and Model Context Protocol (MCP) server.
+
+---
+
+## Visual Showcase & Themes
+
+Pixasso supports multi-mode aesthetic execution tailored to your product identity:
+
+| Theme | Aesthetic Mode | Key Visual Traits |
+| :--- | :--- | :--- |
+| **Paper Light** | Architectural Editorial | Warm ivory (`#fbfaf7`), hairlines, wide grotesque display headlines, Newsreader serif body |
+| **CRT Terminal** | Retro Phosphor Computing | Phosphor emerald (`#00ff66`), scanlines, cathode vignette, bracket hotkeys `[B]`, monospace telemetry |
+| **Pitch Black AMOLED** | Deep Space Operations | True `#000000` ground, cold metallic accents, sharp geometric borders, maximum contrast |
+
+### Interface Previews
+
+![Pixasso Paper Light Theme](assets/screenshots/pixasso-hero-paper.png)
+*Figure 1: Architectural Paper Light Theme with wide display headlines and generative wave synthesizer.*
+
+![Pixasso CRT Terminal Theme](assets/screenshots/pixasso-hero-crt.png)
+*Figure 2: Retro Cathode Ray Terminal Theme with phosphor glow, scanline shader, and telemetry HUD.*
+
+![Pixasso AMOLED Pitch Black Theme](assets/screenshots/pixasso-hero-amoled.png)
+*Figure 3: Pitch Black AMOLED Theme optimized for high-contrast, edge-density operational dashboards.*
+
+![Pixasso Responsive Mobile Viewport](assets/screenshots/pixasso-mobile-preview.png)
+*Figure 4: Mobile Viewport (390px) verified with zero horizontal DOM overflow and accessible touch targets.*
+
+---
+
+## The 16 Pillars of Frontend Architecture
+
+Pixasso treats frontend engineering not as shallow visual styling, but as a complete 16-pillar software engineering discipline:
+
+| Pillar | Discipline | Key Technical Responsibilities |
+| :--- | :--- | :--- |
+| **1. UI & Visual Design** | Design Systems & Tokens | Semantic color scales, modular typography scales, surface depth, spacing systems |
+| **2. Semantic HTML & JSX** | Document Structure | Accessible landmarks (`main`, `nav`, `article`), ARIA roles, microdata, zero `div` soup |
+| **3. Modern CSS Systems** | Styling Architecture | CSS custom properties, container queries, Cascade Layers (`@layer`), subgrid, zero-runtime CSS |
+| **4. TypeScript Excellence** | Type Safety | Strict mode, discriminated unions for UI state, zero `any`, typed event handlers |
+| **5. Framework Architecture** | Component Lifecycle | React 19, Next.js App Router, Svelte 5 runes, Vue 3 Composition, Islands Architecture |
+| **6. State Management** | Data Flow & Cache | Server state (TanStack Query), client state (Zustand), URL search params as source of truth |
+| **7. API & Realtime Data** | Network Transport | Type-safe REST, GraphQL, WebSockets, Server-Sent Events, optimistic UI mutations |
+| **8. Client Authentication UX** | Session Security | Route protection guards, PKCE OAuth flows, token refresh queues, zero credential flicker |
+| **9. Forms & Input Validation** | Data Integrity | React Hook Form, Zod schema validation, inline error hints, accessible fieldsets |
+| **10. Motion & Animation** | Kinetic Direction | Motion (motion.dev), GSAP timelines, WebGL canvas shaders, `prefers-reduced-motion` |
+| **11. Responsive Design** | Viewport Versatility | Fluid typography (`clamp()`), container queries, adaptive layouts (390px to 2560px+) |
+| **12. Accessibility (WCAG)** | Inclusive Design | WCAG 2.2 AA/AAA compliance, screen reader tree, keyboard traps, focus rings, ARIA live |
+| **13. Core Web Vitals** | Performance Budget | LCP under 1.2s, INP under 100ms, CLS at 0, streaming SSR, image srcset optimization |
+| **14. Frontend Testing** | Verification Suite | Vitest component unit tests, Playwright end-to-end tests, visual regression checks |
+| **15. Tooling & Bundling** | Developer Experience | Vite, Turbopack, Biome/ESLint linting, automated dependency updates, Docker images |
+| **16. Deployment & CDN** | Production Release | Edge runtime, CDN cache headers (`stale-while-revalidate`), atomic rollbacks, CI/CD |
+
+---
+
+## System Architecture
 
 ```mermaid
 flowchart TB
-    subgraph Core ["Pixasso Core"]
-        SKILL["skills/pixasso/SKILL.md"]
+    subgraph ClientLayer ["Client & IDE Integration"]
+        Cursor["Cursor IDE"]
+        Claude["Claude Desktop & Claude Code"]
+        Antigravity["Google Antigravity & Gemini"]
+        Codex["VS Code / Codex / Custom Agents"]
     end
 
-    subgraph Intent ["Intent and genome"]
-        DISC["Discovery framework"]
-        GENOME["Design Genome"]
-        BRAIN["Design Brain map"]
-        TYPE["Typography system"]
-        MEM["Project state memory"]
+    subgraph Protocol ["Transport Layer"]
+        JSONRPC["Model Context Protocol (JSON-RPC 2.0 over Stdio)"]
+        SkillsShim["Native Skills Runtime (SKILL.md)"]
     end
 
-    subgraph Plan ["Planning and agents"]
-        DAG["Task DAG"]
-        ORCH["Agent orchestration"]
-        TOOLS["Tool / MCP registry"]
-        CONTR["Contradiction resolution"]
+    subgraph PixassoCore ["Pixasso Engine"]
+        Discovery["Adaptive Intent Discovery Matrix"]
+        Genome["Design Genome Engine (YAML + Brain)"]
+        TaskDAG["Dependency-Aware Task DAG"]
+        Orchestrator["Specialist Agent Dispatcher"]
     end
 
-    subgraph References ["Knowledge catalogs"]
-        UI_REF["UI and component libraries<br/>(Aceternity, Originkit, Dialkit, RareUI, etc.)"]
-        MOTION_REF["Motion and animation<br/>(Transitions.dev, SceneAI.art, Motion, GSAP)"]
-        GALLERY_REF["Inspiration galleries<br/>(Curated.design, Recent.design, VibeUI, Framer)"]
-        CASES_REF["Live case studies"]
-        CREATIVE_REF["Creative coding, Spline 3D & WebGL<br/>(Spline, ThreeUI, Glass Samasante)"]
-        SOUND_REF["Sound and sensory design<br/>(UISFX, Web Audio API)"]
-        QA_REF["Interface testing & QA<br/>(chrome-devtools-mcp, Lighthouse, Overflow)"]
-        ART_REF["Art direction and dimensions"]
-        ANTIPATTERN_REF["Anti-patterns and critique"]
-        GEN_REF["Generative assets and tools"]
+    subgraph KnowledgeHub ["Curated Knowledge Catalogs"]
+        Pillars["16 Frontend Architecture Pillars"]
+        TypeSpec["Typography Systems & Variable Fonts"]
+        MotionSpec["Motion Choreography & Spring Physics"]
+        SensorySpec["Web Audio API UISFX Engine"]
+        QASpec["Multi-Viewport & DOM Overflow Verification"]
     end
 
-    subgraph Templates ["Operational templates"]
-        BRIEF["Adaptive design brief"]
-        GYAML["design-genome.yaml"]
-        BRAINMD["design-brain.md"]
-        TYAML["typography-spec.yaml"]
-        TG["task-graph.yaml"]
-        TEST_PLAN["interface-test-plan.md"]
-        CRITIQUE["Critique rubric"]
-        MODE["Design mode spec"]
-        COMP["Component implementation spec"]
+    subgraph Specialists ["Specialist Agent Roles"]
+        ArtDir["Art Director"]
+        UXArch["UX Architect"]
+        TypeDir["Typography Director"]
+        FrontArch["Frontend Architect"]
+        QAEng["Interface QA Engineer"]
     end
 
-    subgraph Adapters ["Platform adapters"]
-        CURSOR["Cursor rules and project skill"]
-        CLAUDE["CLAUDE.md"]
-        GEMINI["GEMINI.md and .agents/skills"]
-        AGENTS["AGENTS.md"]
-        PROMPTS["prompts/"]
+    subgraph Delivery ["Shipped Artifacts"]
+        Site["pixasso.erebuzzz.tech"]
+        CodeProd["Production Component Code"]
+        DesignBrain["Graphify Design Brain (.md)"]
+        TestPlan["Operational Test Plan (.md)"]
     end
 
-    SKILL --> Intent
-    SKILL --> Plan
-    SKILL --> References
-    SKILL --> Templates
-    Adapters --> SKILL
-    Intent --> Plan
+    ClientLayer --> Protocol
+    Protocol --> PixassoCore
+    PixassoCore <--> KnowledgeHub
+    PixassoCore --> Specialists
+    Specialists --> Delivery
 ```
 
-## MUST RULE: Compulsory Interactive Popup Discovery (`ask_question`) & Feel First
+---
 
-Pixasso strictly forbids assuming generic styling defaults or jumping straight into an implementation plan. It enforces a compulsory interactive popup discovery gate (`ask_question`) to establish 100% pure clarity on design theme, typography architecture, color mood, dimensionality, motion, and primary user conversion before planning or coding begins.
+## Operating Principle: Intent to Validation
 
-```mermaid
-flowchart TD
-    Req["Initial User Request"] --> PopupModal["Compulsory Popup Discovery<br/>(ask_question interactive modal)"]
-
-    subgraph Dimensions ["Mandatory Clarification Dimensions"]
-        Theme["1. Theme & Narrative Vibe<br/>(Obsidian / Editorial / Cyber / Brutalist / Custom)"]
-        Type["2. Typography Architecture<br/>(Headline personality, serif/sans/mono, hierarchy)"]
-        Color["3. Color Ground & Materiality<br/>(Ivory / Slate / White, frost, metallic, clay)"]
-        Dim["4. Dimensionality & Space<br/>(2D planar / 2.5D parallax / 3D WebGL)"]
-        Motion["5. Motion & Sensory Audio<br/>(Springs, snaps, UISFX micro-sounds)"]
-        Goal["6. Conversion & Primary CTA<br/>(Key user job-to-be-done)"]
-    end
-
-    PopupModal --> Dimensions
-    Dimensions --> UserSubmit["User Submits Choices & Custom Write-ins"]
-    UserSubmit --> LockGenome["Synthesize into Locked Design Genome<br/>& User-Visible Design Brain"]
-    LockGenome --> PlanGate["Draft Implementation Plan & Task DAG"]
-```
-
-## Agent Harnesser: Installed Skills & MCP Coordination
-
-Pixasso functions as an orchestrator across your active development environment, delegating tasks to installed skills and coordinating with MCP tools:
+Pixasso enforces a structured workflow that turns user intent into verified production code:
 
 ```mermaid
 flowchart LR
-    PixassoCore["Pixasso Core Orchestrator"] --> InstalledSkills["Installed Agent Skills"]
-    PixassoCore --> MCPTools["Active MCP Servers"]
-
-    InstalledSkills --> GenUI["generative_ui<br/>(Interactive HTML/React previews)"]
-    InstalledSkills --> GeminiDev["gemini-api-dev<br/>(Multimodal asset processing)"]
-
-    MCPTools --> BrowserMCP["chrome-devtools-mcp / browser-use<br/>(Reference deconstruction, responsive testing)"]
-    MCPTools --> SplineWorkflow["Spline 3D Automation<br/>(Prompt generation & scene embeds)"]
-    MCPTools --> DesignMCP["StitchMCP / Figma / Framer<br/>(Screen generation & token sync)"]
-```
-
-## Design pipeline
-
-Operating principle: **Intent → Design Genome → Decision Graph → Capability Graph → Task DAG → Agents → Validation**
-
-The Design Genome and Task DAG are also surfaced to users as a Graphify-style **Design Brain** (`templates/design-brain.md`): Mermaid decision tree + DAG with status and known/inferred markers, paired with YAML sidecars for machine truth.
-
-```mermaid
-flowchart LR
-    A[Intent Discovery] --> B[Design Genome]
-    B --> C[Genome Validation]
-    C --> Brain[Design Brain map]
-    Brain --> D[Reference Research]
-    D --> E[Task DAG]
-    E --> Brain
-    E --> F[Tool Discovery]
-    F --> G[Agent Assignment]
-    G --> H[Parallel Execution]
-    H --> I[Integration]
-    I --> J[Design QA]
-    J --> K[Implementation QA]
-    K --> L[Final Critique]
+    A["Intent Discovery<br/>(ask_question)"] --> B["Design Genome<br/>(Tokens & Modes)"]
+    B --> C["Design Brain<br/>(Mermaid Graph)"]
+    C --> D["Reference Analysis<br/>(Benchmarks)"]
+    D --> E["Task DAG<br/>(Dependencies)"]
+    E --> F["Specialist Agents<br/>(Code & Motion)"]
+    F --> G["Interface Testing<br/>(Multi-Viewport QA)"]
+    G --> H["Final Verification<br/>(Shipped UI)"]
 ```
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor User as User
-    participant Pixasso as Pixasso Agent
+    actor User as Developer / Designer
+    participant Pixasso as Pixasso Orchestrator
+    participant MCP as Pixasso MCP Server
     participant Genome as Design Genome
-    participant DAG as Task DAG
     participant Agents as Specialist Agents
-    participant Code as Frontend Delivery
+    participant QA as Automated Interface QA
 
-    User->>Pixasso: Design request
-    Pixasso->>User: Adaptive discovery stages
-    User-->>Pixasso: Clarifications
-    Pixasso->>Genome: Draft with epistemic states
-    Pixasso->>User: Human-readable genome validation
-    User-->>Genome: Corrections / lock
-    Pixasso->>DAG: Plan dependencies and roles
-    DAG->>Agents: Focused task packets
-    Agents-->>Pixasso: Direction + implementation outputs
-    Pixasso->>Code: Integrate tokens and ship UI
-    Pixasso->>User: QA gates, critique, tradeoffs
+    User->>Pixasso: Request interface or application
+    Pixasso->>User: Compulsory Popup Questions (ask_question)
+    User-->>Pixasso: Theme, typography, dimensionality, conversion goals
+    Pixasso->>MCP: pixasso_generate_genome
+    MCP-->>Genome: Structured Design Genome (YAML)
+    Pixasso->>MCP: pixasso_generate_brain
+    MCP-->>Pixasso: Mermaid Decision Tree and Task DAG
+    Pixasso->>Agents: Dispatch concurrent implementation tasks
+    Agents-->>Pixasso: Production HTML5, Tailwind, TypeScript, Motion code
+    Pixasso->>QA: Multi-viewport audit (390px, 768px, 1024px, 1440px)
+    QA-->>Pixasso: Zero DOM overflow and accessibility sign-off
+    Pixasso->>User: Verified components, live preview, and test report
 ```
 
-## Dimensionality
+---
 
-```mermaid
-graph TD
-    Start["New interface"] --> TaskCheck{"Primary task?"}
+## Compulsory Popup Discovery Gate
 
-    TaskCheck -->|"Dashboards, SaaS, dense tools"| Planar["2D planar"]
-    TaskCheck -->|"Brand storytelling, explainers"| DepthCheck{"Need true spatial rotation?"}
-    TaskCheck -->|"Configurator, digital twin, immersive"| Spatial["3D WebGL / WebGPU"]
-
-    DepthCheck -->|"Layered depth is enough"| Layered["2.5D parallax"]
-    DepthCheck -->|"360-degree inspection required"| Spatial
-```
-
-## Motion engines
-
-Motion is communicative, not decorative. Prefer `transform` and `opacity`, durations about 150ms to 350ms for UI, and always honor `prefers-reduced-motion`.
-
-| Need | Typical runtime |
-| :--- | :--- |
-| Gestures, layout morphs, UI states | Motion (motion.dev) |
-| Scrubbed timelines | GSAP + ScrollTrigger |
-| Physics sheets | React Spring |
-| Smooth page scroll | Lenis |
-| 3D scenes | React Three Fiber |
-| Ambient shaders | Custom GLSL / shader tools |
-
-## Interface Testing and Automated Design QA
-
-Testing in Pixasso is an integral design discipline rather than an afterthought. Pixasso coordinates installed environment tools (such as `chrome-devtools-mcp`, browser automation, and `generative_ui`) to execute comprehensive multi-viewport verification across visual stability, accessibility, motion performance, and sensory cues before completing implementation.
+Pixasso strictly forbids assuming generic defaults or hiding questions inside plans. Before generating code or planning architectures, agents must call `ask_question` across key dimensions:
 
 ```mermaid
 flowchart TD
-    Build["Generated UI / Component Implementation"] --> Preview["Visual Isolation Preview<br/>(generative_ui / dev server)"]
-    Preview --> ViewportSuite["Multi-Viewport Sweep<br/>(chrome-devtools-mcp: resize_page)"]
+    Prompt["User Prompts New Project"] --> Popup["Compulsory Interactive Popup Modal (ask_question)"]
 
-    subgraph Viewports ["Responsive Verification Matrix"]
-        Mobile["Mobile: 390px<br/>(Single column, >= 44px touch targets)"]
-        Tablet["Tablet: 768px<br/>(Adaptive grid, medium density)"]
-        Laptop["Laptop: 1024px<br/>(Multi-column, hover activation)"]
-        Desktop["Desktop: 1440px+<br/>(Max container constraints, no stretch)"]
+    subgraph Matrix ["Adaptive Discovery Matrix"]
+        D1["Narrative & Theme<br/>(Paper, CRT-mono, Pitch Black, Brutalist, Editorial)"]
+        D2["Typography Hierarchy<br/>(Display sans, warm editorial serif, technical mono)"]
+        D3["Dimensionality Mode<br/>(2D Planar, 2.5D Parallax, 3D WebGL / Spline)"]
+        D4["Sensory Feedback<br/>(Web Audio UISFX synthesized clicks and snaps)"]
+        D5["Pillar Focus<br/>(State management, Zod forms, Auth UX, Realtime feeds)"]
     end
 
-    ViewportSuite --> Viewports
-    Viewports --> DOMAudit["DOM Layout & Overflow Inspection<br/>(evaluate_script: scrollWidth vs innerWidth)"]
-
-    subgraph HealthGates ["Automated Health & Quality Gates"]
-        A11y["Accessibility & Keyboard Traversal<br/>(Tab navigation, visible focus rings, ARIA)"]
-        Perf["Performance & Kinetic Trace<br/>(Lighthouse score >= 90, 60fps frame stability)"]
-        Console["Console & Asset Integrity<br/>(Zero unhandled exceptions, zero 404s)"]
-        Sensory["Sensory & Audio Validation<br/>(Web Audio latency < 10ms, global mute verified)"]
-    end
-
-    DOMAudit --> HealthGates
-    HealthGates --> Report["Operational Test Plan Sign-Off<br/>(templates/interface-test-plan.md)"]
+    Popup --> Matrix
+    Matrix --> Answers["User Answers & Custom Requirements"]
+    Answers --> Synthesize["Synthesize Design Genome & Task DAG"]
 ```
 
-See [references/interface-testing-and-qa.md](references/interface-testing-and-qa.md) for automated evaluation scripts, keyboard accessibility assertions, and Lighthouse target thresholds. Document operational test cycles with [templates/interface-test-plan.md](templates/interface-test-plan.md).
+---
 
-## Anti-pattern stance
+## Installation & Setup
 
-Pixasso rejects generic AI clichés (indigo/purple defaults, gradient hero type without structure, blanket glassmorphism, three identical icon cards, Lucide flooding, cursor beams, universal scroll-fades, muddy dark mode). When they appear, it says **This looks generic**, explains why, and proposes an authentic alternative.
+Pixasso works across all major AI development environments.
 
-## License
+### 1. Unified Automatic Installer (Recommended)
 
-MIT. See [LICENSE](LICENSE).
+Run the automated installer script from the root of the repository. It detects your installed platforms and configures them automatically:
 
-## Security
+```bash
+# Clone the repository
+git clone https://github.com/Erebuzzz/pixasso.git
+cd pixasso
 
-To report a vulnerability privately, see [SECURITY.md](SECURITY.md).
+# Install dependencies and build MCP server
+npm install
+npm run build
 
-## Contributing
+# Run automated multi-platform installer
+node scripts/install.js
+```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes, sync skill mirrors, and open pull requests.
+The installer automatically configures:
+- **Google Antigravity**: Plugin package (`plugins/pixasso`) and active MCP configuration.
+- **Cursor IDE**: Global configuration (`~/.cursor/mcp.json`) and local project configuration (`.cursor/mcp.json`).
+- **Claude Desktop**: Native MCP server configuration (`claude_desktop_config.json`).
+- **Claude Code**: CLI tool configuration (`claude mcp add`).
 
-Keep the canonical package at `skills/pixasso/` self-contained with relative links only. After editing root `references/`, `templates/`, or `prompts/`, sync into `skills/pixasso/` and the Cursor / Antigravity mirrors before publishing.
+---
+
+### 2. Manual Configuration by Platform
+
+#### Cursor IDE
+Add to `~/.cursor/mcp.json` or `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "node",
+      "args": ["d:/pixasso/mcp-server/build/index.js"]
+    }
+  }
+}
+```
+
+#### Claude Desktop
+Add to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
+
+```json
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "node",
+      "args": ["d:/pixasso/mcp-server/build/index.js"]
+    }
+  }
+}
+```
+
+#### Claude Code CLI
+```bash
+claude mcp add pixasso node d:/pixasso/mcp-server/build/index.js
+```
+
+#### Google Antigravity & Gemini CLI
+Pixasso is packaged as an Antigravity plugin under `plugins/pixasso/` and as an active skill under `skills/pixasso/`. Configure `~/.gemini/antigravity/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "node",
+      "args": ["d:/pixasso/mcp-server/build/index.js"]
+    }
+  }
+}
+```
+
+#### ChatGPT / OpenAI Custom GPTs / Web UIs
+For web-based LLMs, import the standalone system prompts located in:
+- `skills/pixasso/prompts/pixasso-system-prompt.md`
+- `skills/pixasso/prompts/discovery-interview-prompt.md`
+- `skills/pixasso/prompts/design-critique-prompt.md`
+
+---
+
+## MCP Server Capabilities
+
+The Pixasso MCP Server (`mcp-server/`) exposes the full design intelligence engine via standard JSON-RPC 2.0:
+
+### Tools
+
+| Tool Name | Purpose | Parameters |
+| :--- | :--- | :--- |
+| `pixasso_discover_intent` | Generates adaptive discovery questions based on archetype | `archetype`, `user_input` |
+| `pixasso_search_references` | Queries the 31 curated catalogs for UI, motion, and design patterns | `query`, `category`, `limit` |
+| `pixasso_generate_genome` | Compiles design choices into a validated `design-genome.yaml` | `theme`, `typography`, `dimensionality`, `motion`, `primary_cta` |
+| `pixasso_generate_brain` | Generates a Graphify-style Mermaid decision map and Task DAG | `genome`, `project_name` |
+| `pixasso_audit_design` | Audits code against generic AI anti-patterns and the 16 pillars | `code_snippet`, `context` |
+| `pixasso_generate_test_plan` | Produces an operational multi-viewport interface test plan | `component_name`, `viewports`, `features` |
+
+### Resources
+
+Access 31 curated knowledge resources directly through `pixasso://` URIs:
+- `pixasso://references/frontend-architecture-pillars`
+- `pixasso://references/typography-system`
+- `pixasso://references/sound-and-sensory-design`
+- `pixasso://references/interface-testing-and-qa`
+- `pixasso://references/anti-patterns-and-critique`
+- `pixasso://templates/design-genome`
+- `pixasso://templates/task-graph`
+- `pixasso://templates/interface-test-plan`
+
+### Prompts
+
+- `intent-discovery`: Guides the user through adaptive requirement extraction.
+- `frontend-architecture`: Formulates component architecture across the 16 pillars.
+- `design-critique`: Provides objective design reviews rejecting AI clichés.
+- `typography-direction`: Generates hierarchical typography specifications.
+- `interface-qa`: Generates multi-device QA scripts and DOM assertions.
+
+---
+
+## Showcase Examples
+
+Explore standalone, fully-functional examples in `examples/`:
+
+- **[Edge Operations Dashboard](examples/production-app/index.html)**: Live reactive metrics dashboard with Zod form validation, theme switcher, telemetry feed, and WCAG AA accessibility.
+- **[Paper Editorial Layout](examples/paper-editorial/index.html)**: Archival publication layout featuring wide grotesque headlines, Newsreader serif body, hairlines, and figure plates.
+- **[CRT Phosphor Terminal](examples/crt-terminal/index.html)**: Retro computing interface with scanlines, cathode vignette, bracket hotkeys, and simulated serial telemetry.
+- **[Harmonic Wave Synthesizer](examples/generative-wave/index.html)**: Interactive mathematical wave canvas running in `requestAnimationFrame` with live audio oscillators.
+
+---
+
+## Repository Structure
+
+```text
+pixasso/
+├── CNAME                              # Custom domain: pixasso.erebuzzz.tech
+├── package.json                       # Root scripts and workspace config
+├── README.md                          # Full-spectrum documentation and architecture
+├── AGENTS.md / CLAUDE.md / GEMINI.md  # Multi-agent rules and behavioral guardrails
+├── .cursorrules                       # Cursor IDE rules
+├── .cursor/                           # Cursor project configs, rules, and skills
+├── .github/workflows/deploy-site.yml  # Automated GitHub Pages CI/CD pipeline
+├── assets/screenshots/                # Multi-viewport screenshots and visual proofs
+├── examples/                          # Standalone craft demonstrations
+│   ├── production-app/                # Edge Operations reactive dashboard
+│   ├── paper-editorial/               # Archival editorial publication
+│   ├── crt-terminal/                  # Phosphor CRT retro terminal
+│   └── generative-wave/               # Mathematical wave synthesizer canvas
+├── mcp-server/                        # Standalone TypeScript MCP Server
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── src/index.ts                   # JSON-RPC 2.0 tools, resources, and prompts
+├── plugins/pixasso/                   # Antigravity plugin distribution
+├── scripts/                           # Tooling, installer, and test suites
+│   ├── install.js                     # Unified multi-platform installer
+│   ├── test-mcp.js                    # Automated MCP JSON-RPC protocol test suite
+│   └── serve.js                       # Local HTTP preview server
+├── site/                              # Showcase site (pixasso.erebuzzz.tech)
+│   ├── index.html                     # Live website with theme engine and audio
+│   └── assets/                        # Web assets and mirrored screenshots
+├── skills/pixasso/                    # CANONICAL installable agent skill
+│   ├── SKILL.md                       # Main skill definition
+│   ├── references/                    # 20 curated design-research catalogs
+│   ├── templates/                     # Operational templates (Genome, DAG, QA)
+│   └── prompts/                       # Modular agent prompts
+└── references/                        # Editable root reference catalogs
+```
+
+---
+
+## Automated Interface Testing & QA
+
+Pixasso treats testing as a core design deliverable:
+
+```mermaid
+flowchart TD
+    Code["Generated Component Markup"] --> DevServer["Local Dev Server / generative_ui"]
+    DevServer --> Resizer["Multi-Viewport Sweep (chrome-devtools-mcp)"]
+
+    subgraph Matrix ["Viewport Matrix"]
+        V1["390px Mobile Viewport"]
+        V2["768px Tablet Viewport"]
+        V3["1024px Laptop Viewport"]
+        V4["1440px Desktop Viewport"]
+    end
+
+    Resizer --> Matrix
+    Matrix --> DOMCheck["DOM Overflow & Layout Audit<br/>(scrollWidth vs innerWidth)"]
+
+    subgraph Gates ["Automated Quality Gates"]
+        G1["Zero Horizontal Overflow"]
+        G2["Touch Targets >= 44px"]
+        G3["Visible Focus Rings & ARIA Roles"]
+        G4["Web Audio Latency < 10ms"]
+    end
+
+    DOMCheck --> Gates
+    Gates --> SignOff["Sign Off in interface-test-plan.md"]
+```
+
+---
+
+## Anti-Pattern Stance
+
+Pixasso actively guards against generic AI aesthetics:
+
+- **No Purple Gradients**: Replaced with intentional monochrome palettes, warm paper tones, or phosphor glow.
+- **No Lucide Flooding**: Every icon must serve a precise informational function.
+- **No Blanket Glassmorphism**: High-contrast borders, solid surface tokens, and crisp architectural lines replace muddy blurred cards.
+- **No Decorative-Only Motion**: Animations must be communicative, respect `prefers-reduced-motion`, and run under 300ms.
+
+---
+
+## License & Contributing
+
+- **License**: MIT. See [LICENSE](LICENSE).
+- **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md).
+- **Security**: See [SECURITY.md](SECURITY.md).

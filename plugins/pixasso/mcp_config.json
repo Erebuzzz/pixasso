@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "node",
+      "args": ["d:/pixasso/mcp-server/build/index.js"],
+      "env": {}
+    }
+  }
+}

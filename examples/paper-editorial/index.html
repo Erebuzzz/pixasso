@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Pixasso: Paper Editorial Example</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --bg-plate: #f3f1e9;
+      --ink: #191919;
+      --ink-secondary: #575752;
+      --ink-muted: #8c8c82;
+      --hairline: rgba(25, 25, 25, 0.12);
+      --font-display: 'Syne', sans-serif;
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-serif);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .editorial-wrapper {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      border-left: 1px solid var(--hairline);
+      border-right: 1px solid var(--hairline);
+      min-height: 100vh;
+    }
+
+    nav {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    .issue-tag {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-secondary);
+    }
+
+    .hero-section {
+      padding: 4rem 0 3rem;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .category-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ink-muted);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+      max-width: 960px;
+    }
+
+    .article-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr 300px;
+      gap: 2.5rem;
+      padding: 3rem 0;
+    }
+
+    @media (max-width: 960px) {
+      .article-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .meta-column {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      color: var(--ink-secondary);
+    }
+
+    .meta-item strong {
+      display: block;
+      color: var(--ink);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .body-column {
+      font-size: 1.15rem;
+      color: var(--ink);
+    }
+
+    .lead-paragraph {
+      font-size: 1.35rem;
+      line-height: 1.5;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      color: var(--ink);
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      color: var(--ink-secondary);
+    }
+
+    .plate-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .plate-frame {
+      background: var(--bg-plate);
+      border: 1px solid var(--hairline);
+      padding: 1.5rem;
+      border-radius: 4px;
+    }
+
+    .plate-caption {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .pullquote {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      line-height: 1.35;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
+      margin: 2rem 0;
+      color: var(--ink);
+    }
+
+    footer {
+      border-top: 1px solid var(--hairline);
+      padding: 2rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="editorial-wrapper">
+    <nav>
+      <span class="issue-tag">Vol. IV / Specimen 01</span>
+      <span>[ Paper Archival Mode ]</span>
+      <span>Stockholm & Munich</span>
+    </nav>
+
+    <header class="hero-section">
+      <div class="category-label">
+        <span>/</span>
+        <span>Architectural Typography</span>
+      </div>
+      <h1 class="hero-title">Form follows intention, not template convenience.</h1>
+    </header>
+
+    <main class="article-grid">
+      <!-- Left Meta Column -->
+      <aside class="meta-column">
+        <div class="meta-item">
+          <strong>Art Direction</strong>
+          <span>Noerd & Dinamo Inquiries</span>
+        </div>
+        <div class="meta-item">
+          <strong>Type Pairing</strong>
+          <span>Syne 800 + Newsreader 400 + JetBrains Mono</span>
+        </div>
+        <div class="meta-item">
+          <strong>Ground Tone</strong>
+          <span>Ivory Paper (#fbfaf7)</span>
+        </div>
+        <div class="meta-item">
+          <strong>Grid Mathematics</strong>
+          <span>Hairline Borders & Asymmetric Columns</span>
+        </div>
+      </aside>
+
+      <!-- Center Body Column -->
+      <article class="body-column">
+        <p class="lead-paragraph">
+          Digital interfaces deserve the physical poise of archival printing: intentional contrast ratios, measured tracking, and typography that breathes.
+        </p>
+        <p>
+          Generic generative templates flood modern web surfaces with purple gradient washes, Lucide icons floating in pastel bubbles, and indiscriminate glassmorphic cards. When visual styling is treated as arbitrary sticker decoration, products surrender their identity.
+        </p>
+        <div class="pullquote">
+          "The visual character of an interface is determined by the discipline of its negative space."
+        </div>
+        <p>
+          Pixasso unlocks purposeful digital craft by extracting intent first, anchoring typography architecture before layout lock, and validating performance against rigid multi-viewport constraints.
+        </p>
+      </article>
+
+      <!-- Right Plate Column -->
+      <aside class="plate-column">
+        <div class="plate-frame">
+          <svg viewBox="0 0 240 160" width="100%" height="auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="240" height="160" fill="#ebe8de"/>
+            <circle cx="120" cy="80" r="45" stroke="#191919" stroke-width="1.5"/>
+            <line x1="40" y1="80" x2="200" y2="80" stroke="#191919" stroke-width="1"/>
+            <line x1="120" y1="20" x2="120" y2="140" stroke="#191919" stroke-width="1"/>
+            <rect x="90" y="50" width="60" height="60" stroke="#191919" stroke-width="1" stroke-dasharray="3 3"/>
+          </svg>
+          <div class="plate-caption">
+            <span>[ Fig. 1 ]</span>
+            <span>Geometric Orthogonal Cadence</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <span>Pixasso Editorial Architecture</span>
+      <span>WCAG AA Verified</span>
+    </footer>
+  </div>
+</body>
+</html>

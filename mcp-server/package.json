@@ -1,0 +1,26 @@
+{
+  "name": "pixasso-mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol server for Pixasso: the end-to-end frontend engineering and design orchestrator.",
+  "main": "build/index.js",
+  "bin": {
+    "pixasso-mcp": "build/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "Erebuzzz",
+  "license": "MIT"
+}

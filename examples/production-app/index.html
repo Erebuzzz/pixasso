@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="amoled">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Pixasso: Production App Suite Example</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* AMOLED Pitch Black */
+      --bg: #000000;
+      --bg-surface: #0a0a0c;
+      --bg-surface-elevated: #111115;
+      --border: rgba(255, 255, 255, 0.12);
+      --border-focus: #0000ff;
+      --text-primary: #ffffff;
+      --text-secondary: #8e8e93;
+      --text-muted: #545458;
+      --accent: #0000ff;
+      --accent-glow: rgba(0, 0, 255, 0.25);
+      --success: #30d158;
+      --danger: #ff453a;
+    }
+
+    [data-theme="paper"] {
+      --bg: #fbfaf7;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #f4f2ec;
+      --border: rgba(0, 0, 0, 0.1);
+      --border-focus: #191919;
+      --text-primary: #191919;
+      --text-secondary: #666660;
+      --text-muted: #999990;
+      --accent: #191919;
+      --accent-glow: rgba(0, 0, 0, 0.08);
+      --success: #248a3d;
+      --danger: #d73a49;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-badge {
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .theme-toggle-btn:hover {
+      border-color: var(--text-primary);
+    }
+
+    .app-container {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar / Form Panel */
+    .panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .panel-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    input, select {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.65rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s ease;
+      font-family: var(--font-body);
+    }
+
+    input:focus, select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      display: none;
+    }
+
+    .submit-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s ease;
+    }
+
+    .submit-btn:hover { opacity: 0.9; }
+
+    /* Main Data Feed */
+    .dashboard-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 650px) {
+      .metric-row { grid-template-columns: 1fr; }
+    }
+
+    .metric-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .metric-val {
+      font-family: var(--font-mono);
+      font-size: 1.65rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .metric-delta {
+      font-size: 0.75rem;
+      color: var(--success);
+      font-family: var(--font-mono);
+    }
+
+    .table-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stream-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--success);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    th {
+      background: var(--bg-surface-elevated);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: var(--bg-surface-elevated); }
+
+    .tag-status {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      background: rgba(48, 209, 88, 0.15);
+      color: var(--success);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="brand">
+      <div class="logo-badge">P</div>
+      <span class="brand-title">Pixasso App Engine</span>
+    </a>
+    <div class="nav-actions">
+      <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Toggle theme mode">
+        <span id="themeLabel">AMOLED</span>
+        <span>[T]</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-container">
+    <!-- Left Sidebar: Reactive Form & Zod Resolver Simulation -->
+    <aside class="panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Deploy Service</h2>
+        <span class="panel-tag">[ Pillar 9: Forms ]</span>
+      </div>
+      <form id="serviceForm" novalidate>
+        <div class="form-group">
+          <label for="serviceName">Service Identifier</label>
+          <input id="serviceName" type="text" placeholder="e.g. edge-worker-01" required/>
+          <span class="error-msg" id="nameError">Must be alphanumeric with hyphens (min 3 chars)</span>
+        </div>
+
+        <div class="form-group">
+          <label for="serviceRegion">Region</label>
+          <select id="serviceRegion">
+            <option value="us-east-1">us-east-1 (N. Virginia)</option>
+            <option value="eu-central-1">eu-central-1 (Frankfurt)</option>
+            <option value="ap-southeast-1">ap-southeast-1 (Singapore)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="serviceMemory">Memory Allocation</label>
+          <select id="serviceMemory">
+            <option value="256MB">256 MB (Edge Standard)</option>
+            <option value="512MB">512 MB (Optimal)</option>
+            <option value="1024MB">1024 MB (Compute Intensive)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="submit-btn" id="deployBtn">
+          <span>Deploy Configuration</span>
+          <span>[Enter]</span>
+        </button>
+      </form>
+      <div id="formSuccess" style="display:none; color: var(--success); font-family: var(--font-mono); font-size: 0.8rem; text-align: center;">
+        Validated via Zod schema & deployed successfully!
+      </div>
+    </aside>
+
+    <!-- Main Dashboard Section -->
+    <section class="dashboard-main">
+      <div class="metric-row">
+        <div class="metric-card">
+          <div class="metric-label">Client Latency (P99)</div>
+          <div class="metric-val" id="latencyVal">18ms</div>
+          <div class="metric-delta">Target &lt; 50ms</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Active Nodes</div>
+          <div class="metric-val" id="nodesVal">64</div>
+          <div class="metric-delta">+8 during peak</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">State Re-renders</div>
+          <div class="metric-val">0.02%</div>
+          <div class="metric-delta">Zustand isolated</div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-header">
+          <h3 class="panel-title">Real-Time Telemetry Feed</h3>
+          <div class="stream-status">
+            <div class="pulse-dot"></div>
+            <span>WebSocket Live</span>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Service</th>
+              <th>Region</th>
+              <th>Status</th>
+              <th>Payload</th>
+            </tr>
+          </thead>
+          <tbody id="telemetryBody">
+            <tr>
+              <td>12:44:02.108</td>
+              <td>auth-verifier</td>
+              <td>eu-central-1</td>
+              <td><span class="tag-status">ONLINE</span></td>
+              <td>2.4 KB</td>
+            </tr>
+            <tr>
+              <td>12:44:01.890</td>
+              <td>event-bus</td>
+              <td>us-east-1</td>
+              <td><span class="tag-status">ONLINE</span></td>
+              <td>14.1 KB</td>
+            </tr>
+            <tr>
+              <td>12:44:00.642</td>
+              <td>edge-cache</td>
+              <td>ap-southeast-1</td>
+              <td><span class="tag-status">ONLINE</span></td>
+              <td>0.8 KB</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Pixasso Production Frontend Engine: Semantic HTML5, Zero DOM Overflow, Accessible ARIA, 60fps Rendering.
+  </footer>
+
+  <script>
+    // Theme Switcher
+    const htmlEl = document.documentElement;
+    const themeBtn = document.getElementById('themeToggle');
+    const themeLabel = document.getElementById('themeLabel');
+
+    themeBtn.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'amoled' ? 'paper' : 'amoled';
+      htmlEl.setAttribute('data-theme', next);
+      themeLabel.textContent = next === 'amoled' ? 'AMOLED' : 'PAPER';
+    });
+
+    // Hotkey [T] for Theme Switch
+    window.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 't' && !['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+        themeBtn.click();
+      }
+    });
+
+    // Form Zod Resolver Simulation
+    const form = document.getElementById('serviceForm');
+    const nameInput = document.getElementById('serviceName');
+    const nameError = document.getElementById('nameError');
+    const formSuccess = document.getElementById('formSuccess');
+    const telemetryBody = document.getElementById('telemetryBody');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = nameInput.value.trim();
+      const isValid = /^[a-zA-Z0-9-]{3,32}$/.test(val);
+
+      if (!isValid) {
+        nameError.style.display = 'block';
+        nameInput.focus();
+        formSuccess.style.display = 'none';
+        return;
+      }
+
+      nameError.style.display = 'none';
+      formSuccess.style.display = 'block';
+
+      // Insert new telemetry row
+      const region = document.getElementById('serviceRegion').value;
+      const now = new Date().toTimeString().split(' ')[0] + '.' + Math.floor(Math.random() * 900 + 100);
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${now}</td>
+        <td>${val}</td>
+        <td>${region}</td>
+        <td><span class="tag-status">DEPLOYED</span></td>
+        <td>1.2 KB</td>
+      `;
+      telemetryBody.insertBefore(newRow, telemetryBody.firstChild);
+      nameInput.value = '';
+    });
+  </script>
+</body>
+</html>

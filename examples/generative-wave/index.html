@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Pixasso: Generative Wave Synthesizer Example</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --ink: #191919;
+      --border: rgba(25, 25, 25, 0.14);
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .canvas-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-width: 640px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .card-top {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .fig-tag {
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .canvas-viewport {
+      position: relative;
+      width: 100%;
+      height: 340px;
+      background: #fbfaf7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .controls-panel {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      background: #ffffff;
+    }
+
+    @media (max-width: 500px) {
+      .controls-panel { grid-template-columns: 1fr; }
+    }
+
+    .ctrl-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .ctrl-label {
+      font-size: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      color: #666;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #191919;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas-card">
+    <div class="card-top">
+      <span class="fig-tag">[ Fig. 1 ]</span>
+      <span>Generative Harmonic Oscillator</span>
+      <span>60 FPS</span>
+    </div>
+    <div class="canvas-viewport">
+      <canvas id="waveCanvas"></canvas>
+    </div>
+    <div class="controls-panel">
+      <div class="ctrl-group">
+        <div class="ctrl-label">
+          <span>Frequency</span>
+          <span id="freqVal">1.2</span>
+        </div>
+        <input type="range" id="freqRange" min="0.2" max="3.0" step="0.1" value="1.2"/>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-label">
+          <span>Amplitude</span>
+          <span id="ampVal">45</span>
+        </div>
+        <input type="range" id="ampRange" min="10" max="90" step="1" value="45"/>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-label">
+          <span>Noise Jitter</span>
+          <span id="noiseVal">0.3</span>
+        </div>
+        <input type="range" id="noiseRange" min="0.0" max="1.0" step="0.05" value="0.3"/>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-label">
+          <span>Wave Count</span>
+          <span id="countVal">7</span>
+        </div>
+        <input type="range" id="countRange" min="3" max="15" step="1" value="7"/>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('waveCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = canvas.parentElement.clientWidth;
+    let height = canvas.height = canvas.parentElement.clientHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = canvas.parentElement.clientWidth;
+      height = canvas.height = canvas.parentElement.clientHeight;
+    });
+
+    let freq = 1.2;
+    let amp = 45;
+    let noise = 0.3;
+    let waveCount = 7;
+    let t = 0;
+
+    // Controls
+    document.getElementById('freqRange').addEventListener('input', (e) => {
+      freq = parseFloat(e.target.value);
+      document.getElementById('freqVal').textContent = freq.toFixed(1);
+    });
+    document.getElementById('ampRange').addEventListener('input', (e) => {
+      amp = parseFloat(e.target.value);
+      document.getElementById('ampVal').textContent = amp;
+    });
+    document.getElementById('noiseRange').addEventListener('input', (e) => {
+      noise = parseFloat(e.target.value);
+      document.getElementById('noiseVal').textContent = noise.toFixed(2);
+    });
+    document.getElementById('countRange').addEventListener('input', (e) => {
+      waveCount = parseInt(e.target.value, 10);
+      document.getElementById('countVal').textContent = waveCount;
+    });
+
+    function render() {
+      t += 0.02;
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw subtle dot grid
+      ctx.fillStyle = 'rgba(25, 25, 25, 0.08)';
+      const step = 20;
+      for (let x = 10; x < width; x += step) {
+        for (let y = 10; y < height; y += step) {
+          ctx.fillRect(x, y, 1.5, 1.5);
+        }
+      }
+
+      // Draw harmonic wave lines
+      for (let w = 0; w < waveCount; w++) {
+        const offset = (w / waveCount) * Math.PI * 2;
+        const alpha = 0.25 + (w / waveCount) * 0.75;
+        ctx.strokeStyle = `rgba(25, 25, 25, ${alpha * 0.8})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+
+        for (let x = 0; x <= width; x += 4) {
+          const normX = x / width;
+          const y = (height / 2) +
+            Math.sin(normX * freq * 5 + t + offset) * amp +
+            Math.cos(normX * 8 - t * 0.5) * (amp * noise);
+
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      requestAnimationFrame(render);
+    }
+
+    render();
+  </script>
+</body>
+</html>
