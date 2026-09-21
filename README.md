@@ -6,7 +6,7 @@
 [![MCP Server](https://img.shields.io/badge/MCP%20Server-JSON--RPC%202.0-orange)](mcp-server/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](mcp-server/src/)
 [![Platform Support](https://img.shields.io/badge/Platforms-Cursor%20|%20Antigravity%20|%20Claude%20|%20VS%20Code-brightgreen)](scripts/install.js)
-[![Live Showcase](https://img.shields.io/badge/Live%20Showcase-pixasso.erebuzzz.tech-purple)](https://pixasso.erebuzzz.tech)
+[![Live](https://img.shields.io/badge/Live%20Showcase-pixasso.erebuzzz.tech-purple)](https://pixasso.erebuzzz.tech)
 
 Live Documentation and Showcase: **[pixasso.erebuzzz.tech](https://pixasso.erebuzzz.tech)**
 
@@ -368,10 +368,9 @@ flowchart TD
 
 ---
 
-## Deployment Architecture: Zero AWS Connectivity
+## Deployment Architecture
 
-Pixasso's showcase site (`pixasso.erebuzzz.tech`) operates entirely without AWS infrastructure. There are zero AWS accounts, zero AWS services (no S3, no CloudFront, no Route53), zero credentials, and zero hosting bills.
-
+Pixasso's showcase site (`pixasso.erebuzzz.tech`).
 ### Primary: GitHub Pages via GitHub Actions
 - **Pipeline**: Automated build and push via `.github/workflows/deploy-site.yml`.
 - **Domain**: Root `CNAME` file mapped to `pixasso.erebuzzz.tech`.
@@ -387,7 +386,7 @@ The repository includes a production-grade `vercel.json` configuration. You can 
 flowchart LR
     Commit["git push origin main"] --> Actions["GitHub Actions Runner"]
     Actions --> Pages["GitHub Pages Edge CDN"]
-    Pages --> Domain["pixasso.erebuzzz.tech<br/>(Automatic SSL, Zero AWS)"]
+    Pages --> Domain["pixasso.erebuzzz.tech<br/>(Automatic SSL)"]
 
     Commit -.-> Vercel["Optional: Vercel (vercel.json)"]
     Vercel -.-> Domain
