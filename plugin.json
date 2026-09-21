@@ -6,6 +6,7 @@
   "license": "MIT",
   "homepage": "https://pixasso.erebuzzz.tech",
   "repository": "https://github.com/Erebuzzz/pixasso",
+  "icon": "assets/icon-512.png",
   "keywords": [
     "frontend-engineering",
     "design-system",
