@@ -4,6 +4,8 @@
   "description": "Complete end-to-end frontend engineering and design orchestrator across 16 pillars (UI/UX, HTML/JSX, CSS/Tailwind, TypeScript, Frameworks, State, API/Sockets, Auth UX, Forms & Zod, Motion, Responsive, A11y, Performance, Testing, Tooling, Deployment).",
   "author": "Erebuzzz",
   "license": "MIT",
+  "homepage": "https://pixasso.erebuzzz.tech",
+  "repository": "https://github.com/Erebuzzz/pixasso",
   "keywords": [
     "frontend-engineering",
     "design-system",
@@ -11,9 +13,9 @@
     "motion-design",
     "uisfx",
     "mcp",
-    "antigravity-plugin"
+    "agent-plugins"
   ],
   "skills": ["skills/pixasso"],
   "agents": ["agents/pixasso.md"],
-  "rules": ["rules/GEMINI.md", "rules/AGENTS.md"]
+  "rules": ["rules/AGENTS.md", "rules/GEMINI.md"]
 }
