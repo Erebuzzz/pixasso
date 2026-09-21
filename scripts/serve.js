@@ -18,18 +18,22 @@ const server = http.createServer((req, res) => {
   if (reqPath === '/') reqPath = '/site/index.html';
 
   const fullPath = path.join(__dirname, '..', reqPath);
+  let targetFile = fullPath;
+  if (fs.existsSync(targetFile) && fs.statSync(targetFile).isDirectory()) {
+    targetFile = path.join(targetFile, 'index.html');
+  }
 
-  if (!fs.existsSync(fullPath) || fs.statSync(fullPath).isDirectory()) {
+  if (!fs.existsSync(targetFile) || fs.statSync(targetFile).isDirectory()) {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
     return;
   }
 
-  const ext = path.extname(fullPath).toLowerCase();
+  const ext = path.extname(targetFile).toLowerCase();
   const mime = MIME_TYPES[ext] || 'application/octet-stream';
 
   res.writeHead(200, { 'Content-Type': mime });
-  fs.createReadStream(fullPath).pipe(res);
+  fs.createReadStream(targetFile).pipe(res);
 });
 
 server.listen(PORT, () => {

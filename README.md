@@ -48,6 +48,15 @@ Pixasso supports multi-mode aesthetic execution tailored to your product identit
 ![Pixasso Responsive Mobile Viewport](assets/screenshots/pixasso-mobile-preview.png)
 *Figure 4: Mobile Viewport (390px) verified with zero horizontal DOM overflow and accessible touch targets.*
 
+![Pixasso 3D Kinetic Sculpture](assets/screenshots/pixasso-3d-sculpture.png)
+*Figure 5: 3D Kinetic Sculpture with procedural faceted cage, PBR metallic core, and orbital gimbal rings.*
+
+![Pixasso 3D Gravitational Particle Galaxy](assets/screenshots/pixasso-3d-galaxy.png)
+*Figure 6: 15,000 GPU particle galaxy in CRT phosphor mode with mouse gravitational attraction vectors.*
+
+![Pixasso 3D Spatial Hardware Exploded View](assets/screenshots/pixasso-3d-exploded.png)
+*Figure 7: 5-Layer precision hardware assembly with interactive exploded-view disassembly slider and callouts.*
+
 ---
 
 ## The 16 Pillars of Frontend Architecture
@@ -325,6 +334,64 @@ Explore standalone, fully-functional examples in `examples/`:
 - **[Paper Editorial Layout](examples/paper-editorial/index.html)**: Archival publication layout featuring wide grotesque headlines, Newsreader serif body, hairlines, and figure plates.
 - **[CRT Phosphor Terminal](examples/crt-terminal/index.html)**: Retro computing interface with scanlines, cathode vignette, bracket hotkeys, and simulated serial telemetry.
 - **[Harmonic Wave Synthesizer](examples/generative-wave/index.html)**: Interactive mathematical wave canvas running in `requestAnimationFrame` with live audio oscillators.
+- **[3D Spatial Visualization Suite](examples/3d-suite/index.html)**: Interactive Three.js studio inspired by `viettranx/3dviz-pro-max`, featuring kinetic geometric sculptures, 15k GPU particle galaxy, and 5-layer exploded hardware assembly with camera presets and real-time shader controls.
+
+---
+
+## 3D Spatial Computing & WebGL Architecture (viettranx/3dviz-pro-max Inspiration)
+
+Pixasso integrates proven 3D recipes inspired by `viettranx/3dviz-pro-max` directly into Pillar 10 (Motion & WebGL 3D):
+
+```mermaid
+flowchart TD
+    subgraph Suite ["Three.js Spatial Studio (examples/3d-suite/)"]
+        Renderer["WebGLRenderer with Antialiasing & Soft Shadows"]
+        Orbit["OrbitControls with Damping & Preset Interpolation"]
+
+        subgraph Recipes ["Proven Spatial Recipes"]
+            R1["Kinetic Polyhedron Sculpture<br/>(Faceted cage, PBR metallic core, gyro gimbal rings)"]
+            R2["Gravitational Particle Galaxy<br/>(15k GPU points, mouse gravity lens, velocity color)"]
+            R3["Spatial Hardware Exploded View<br/>(5 mechanical layers, disassembly slider, 3D callouts)"]
+        end
+
+        subgraph Adapters ["Adaptive 3-Theme Sync"]
+            T1["Paper Ivory Mode (#fbfaf7, ink wireframe, clay shading)"]
+            T2["CRT Phosphor Mode (#0a0f0d, emerald wireframe, scanlines)"]
+            T3["Pitch Black AMOLED Mode (#000000, chrome, cobalt rim light)"]
+        end
+
+        Renderer --> Recipes
+        Orbit --> Recipes
+        Adapters --> Recipes
+    end
+```
+
+---
+
+## Deployment Architecture: Zero AWS Connectivity
+
+Pixasso's showcase site (`pixasso.erebuzzz.tech`) operates entirely without AWS infrastructure. There are zero AWS accounts, zero AWS services (no S3, no CloudFront, no Route53), zero credentials, and zero hosting bills.
+
+### Primary: GitHub Pages via GitHub Actions
+- **Pipeline**: Automated build and push via `.github/workflows/deploy-site.yml`.
+- **Domain**: Root `CNAME` file mapped to `pixasso.erebuzzz.tech`.
+- **Hosting & Edge**: Fastly and GitHub global edge CDN with automatic Let's Encrypt SSL certificates.
+
+### Alternative: 1-Click Vercel Deployment
+The repository includes a production-grade `vercel.json` configuration. You can optionally import `Erebuzzz/pixasso` into Vercel with zero build configuration:
+- Instant worldwide edge caching.
+- Clean routing for root site, examples, and screenshot assets.
+- Automatic preview deployments for pull requests.
+
+```mermaid
+flowchart LR
+    Commit["git push origin main"] --> Actions["GitHub Actions Runner"]
+    Actions --> Pages["GitHub Pages Edge CDN"]
+    Pages --> Domain["pixasso.erebuzzz.tech<br/>(Automatic SSL, Zero AWS)"]
+
+    Commit -.-> Vercel["Optional: Vercel (vercel.json)"]
+    Vercel -.-> Domain
+```
 
 ---
 

@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Pixasso: 3D Spatial Visualization Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <!-- Three.js & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --surface: #ffffff;
+      --ink: #191919;
+      --muted: #666666;
+      --border: rgba(25, 25, 25, 0.14);
+      --accent: #2563eb;
+      --hud-bg: rgba(255, 255, 255, 0.92);
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --canvas-bg: 0xfbfaf7;
+      --wire-color: 0x191919;
+      --core-color: 0x2563eb;
+      --accent-hex: #2563eb;
+    }
+
+    body.theme-crt {
+      --bg: #0a0f0d;
+      --surface: #0f1713;
+      --ink: #33ff66;
+      --muted: #1f8a41;
+      --border: rgba(51, 255, 102, 0.28);
+      --accent: #33ff66;
+      --hud-bg: rgba(10, 15, 13, 0.94);
+      --canvas-bg: 0x0a0f0d;
+      --wire-color: 0x33ff66;
+      --core-color: 0x00ff88;
+      --accent-hex: #33ff66;
+    }
+
+    body.theme-amoled {
+      --bg: #000000;
+      --surface: #0d0d0d;
+      --ink: #f0f0f0;
+      --muted: #888888;
+      --border: rgba(255, 255, 255, 0.16);
+      --accent: #0066ff;
+      --hud-bg: rgba(13, 13, 13, 0.92);
+      --canvas-bg: 0x000000;
+      --wire-color: 0xffffff;
+      --core-color: 0x0066ff;
+      --accent-hex: #0066ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.25s ease, color 0.25s ease;
+      user-select: none;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      padding: 0 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--hud-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .spec-pill {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--border);
+    }
+
+    .btn-action.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    body.theme-crt .btn-action.active {
+      color: #0a0f0d;
+    }
+
+    /* 3D WebGL Canvas Container */
+    #canvas-container {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+
+    /* Scanlines Overlay for CRT Theme */
+    .scanlines-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 3px, 6px 100%;
+    }
+    body.theme-crt .scanlines-overlay {
+      opacity: 1;
+    }
+
+    /* Floating Studio HUD */
+    .studio-hud {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 1.25rem;
+      width: 320px;
+      max-width: calc(100vw - 2.5rem);
+      background: var(--hud-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      z-index: 40;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      transition: all 0.25s ease;
+    }
+
+    .hud-section {
+      margin-bottom: 0.85rem;
+    }
+    .hud-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .hud-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .scene-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.35rem;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.35rem;
+    }
+
+    .btn-hud {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.4rem 0.2rem;
+      text-align: center;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-hud:hover {
+      border-color: var(--accent);
+    }
+    .btn-hud.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    body.theme-crt .btn-hud.active {
+      color: #0a0f0d;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      margin-bottom: 0.4rem;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 55%;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      border: 1px solid var(--surface);
+    }
+
+    /* Telemetry HUD Top Right */
+    .telemetry-hud {
+      position: absolute;
+      top: 4.5rem;
+      right: 1.25rem;
+      padding: 0.75rem 1rem;
+      background: var(--hud-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.7rem;
+      line-height: 1.5;
+      z-index: 40;
+      pointer-events: none;
+    }
+
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .telemetry-key {
+      color: var(--muted);
+    }
+
+    /* Exploded View Labels */
+    .annotation-label {
+      position: absolute;
+      padding: 0.25rem 0.5rem;
+      background: var(--hud-bg);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      font-size: 0.68rem;
+      color: var(--ink);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+      z-index: 30;
+      display: none;
+    }
+
+    /* Mobile Controls Toggle */
+    .mobile-hud-toggle {
+      display: none;
+      position: absolute;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 45;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    body.theme-crt .mobile-hud-toggle {
+      color: #0a0f0d;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 0 0.5rem;
+      }
+      .spec-pill {
+        display: none;
+      }
+      .header-actions {
+        gap: 0.25rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: calc(100vw - 110px);
+        scrollbar-width: none;
+      }
+      .header-actions::-webkit-scrollbar {
+        display: none;
+      }
+      .btn-action {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.65rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .mobile-hud-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .studio-hud {
+        bottom: 5rem;
+        display: none;
+      }
+      .studio-hud.open {
+        display: block;
+      }
+      .telemetry-hud {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body class="theme-paper">
+  <div class="scanlines-overlay"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand-wrap">
+      <span class="brand-title">PIXASSO 3D</span>
+      <span class="spec-pill">Pillar 10: WebGL 3D</span>
+    </div>
+    <div class="header-actions">
+      <!-- Theme Switchers -->
+      <button class="btn-action active" id="btn-theme-paper" onclick="setTheme('paper')">[ Paper ]</button>
+      <button class="btn-action" id="btn-theme-crt" onclick="setTheme('crt')">[ CRT ]</button>
+      <button class="btn-action" id="btn-theme-amoled" onclick="setTheme('amoled')">[ AMOLED ]</button>
+      <!-- Sound Toggle -->
+      <button class="btn-action" id="btn-sound" onclick="toggleSound()">[ Sound: ON ]</button>
+      <!-- Back to site -->
+      <a href="../../site/index.html" class="btn-action" style="text-decoration:none;">[ Back ]</a>
+    </div>
+  </header>
+
+  <!-- 3D Canvas Viewport -->
+  <div id="canvas-container"></div>
+
+  <!-- Telemetry HUD -->
+  <div class="telemetry-hud">
+    <div class="telemetry-row"><span class="telemetry-key">FPS</span><span id="tel-fps">60</span></div>
+    <div class="telemetry-row"><span class="telemetry-key">GEOMETRY</span><span id="tel-geo">Sculpture</span></div>
+    <div class="telemetry-row"><span class="telemetry-key">ENTITIES</span><span id="tel-count">1,240 tris</span></div>
+    <div class="telemetry-row"><span class="telemetry-key">CAMERA</span><span id="tel-cam">Isometric</span></div>
+  </div>
+
+  <!-- Studio HUD Controls -->
+  <aside class="studio-hud" id="studio-hud">
+    <!-- Scene Selection -->
+    <div class="hud-section">
+      <div class="hud-label">
+        <span>Scene Blueprint</span>
+        <span>[ 1 - 3 ]</span>
+      </div>
+      <div class="scene-grid">
+        <button class="btn-hud active" id="scene-btn-1" onclick="switchScene(1)">Sculpture</button>
+        <button class="btn-hud" id="scene-btn-2" onclick="switchScene(2)">Galaxy</button>
+        <button class="btn-hud" id="scene-btn-3" onclick="switchScene(3)">Exploded</button>
+      </div>
+    </div>
+
+    <!-- Camera Presets -->
+    <div class="hud-section">
+      <div class="hud-label">
+        <span>Camera Angle</span>
+        <span>[ Presets ]</span>
+      </div>
+      <div class="preset-grid">
+        <button class="btn-hud" onclick="setCameraPreset('front')">Front</button>
+        <button class="btn-hud" onclick="setCameraPreset('top')">Top</button>
+        <button class="btn-hud active" id="btn-iso" onclick="setCameraPreset('iso')">Iso</button>
+        <button class="btn-hud" onclick="setCameraPreset('close')">Macro</button>
+      </div>
+    </div>
+
+    <!-- Material / Shader Controls -->
+    <div class="hud-section">
+      <div class="hud-label">
+        <span>Shader & Optics</span>
+      </div>
+      <div class="control-row">
+        <span>Wireframe</span>
+        <input type="checkbox" id="chk-wire" onchange="toggleWireframe(this.checked)"/>
+      </div>
+      <div class="control-row">
+        <span>Roughness</span>
+        <input type="range" id="rng-rough" min="0" max="1" step="0.05" value="0.25" oninput="updateRoughness(this.value)"/>
+      </div>
+      <div class="control-row">
+        <span>Metalness</span>
+        <input type="range" id="rng-metal" min="0" max="1" step="0.05" value="0.85" oninput="updateMetalness(this.value)"/>
+      </div>
+      <div class="control-row">
+        <span>Autorotate</span>
+        <input type="range" id="rng-rot" min="0" max="5" step="0.2" value="1.0" oninput="updateRotateSpeed(this.value)"/>
+      </div>
+    </div>
+
+    <!-- Exploded View Disassembly (Scene 3 only) -->
+    <div class="hud-section" id="hud-exploded-sec" style="display: none;">
+      <div class="hud-label">
+        <span>Layer Disassembly</span>
+        <span id="exploded-val">0%</span>
+      </div>
+      <div class="control-row">
+        <span>Explode</span>
+        <input type="range" id="rng-explode" min="0" max="100" step="1" value="0" oninput="updateExploded(this.value)" style="width: 70%;"/>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile HUD Toggle Button -->
+  <button class="mobile-hud-toggle" onclick="toggleMobileHud()" aria-label="Toggle Controls">[≡]</button>
+
+  <!-- Exploded Annotation Labels (Scene 3) -->
+  <div class="annotation-label" id="anno-chassis">01. Optical Outer Bezel</div>
+  <div class="annotation-label" id="anno-lens">02. Convex Refraction Core</div>
+  <div class="annotation-label" id="anno-heatsink">03. Cryo Radiating Fin Array</div>
+  <div class="annotation-label" id="anno-die">04. Neural Compute Silicon Die</div>
+  <div class="annotation-label" id="anno-base">05. CNC Machined Aluminum Base</div>
+
+  <script>
+    // Web Audio UISFX Synthesizer
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'click') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(440, now + 0.04);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.04);
+        osc.start(now);
+        osc.stop(now + 0.04);
+      } else if (type === 'preset') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(1040, now + 0.08);
+        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.08);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } else if (type === 'theme') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(330, now + 0.06);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.06);
+        osc.start(now);
+        osc.stop(now + 0.06);
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('btn-sound').textContent = soundEnabled ? '[ Sound: ON ]' : '[ Sound: OFF ]';
+      if (soundEnabled) playSound('click');
+    }
+
+    // Three.js Engine Setup
+    let currentTheme = 'paper';
+    let currentSceneId = 1;
+    let scene, camera, renderer, controls;
+    let activeSceneGroup;
+    let directionalLight, rimLight, ambientLight;
+
+    // Materials dictionary for real-time adjustments
+    const sharedMaterials = [];
+    let isWireframe = false;
+    let rotateSpeed = 1.0;
+
+    // Scene 1 objects
+    let sculptureGroup, outerCageMesh, coreMesh, innerQuantum, ringGroup;
+
+    // Scene 2 objects (Particle Galaxy)
+    let galaxyPoints, galaxyGeometry, galaxyCount = 15000;
+    let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+
+    // Scene 3 objects (Exploded Hardware)
+    let hardwareGroup;
+    let layerChassis, layerLens, layerHeatsink, layerDie, layerBase;
+    let explodedFactor = 0;
+
+    const themeColors = {
+      paper: {
+        bg: 0xfbfaf7,
+        wire: 0x191919,
+        core: 0x2563eb,
+        metal: 0x2b2d42,
+        ambient: 0xffffff,
+        keyLight: 0xffffff,
+        intensity: 1.2
+      },
+      crt: {
+        bg: 0x0a0f0d,
+        wire: 0x33ff66,
+        core: 0x00ff88,
+        metal: 0x1f8a41,
+        ambient: 0x0a2211,
+        keyLight: 0x33ff66,
+        intensity: 1.8
+      },
+      amoled: {
+        bg: 0x000000,
+        wire: 0xffffff,
+        core: 0x0066ff,
+        metal: 0x88aaff,
+        ambient: 0x111122,
+        keyLight: 0xddedff,
+        intensity: 1.5
+      }
+    };
+
+    function initThree() {
+      const container = document.getElementById('canvas-container');
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(themeColors[currentTheme].bg);
+
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+      camera.position.set(7, 5, 8);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.maxDistance = 30;
+      controls.minDistance = 2;
+      controls.target.set(0, 0, 0);
+
+      // Lighting Rig
+      ambientLight = new THREE.AmbientLight(themeColors[currentTheme].ambient, 0.8);
+      scene.add(ambientLight);
+
+      directionalLight = new THREE.DirectionalLight(themeColors[currentTheme].keyLight, 1.2);
+      directionalLight.position.set(8, 12, 6);
+      directionalLight.castShadow = true;
+      directionalLight.shadow.mapSize.width = 1024;
+      directionalLight.shadow.mapSize.height = 1024;
+      scene.add(directionalLight);
+
+      rimLight = new THREE.DirectionalLight(0x0066ff, 0.8);
+      rimLight.position.set(-8, -4, -6);
+      scene.add(rimLight);
+
+      activeSceneGroup = new THREE.Group();
+      scene.add(activeSceneGroup);
+
+      buildScene1();
+
+      window.addEventListener('resize', onWindowResize);
+      window.addEventListener('mousemove', onMouseMove);
+    }
+
+    // SCENE 1: Kinetic Polyhedron Sculpture
+    function buildScene1() {
+      clearActiveGroup();
+      document.getElementById('tel-geo').textContent = 'Sculpture';
+      document.getElementById('tel-count').textContent = '2,840 tris';
+
+      sculptureGroup = new THREE.Group();
+
+      // Outer Cage (Truncated Icosahedron Wireframe / Facets)
+      const cageGeo = new THREE.IcosahedronGeometry(2.4, 1);
+      const cageMat = new THREE.MeshStandardMaterial({
+        color: themeColors[currentTheme].wire,
+        wireframe: isWireframe,
+        roughness: 0.2,
+        metalness: 0.8,
+        flatShading: true
+      });
+      sharedMaterials.push(cageMat);
+      outerCageMesh = new THREE.Mesh(cageGeo, cageMat);
+      sculptureGroup.add(outerCageMesh);
+
+      // Inner Core (PBR Metallic Polyhedron)
+      const coreGeo = new THREE.DodecahedronGeometry(1.4, 0);
+      const coreMat = new THREE.MeshPhysicalMaterial({
+        color: themeColors[currentTheme].core,
+        roughness: 0.15,
+        metalness: 0.9,
+        clearcoat: 0.8,
+        clearcoatRoughness: 0.1
+      });
+      sharedMaterials.push(coreMat);
+      coreMesh = new THREE.Mesh(coreGeo, coreMat);
+      sculptureGroup.add(coreMesh);
+
+      // Quantum Pulsating Core Inside
+      const quantumGeo = new THREE.OctahedronGeometry(0.7, 2);
+      const quantumMat = new THREE.MeshBasicMaterial({
+        color: themeColors[currentTheme].core,
+        wireframe: true
+      });
+      innerQuantum = new THREE.Mesh(quantumGeo, quantumMat);
+      sculptureGroup.add(innerQuantum);
+
+      // Gimbal Orbital Rings
+      ringGroup = new THREE.Group();
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: themeColors[currentTheme].wire,
+        wireframe: true
+      });
+      sharedMaterials.push(ringMat);
+
+      const ring1 = new THREE.Mesh(new THREE.TorusGeometry(3.2, 0.02, 16, 100), ringMat);
+      const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3.6, 0.02, 16, 100), ringMat);
+      const ring3 = new THREE.Mesh(new THREE.TorusGeometry(4.0, 0.02, 16, 100), ringMat);
+      ring2.rotation.x = Math.PI / 3;
+      ring3.rotation.y = Math.PI / 4;
+      ringGroup.add(ring1, ring2, ring3);
+      sculptureGroup.add(ringGroup);
+
+      activeSceneGroup.add(sculptureGroup);
+    }
+
+    // SCENE 2: Gravitational Particle Galaxy
+    function buildScene2() {
+      clearActiveGroup();
+      document.getElementById('tel-geo').textContent = 'Particle Galaxy';
+      document.getElementById('tel-count').textContent = '15,000 pts';
+
+      const positions = new Float32Array(galaxyCount * 3);
+      const colors = new Float32Array(galaxyCount * 3);
+
+      const colorInside = new THREE.Color(themeColors[currentTheme].core);
+      const colorOutside = new THREE.Color(themeColors[currentTheme].wire);
+
+      for (let i = 0; i < galaxyCount; i++) {
+        const i3 = i * 3;
+        const radius = Math.random() * 6 + 0.2;
+        const spinAngle = radius * 1.8;
+        const branchAngle = ((i % 4) * 2 * Math.PI) / 4;
+
+        const randomX = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 0.4 * radius;
+        const randomY = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 0.4 * radius;
+        const randomZ = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 0.4 * radius;
+
+        positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX;
+        positions[i3 + 1] = randomY;
+        positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
+
+        const mixedColor = colorInside.clone().lerp(colorOutside, radius / 6);
+        colors[i3] = mixedColor.r;
+        colors[i3 + 1] = mixedColor.g;
+        colors[i3 + 2] = mixedColor.b;
+      }
+
+      galaxyGeometry = new THREE.BufferGeometry();
+      galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      galaxyGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const galaxyMaterial = new THREE.PointsMaterial({
+        size: 0.04,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexColors: true
+      });
+
+      galaxyPoints = new THREE.Points(galaxyGeometry, galaxyMaterial);
+      activeSceneGroup.add(galaxyPoints);
+    }
+
+    // SCENE 3: Spatial Hardware Explainer with Exploded View
+    function buildScene3() {
+      clearActiveGroup();
+      document.getElementById('tel-geo').textContent = 'Hardware Exploded';
+      document.getElementById('tel-count').textContent = '4,120 tris';
+
+      hardwareGroup = new THREE.Group();
+
+      const matMetal = new THREE.MeshStandardMaterial({
+        color: themeColors[currentTheme].metal,
+        metalness: 0.9,
+        roughness: 0.2
+      });
+      const matChassis = new THREE.MeshStandardMaterial({
+        color: themeColors[currentTheme].wire,
+        metalness: 0.6,
+        roughness: 0.3
+      });
+      const matLens = new THREE.MeshPhysicalMaterial({
+        color: themeColors[currentTheme].core,
+        transmission: 0.85,
+        opacity: 1,
+        transparent: true,
+        roughness: 0.1,
+        ior: 1.5
+      });
+      const matDie = new THREE.MeshStandardMaterial({
+        color: themeColors[currentTheme].core,
+        metalness: 0.95,
+        roughness: 0.1
+      });
+      sharedMaterials.push(matMetal, matChassis, matLens, matDie);
+
+      // Layer 1: Top Bezel & Protective Aperture
+      layerChassis = new THREE.Group();
+      const bezel = new THREE.Mesh(new THREE.CylinderGeometry(2.0, 2.2, 0.4, 32), matChassis);
+      const apertureRing = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.12, 16, 32), matMetal);
+      apertureRing.rotation.x = Math.PI / 2;
+      apertureRing.position.y = 0.2;
+      layerChassis.add(bezel, apertureRing);
+      hardwareGroup.add(layerChassis);
+
+      // Layer 2: Optical Lens Array
+      layerLens = new THREE.Group();
+      const lensMesh = new THREE.Mesh(new THREE.SphereGeometry(1.4, 32, 16), matLens);
+      lensMesh.scale.set(1, 0.35, 1);
+      layerLens.add(lensMesh);
+      hardwareGroup.add(layerLens);
+
+      // Layer 3: Cryo Heat Sink Fins
+      layerHeatsink = new THREE.Group();
+      const finCount = 12;
+      for (let i = 0; i < finCount; i++) {
+        const fin = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.08, 0.5), matMetal);
+        fin.rotation.y = (i * Math.PI) / finCount;
+        layerHeatsink.add(fin);
+      }
+      const finHub = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.6, 24), matMetal);
+      layerHeatsink.add(finHub);
+      hardwareGroup.add(layerHeatsink);
+
+      // Layer 4: Neural Compute Silicon Die
+      layerDie = new THREE.Group();
+      const pcb = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.1, 2.4), matChassis);
+      const dieChip = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.15, 1.0), matDie);
+      dieChip.position.y = 0.1;
+      layerDie.add(pcb, dieChip);
+      hardwareGroup.add(layerDie);
+
+      // Layer 5: CNC Base Plate
+      layerBase = new THREE.Group();
+      const basePlate = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.7, 0.5, 32), matMetal);
+      layerBase.add(basePlate);
+      hardwareGroup.add(layerBase);
+
+      activeSceneGroup.add(hardwareGroup);
+      applyExplodedOffsets();
+    }
+
+    function clearActiveGroup() {
+      sharedMaterials.length = 0;
+      while (activeSceneGroup.children.length > 0) {
+        const obj = activeSceneGroup.children[0];
+        activeSceneGroup.remove(obj);
+      }
+      hideAnnotations();
+    }
+
+    function switchScene(id) {
+      currentSceneId = id;
+      playSound('click');
+
+      document.querySelectorAll('.scene-grid .btn-hud').forEach((b, idx) => {
+        b.classList.toggle('active', idx + 1 === id);
+      });
+
+      const explodedSec = document.getElementById('hud-exploded-sec');
+      if (id === 3) {
+        explodedSec.style.display = 'block';
+      } else {
+        explodedSec.style.display = 'none';
+        hideAnnotations();
+      }
+
+      if (id === 1) buildScene1();
+      else if (id === 2) buildScene2();
+      else if (id === 3) buildScene3();
+    }
+
+    // Exploded View Disassembly
+    function updateExploded(val) {
+      explodedFactor = val / 100;
+      document.getElementById('exploded-val').textContent = val + '%';
+      applyExplodedOffsets();
+    }
+
+    function applyExplodedOffsets() {
+      if (currentSceneId !== 3 || !layerChassis) return;
+
+      const spread = explodedFactor * 2.2;
+      layerChassis.position.y = spread * 2.0;
+      layerLens.position.y = spread * 1.0;
+      layerHeatsink.position.y = 0;
+      layerDie.position.y = -spread * 1.0;
+      layerBase.position.y = -spread * 2.0;
+
+      if (explodedFactor > 0.15) {
+        showAnnotations();
+      } else {
+        hideAnnotations();
+      }
+    }
+
+    function showAnnotations() {
+      const labels = [
+        { id: 'anno-chassis', obj: layerChassis, offset: 0.3 },
+        { id: 'anno-lens', obj: layerLens, offset: 0.2 },
+        { id: 'anno-heatsink', obj: layerHeatsink, offset: 0.3 },
+        { id: 'anno-die', obj: layerDie, offset: 0.2 },
+        { id: 'anno-base', obj: layerBase, offset: 0.3 }
+      ];
+
+      labels.forEach(l => {
+        const el = document.getElementById(l.id);
+        if (!el || !l.obj) return;
+        el.style.display = 'block';
+        updateScreenPosition(l.obj, el, l.offset);
+      });
+    }
+
+    function hideAnnotations() {
+      ['anno-chassis', 'anno-lens', 'anno-heatsink', 'anno-die', 'anno-base'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+    }
+
+    function updateScreenPosition(object, element, yOffset = 0) {
+      const vector = new THREE.Vector3();
+      object.getWorldPosition(vector);
+      vector.y += yOffset;
+      vector.x += 1.8;
+      vector.project(camera);
+
+      const widthHalf = window.innerWidth / 2;
+      const heightHalf = window.innerHeight / 2;
+
+      const x = (vector.x * widthHalf) + widthHalf;
+      const y = -(vector.y * heightHalf) + heightHalf;
+
+      element.style.left = x + 'px';
+      element.style.top = y + 'px';
+    }
+
+    // Camera Presets
+    function setCameraPreset(preset) {
+      playSound('preset');
+      document.querySelectorAll('.preset-grid .btn-hud').forEach(b => b.classList.remove('active'));
+
+      let targetPos;
+      if (preset === 'front') {
+        targetPos = new THREE.Vector3(0, 0, 10);
+        document.getElementById('tel-cam').textContent = 'Front';
+      } else if (preset === 'top') {
+        targetPos = new THREE.Vector3(0, 11, 0.01);
+        document.getElementById('tel-cam').textContent = 'Top';
+      } else if (preset === 'iso') {
+        targetPos = new THREE.Vector3(7, 5, 8);
+        document.getElementById('tel-cam').textContent = 'Isometric';
+        document.getElementById('btn-iso').classList.add('active');
+      } else if (preset === 'close') {
+        targetPos = new THREE.Vector3(3.2, 1.8, 3.5);
+        document.getElementById('tel-cam').textContent = 'Macro';
+      }
+
+      animateCameraTo(targetPos);
+    }
+
+    function animateCameraTo(target) {
+      const start = camera.position.clone();
+      let progress = 0;
+      function step() {
+        progress += 0.05;
+        camera.position.lerpVectors(start, target, progress);
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          camera.position.copy(target);
+        }
+      }
+      step();
+    }
+
+    // Theme Engine
+    function setTheme(mode) {
+      currentTheme = mode;
+      playSound('theme');
+      document.body.className = 'theme-' + mode;
+
+      document.querySelectorAll('.header-actions .btn-action').forEach(b => {
+        if (b.id.startsWith('btn-theme-')) b.classList.remove('active');
+      });
+      document.getElementById('btn-theme-' + mode).classList.add('active');
+
+      const t = themeColors[mode];
+      scene.background.setHex(t.bg);
+      directionalLight.color.setHex(t.keyLight);
+      ambientLight.color.setHex(t.ambient);
+
+      // Rebuild current scene to refresh theme palette
+      if (currentSceneId === 1) buildScene1();
+      else if (currentSceneId === 2) buildScene2();
+      else if (currentSceneId === 3) buildScene3();
+    }
+
+    // Controls Adjustments
+    function toggleWireframe(val) {
+      isWireframe = val;
+      playSound('click');
+      sharedMaterials.forEach(m => {
+        m.wireframe = val;
+        m.needsUpdate = true;
+      });
+    }
+
+    function updateRoughness(val) {
+      sharedMaterials.forEach(m => {
+        if ('roughness' in m) m.roughness = parseFloat(val);
+      });
+    }
+
+    function updateMetalness(val) {
+      sharedMaterials.forEach(m => {
+        if ('metalness' in m) m.metalness = parseFloat(val);
+      });
+    }
+
+    function updateRotateSpeed(val) {
+      rotateSpeed = parseFloat(val);
+    }
+
+    function toggleMobileHud() {
+      playSound('click');
+      document.getElementById('studio-hud').classList.toggle('open');
+    }
+
+    function onMouseMove(e) {
+      mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    // Main Render Loop
+    let lastTime = performance.now();
+    let frameCount = 0;
+    let fpsTimer = 0;
+
+    function animate(now) {
+      requestAnimationFrame(animate);
+
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      // FPS tracking
+      frameCount++;
+      fpsTimer += delta;
+      if (fpsTimer >= 0.5) {
+        const fps = Math.round(frameCount / fpsTimer);
+        document.getElementById('tel-fps').textContent = fps;
+        frameCount = 0;
+        fpsTimer = 0;
+      }
+
+      controls.update();
+
+      // Kinetic Scene Animations
+      if (currentSceneId === 1 && sculptureGroup) {
+        if (rotateSpeed > 0) {
+          sculptureGroup.rotation.y += 0.005 * rotateSpeed;
+          outerCageMesh.rotation.x += 0.003 * rotateSpeed;
+          coreMesh.rotation.z -= 0.006 * rotateSpeed;
+          innerQuantum.rotation.x += 0.01 * rotateSpeed;
+
+          ringGroup.children[0].rotation.z += 0.008 * rotateSpeed;
+          ringGroup.children[1].rotation.x += 0.005 * rotateSpeed;
+          ringGroup.children[2].rotation.y -= 0.007 * rotateSpeed;
+        }
+
+        // Quantum breath scale
+        const scale = 1 + Math.sin(now * 0.004) * 0.12;
+        innerQuantum.scale.set(scale, scale, scale);
+      } else if (currentSceneId === 2 && galaxyPoints) {
+        galaxyPoints.rotation.y += 0.002 * (rotateSpeed || 0.5);
+
+        // Gravitational mouse influence
+        mouse.x += (mouse.targetX - mouse.x) * 0.05;
+        mouse.y += (mouse.targetY - mouse.y) * 0.05;
+        galaxyPoints.rotation.x = mouse.y * 0.25;
+        galaxyPoints.rotation.z = mouse.x * 0.25;
+      } else if (currentSceneId === 3 && hardwareGroup) {
+        if (rotateSpeed > 0) {
+          hardwareGroup.rotation.y += 0.004 * rotateSpeed;
+        }
+        if (explodedFactor > 0.15) {
+          showAnnotations();
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initThree();
+      requestAnimationFrame(animate);
+    });
+  </script>
+</body>
+</html>
