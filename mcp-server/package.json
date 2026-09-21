@@ -1,6 +1,6 @@
 {
   "name": "pixasso-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Model Context Protocol server for Pixasso: the end-to-end frontend engineering and design orchestrator.",
   "main": "build/index.js",
   "bin": {
@@ -22,5 +22,26 @@
     "node": ">=18.0.0"
   },
   "author": "Erebuzzz",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://pixasso.erebuzzz.tech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Erebuzzz/pixasso.git",
+    "directory": "mcp-server"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "frontend-engineering",
+    "design-system",
+    "typography",
+    "threejs",
+    "webgl",
+    "motion-design",
+    "uisfx",
+    "accessibility",
+    "zod",
+    "pixasso"
+  ]
 }
