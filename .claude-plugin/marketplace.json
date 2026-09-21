@@ -1,0 +1,20 @@
+{
+  "name": "pixasso-marketplace",
+  "owner": {
+    "name": "Erebuzzz",
+    "url": "https://github.com/Erebuzzz"
+  },
+  "metadata": {
+    "description": "Official Pixasso plugin and agent marketplace for frontend architecture and design systems.",
+    "version": "1.0.4"
+  },
+  "plugins": [
+    {
+      "name": "pixasso",
+      "description": "Complete end-to-end frontend engineering and design orchestrator across 16 foundational pillars.",
+      "version": "1.0.4",
+      "source": "./",
+      "repository": "https://github.com/Erebuzzz/pixasso"
+    }
+  ]
+}

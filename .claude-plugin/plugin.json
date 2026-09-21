@@ -1,0 +1,22 @@
+{
+  "name": "pixasso",
+  "version": "1.0.4",
+  "description": "Complete end-to-end frontend engineering and design orchestrator across 16 foundational pillars.",
+  "author": {
+    "name": "Erebuzzz",
+    "url": "https://github.com/Erebuzzz"
+  },
+  "repository": "https://github.com/Erebuzzz/pixasso",
+  "homepage": "https://pixasso.erebuzzz.tech",
+  "license": "MIT",
+  "keywords": [
+    "frontend-engineering",
+    "design-system",
+    "typography",
+    "motion-design",
+    "threejs",
+    "webgl",
+    "accessibility",
+    "mcp"
+  ]
+}
