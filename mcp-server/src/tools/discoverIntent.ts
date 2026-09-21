@@ -9,7 +9,8 @@ export const discoverIntentSchema = z.object({
     'general'
   ]).describe('The primary archetype of the frontend project to tailor the discovery questions.'),
   description: z.string().describe('Initial brief or description provided by the user.'),
-  targetAudience: z.string().optional().describe('Target audience or user persona if known.')
+  targetAudience: z.string().optional().describe('Target audience or user persona if known.'),
+  hasBrandIdentity: z.boolean().optional().describe('Whether an existing brand identity exists or needs to be synthesized from scratch.')
 });
 
 export type DiscoverIntentInput = z.infer<typeof discoverIntentSchema>;
@@ -49,6 +50,31 @@ export function handleDiscoverIntent(input: DiscoverIntentInput) {
     options: string[];
     is_multi_select: boolean;
   }> = [];
+
+  // 1. Mandatory Brand Identity Gate
+  if (input.hasBrandIdentity === undefined) {
+    questions.push({
+      question: 'Does this project have an established brand identity, or should Pixasso synthesize one from scratch?',
+      options: [
+        '(Recommended) Synthesize from scratch: Formulate custom logo/wordmark, dynamic SVG favicon, landing hero architecture, and preview section',
+        'Existing brand guidelines: Extract colors, typography, logos, and tokens directly from provided brand assets'
+      ],
+      is_multi_select: false
+    });
+  }
+
+  if (input.hasBrandIdentity === false || input.hasBrandIdentity === undefined) {
+    questions.push({
+      question: 'Which brand artifacts and presentation sections should be formulated?',
+      options: [
+        '(Recommended) Geometric Monogram & SVG Favicon: Adaptive vector mark that shifts colors across Light/Dark/AMOLED themes',
+        '(Recommended) Interactive Multi-Device Sandbox: Live responsive frame preview (390px, 768px, 1440px) for product proofs',
+        '(Recommended) Landing Hero Architecture: Split layout pairing bold wide typography with an interactive canvas or 3D centerpiece',
+        'Feature Bento Grid: High-contrast modular cards with live interactive micro-previews'
+      ],
+      is_multi_select: true
+    });
+  }
 
   if (projectArchetype === 'full_web_app') {
     questions = [

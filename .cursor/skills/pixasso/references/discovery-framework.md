@@ -20,6 +20,12 @@ Never assume design requirements, never bury clarifying questions in an unread p
 4. **Dimensionality & Spatial Layout**: 2D planar precision vs 2.5D layered parallax vs 3D spatial WebGL scenes; grid density (dense utility vs airy editorial).
 5. **Motion, Sensory & Kinetic Feel**: Micro-interaction velocity (spring physics vs crisp mechanical snap), scroll effects, and Web Audio sensory feedback (UISFX micro-sounds enabled vs silent).
 6. **Core Conversion & Action**: Primary user job-to-be-done, key call-to-action (CTA), and the single most critical flow.
+7. **Brand Identity & Creative Genesis (Mandatory Gate)**:
+   - Determine if the project has an **existing brand identity** (logos, typography, color tokens) or if the agent must **create one from scratch**.
+   - If creating from scratch, immediately follow up with:
+     - **Logo, Wordmark & Favicon System**: Shape language (geometric monogram, abstract symbol, or typographic wordmark) and dynamic SVG favicon specs that adapt automatically across Light, Dark, and AMOLED themes.
+     - **Landing / Hero Section Architecture**: Layout composition (split 3D/canvas hero, centered architectural headline with interactive dials, or command-center telemetry).
+     - **Product Preview & Proof Section**: Demonstration format (interactive multi-device sandbox with responsive viewports, feature bento grid, or interactive playground).
 
 ### Protocol for `ask_question` Execution
 

@@ -10,14 +10,18 @@ const MIME_TYPES = {
   '.json': 'application/json',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
-  '.svg': 'image/svg+xml'
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon'
 };
 
 const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
   if (reqPath === '/') reqPath = '/site/index.html';
 
-  const fullPath = path.join(__dirname, '..', reqPath);
+  let fullPath = path.join(__dirname, '..', reqPath);
+  if (!fs.existsSync(fullPath) && reqPath.startsWith('/site/examples/')) {
+    fullPath = path.join(__dirname, '..', reqPath.replace('/site/examples/', '/examples/'));
+  }
   let targetFile = fullPath;
   if (fs.existsSync(targetFile) && fs.statSync(targetFile).isDirectory()) {
     targetFile = path.join(targetFile, 'index.html');

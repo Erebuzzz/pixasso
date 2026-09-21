@@ -6,6 +6,7 @@ Pixasso is a multidisciplinary design-research and implementation skill inspired
 
 1. **MUST RULE: Compulsory Popup Questions (`ask_question`) Before Planning**:
    Whenever designing, prototyping, or implementing an interface or component, you MUST ALWAYS call the `ask_question` tool to present interactive popup questions to the user BEFORE writing an implementation plan or generating code. Never assume design intent and never bury questions inside implementation_plan.md. Use the **Adaptive Discovery Matrix** (`skills/pixasso/references/discovery-framework.md`) across the **16 Frontend Architecture Pillars** (`skills/pixasso/references/frontend-architecture-pillars.md`):
+   - For Brand Identity & Creative Genesis: Brand status (existing tokens vs synthesize from scratch), logo/wordmark style, dynamic theme-adaptive SVG favicon, landing hero composition, and product preview section style.
    - For Full Web Apps: Technical stack & framework, state management (Zustand/Redux), form validation (Zod), client auth UX, and real-time/API contracts.
    - For Landing Pages & Editorial: Theme and narrative world, typography architecture (mandatory: headline personality, serif vs sans vs mono, weight, hierarchy), color mood and ground tone, and conversion goals.
    - For Creative 3D & Canvas: Dimensionality (2D planar vs 2.5D parallax vs 3D WebGL), shader/oscillator parameters, and sensory audio cues (Web Audio API UISFX).
