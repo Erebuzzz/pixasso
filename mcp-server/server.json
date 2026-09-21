@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Erebuzzz/pixasso",
+  "description": "End-to-end frontend engineering and design orchestrator across 16 foundational pillars.",
+  "repository": {
+    "url": "https://github.com/Erebuzzz/pixasso",
+    "source": "github",
+    "subfolder": "mcp-server"
+  },
+  "version": "1.0.3",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "pixasso-mcp",
+      "version": "1.0.3",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

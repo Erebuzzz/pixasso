@@ -58,3 +58,5 @@ out/
 site/examples/
 site/assets/
 site/CNAME
+mcp-publisher.exe
+*.exe
