@@ -11,6 +11,14 @@ Output: [templates/typography-spec.yaml](../templates/typography-spec.yaml)
 
 Ask like a typography director in a design review, not a font-picker quiz. Reflect personality first; names second.
 
+## MUST RULE: Mandatory Typography Inquiry in Popup Discovery
+
+Typography is first-class architecture, not an aesthetic afterthought. When invoking `ask_question`, agents MUST include explicit typography choices:
+- Headline personality (expressive editorial serif, Swiss modernist grotesque, technical monospace, bold geometric display).
+- Hierarchy and contrast (subtle single-family vs commanding dual-contrast pairing).
+- Theme alignment (allowing the user to specify their brand font kit, theme requirements, or stylistic mood).
+Never assume default Inter or Roboto without explicit user selection.
+
 ---
 
 ## What to Discover

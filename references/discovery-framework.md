@@ -8,11 +8,27 @@ Genome output: [templates/design-genome.yaml](../templates/design-genome.yaml)
 
 ---
 
-## When to Discover
+## MUST RULE: Compulsory Interactive Popup Discovery Before Implementation Planning
 
-Run discovery when the request is underspecified for intentional design. Skip or compress when the user already supplied a clear brief, existing design system, or locked genome.
+It is strictly compulsory to ask the user interactive popup questions (using the `ask_question` tool in Antigravity or interactive modal tools in supported agent runtimes) before drafting any implementation plan or writing code.
 
-Material ambiguity means a wrong assumption would waste significant design or engineering work. Cosmetic preference questions can wait.
+Never assume design requirements, never bury clarifying questions in an unread plan document, and never skip ahead to boilerplate code. The agent MUST trigger popup questions to obtain 100% pure clarity on:
+
+1. **Design Theme, Narrative & Vibe**: The aesthetic world, metaphorical tone, and emotional temperature (for example: Obsidian Precision, Warm Editorial, Cyberpunk Terminal, Tactile Brutalism, Scandinavian Organic, Luxury Editorial). Enable the user to select from curated personas or write in their custom theme.
+2. **Typography Architecture (Mandatory)**: Typography is first-class architecture. Inquire about headline and body personality, style family (expressive editorial serif, Swiss grotesque sans, monospaced technical, geometric display), weight, and reading rhythm. The user can declare their preferred theme, font ideas, or brand styles. Never default to generic Inter or Roboto without user alignment.
+3. **Color Mood, Ground Tone & Materiality**: Light ground, dark slate, warm paper ivory, color temperature, surface materials (matte ink, frosted glass, industrial aluminum, tactile clay), and lighting atmosphere.
+4. **Dimensionality & Spatial Layout**: 2D planar precision vs 2.5D layered parallax vs 3D spatial WebGL scenes; grid density (dense utility vs airy editorial).
+5. **Motion, Sensory & Kinetic Feel**: Micro-interaction velocity (spring physics vs crisp mechanical snap), scroll effects, and Web Audio sensory feedback (UISFX micro-sounds enabled vs silent).
+6. **Core Conversion & Action**: Primary user job-to-be-done, key call-to-action (CTA), and the single most critical flow.
+
+### Protocol for `ask_question` Execution
+
+When calling `ask_question`:
+- Format 2 to 4 focused questions in the questions array.
+- Include curated, descriptive options reflecting distinct creative directions (prefixed with `(Recommended)` for the strongest contextual choice).
+- Set `is_multi_select: true` where selecting multiple complementary options is valuable.
+- Rely on the UI default write-in option so the user can easily input custom themes, brand names, or specific font requirements.
+- **Execution Gate**: Block all implementation planning and component code generation until the user submits their choices.
 
 ---
 

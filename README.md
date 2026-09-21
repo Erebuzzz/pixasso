@@ -158,26 +158,27 @@ flowchart TB
     Intent --> Plan
 ```
 
-## Global Rule: Intent & Feel First
+## MUST RULE: Compulsory Interactive Popup Discovery (`ask_question`) & Feel First
 
-Pixasso strictly avoids assuming generic styling defaults. It enforces an upfront inquiry into the emotional atmosphere, aesthetic vibe, and tactile feel before planning layouts or components.
+Pixasso strictly forbids assuming generic styling defaults or jumping straight into an implementation plan. It enforces a compulsory interactive popup discovery gate (`ask_question`) to establish 100% pure clarity on design theme, typography architecture, color mood, dimensionality, motion, and primary user conversion before planning or coding begins.
 
 ```mermaid
 flowchart TD
-    Req["Initial User Request"] --> AskFeel["Inquire on Vibe & Emotional Temperature<br/>(calm, austere, playful, technical, editorial, luxurious)"]
-    AskFeel --> UserResponse{"User response clarity?"}
+    Req["Initial User Request"] --> PopupModal["Compulsory Popup Discovery<br/>(ask_question interactive modal)"]
 
-    UserResponse -->|"Clear, descriptive vision"| LockGenome["Incorporate into Design Genome"]
-    UserResponse -->|"Minimal input or 'make it look good'"| Fallback["Agent Intelligence Fallback Protocol"]
+    subgraph Dimensions ["Mandatory Clarification Dimensions"]
+        Theme["1. Theme & Narrative Vibe<br/>(Obsidian / Editorial / Cyber / Brutalist / Custom)"]
+        Type["2. Typography Architecture<br/>(Headline personality, serif/sans/mono, hierarchy)"]
+        Color["3. Color Ground & Materiality<br/>(Ivory / Slate / White, frost, metallic, clay)"]
+        Dim["4. Dimensionality & Space<br/>(2D planar / 2.5D parallax / 3D WebGL)"]
+        Motion["5. Motion & Sensory Audio<br/>(Springs, snaps, UISFX micro-sounds)"]
+        Goal["6. Conversion & Primary CTA<br/>(Key user job-to-be-done)"]
+    end
 
-    Fallback --> OptionA["Persona A: Obsidian Precision<br/>(Dark slate, crisp mono type, technical restraint)"]
-    Fallback --> OptionB["Persona B: Warm Editorial<br/>(Ivory ground, commanding serifs, literary poise)"]
-    Fallback --> OptionC["Persona C: Tactile Minimalist<br/>(Bone and charcoal, physical micro-interactions)"]
-
-    OptionA --> UserSelect["User selects or refines persona"]
-    OptionB --> UserSelect
-    OptionC --> UserSelect
-    UserSelect --> LockGenome
+    PopupModal --> Dimensions
+    Dimensions --> UserSubmit["User Submits Choices & Custom Write-ins"]
+    UserSubmit --> LockGenome["Synthesize into Locked Design Genome<br/>& User-Visible Design Brain"]
+    LockGenome --> PlanGate["Draft Implementation Plan & Task DAG"]
 ```
 
 ## Agent Harnesser: Installed Skills & MCP Coordination

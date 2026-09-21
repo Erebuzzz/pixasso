@@ -36,21 +36,26 @@ The objective is not to make everything visually extravagant. The objective is t
 
 Before designing anything substantial, understand the problem first. Do not immediately generate an arbitrary visual direction from a vague request like: "Make me a cool website."
 
-Determine what the user is actually building, who it is for, what the experience needs to accomplish, and what visual language is appropriate. Ask only the questions necessary to remove important ambiguity. Do not interrogate the user with an exhaustive questionnaire when the requirements are already clear.
+### MUST RULE: Compulsory Interactive Popup Discovery (`ask_question`) Before Implementation Planning
+It is strictly compulsory to ask the user interactive popup questions (using the `ask_question` tool in Antigravity or interactive modal tools in supported agent runtimes) before drafting any implementation plan or writing code.
 
-Speak as a senior creative director extracting intent, not a form wizard. Reflect what you understood, then ask the next useful question.
+Never assume design requirements, never bury clarifying questions in an unread plan document, and never skip ahead to boilerplate code. The agent MUST trigger popup questions to obtain 100% pure clarity on:
+1. **Design Theme, Narrative & Vibe**: The aesthetic world, metaphorical tone, and emotional temperature (for example: Obsidian Precision, Warm Editorial, Cyberpunk Terminal, Tactile Brutalism, Scandinavian Organic, Luxury Editorial). Enable the user to select from curated personas or write in their custom theme.
+2. **Typography Architecture (Mandatory)**: Typography is first-class architecture. Inquire about headline and body personality, style family (expressive editorial serif, Swiss grotesque sans, monospaced technical, geometric display), weight, and reading rhythm. The user can declare their preferred theme, font ideas, or brand styles. Never default to generic Inter or Roboto without user alignment.
+3. **Color Mood, Ground Tone & Materiality**: Light ground, dark slate, warm paper ivory, color temperature, surface materials (matte ink, frosted glass, industrial aluminum, tactile clay), and lighting atmosphere.
+4. **Dimensionality & Spatial Layout**: 2D planar precision vs 2.5D layered parallax vs 3D spatial WebGL scenes; grid density (dense utility vs airy editorial).
+5. **Motion, Sensory & Kinetic Feel**: Micro-interaction velocity (spring physics vs crisp mechanical snap), scroll effects, and Web Audio sensory feedback (UISFX micro-sounds enabled vs silent).
+6. **Core Conversion & Action**: Primary user job-to-be-done, key call-to-action (CTA), and the single most critical flow.
 
 ### Global Rule: Intent & Feel First
 Pixasso strictly forbids defaulting to generic SaaS styling or boilerplate templates. You must always extract the aesthetic feel, emotional resonance, and vibe from the designer or user before proposing layouts:
 - **Inquire on Atmosphere**: Ask evocative sensory questions about emotional temperature (calm, austere, playful, clinical, electric), material texture (paper, matte slate, frosted glass, terminal phosphor), and lighting mood (diffused studio, dark ambient, crisp daylight).
-- **Intelligent Fallback Protocol**: If the user provides minimal direction, says "just make it look good", or struggles to articulate visual aesthetics, do not revert to generic corporate templates. Use agent intelligence to synthesize 2 to 3 curated aesthetic directions ("personas") tailored to the product category (for example: Obsidian Precision vs Warm Editorial vs Tactile Minimalist) and present them with brief rationales for the user to select or critique.
+- **Intelligent Fallback Protocol**: If the user provides limited direction, says "just make it look good", or struggles to articulate visual aesthetics, do not revert to generic corporate templates. Use agent intelligence to synthesize 2 to 3 curated aesthetic directions ("personas") tailored to the product category (for example: Obsidian Precision vs Warm Editorial vs Tactile Minimalist) and present them with brief rationales for the user to select or critique.
 
-### Intent Discovery
-When underspecified, follow the [Discovery Framework](references/discovery-framework.md) and [Discovery Prompt](prompts/discovery.md). Use the adaptive [Design Brief](templates/design-brief.md) as a scaffold, not a mandatory form.
+### Intent Discovery Execution Gate
+Follow the [Discovery Framework](references/discovery-framework.md) and [Discovery Prompt](prompts/discovery.md). Use the adaptive [Design Brief](templates/design-brief.md) as a scaffold.
 
-Discover: build category (open-ended semantic interpretation), feel, theme/world/narrative (design-system meaning, not clutter), visual language (separate from theme), color emotion → palette roles, typography (first-class), dimensionality (from spatial desire), motion feel, audience, goals, emotional outcome, primary action.
-
-Group questions into conversational stages; adapt later questions; infer safely and label inferences.
+**Execution Gate**: Block all implementation planning (`implementation_plan.md`) and code generation until the user has answered the popup discovery questions.
 
 ### Design Genome
 Persist decisions in the [Design Genome](references/design-genome.md) using [templates/design-genome.yaml](templates/design-genome.yaml). After discovery, agents reference the genome, not the original prompt. Updates mutate the genome. Run the human-readable Genome Validation gate before expensive implementation.
