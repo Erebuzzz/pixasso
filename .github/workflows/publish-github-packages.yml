@@ -1,0 +1,55 @@
+name: Publish to GitHub Packages
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+  push:
+    branches:
+      - main
+    paths:
+      - 'mcp-server/**'
+      - '.github/workflows/publish-github-packages.yml'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@erebuzzz'
+
+      - name: Install dependencies and compile TypeScript
+        run: |
+          cd mcp-server
+          npm install
+          npm run build
+
+      - name: Prepare scoped package manifest for GitHub Packages
+        run: |
+          cd mcp-server
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.name = '@erebuzzz/pixasso-mcp';
+            pkg.publishConfig = { registry: 'https://npm.pkg.github.com' };
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+            console.log('Configured package for GitHub Packages:', pkg.name, pkg.version);
+          "
+
+      - name: Publish to GitHub Packages registry
+        run: |
+          cd mcp-server
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
