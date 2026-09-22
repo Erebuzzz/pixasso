@@ -123,13 +123,14 @@
       align-items: center;
       justify-content: space-between;
       height: 64px;
-      gap: 1rem;
+      gap: 1.5rem;
     }
 
-    .brand-group {
+    .nav-zone-left {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
+      flex-shrink: 0;
     }
 
     .brand-link {
@@ -173,13 +174,183 @@
       padding: 0.2rem 0.6rem;
       border: 1px dashed var(--border);
       border-radius: var(--radius-full);
+      font-family: var(--font-mono);
     }
 
-    .theme-controls {
+    .nav-zone-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: var(--ink-secondary);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink-primary);
+    }
+
+    .nav-zone-right {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-shrink: 0;
+    }
+
+    .icon-nav-group {
       display: flex;
       align-items: center;
       gap: 0.35rem;
-      flex-wrap: wrap;
+    }
+
+    .nav-icon-btn {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--ink-secondary);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+      flex-shrink: 0;
+      padding: 0;
+    }
+
+    .nav-icon-btn:hover {
+      color: var(--ink-primary);
+      border-color: var(--border-accent);
+      background: var(--bg-elevated);
+      transform: translateY(-1px);
+    }
+
+    .nav-icon-btn svg {
+      width: 15px;
+      height: 15px;
+      display: block;
+    }
+
+    /* Floating Hover Annotation Captions */
+    [data-caption] {
+      position: relative;
+    }
+
+    [data-caption]::after {
+      content: attr(data-caption);
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      border: 1px solid var(--border-accent);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      padding: 0.25rem 0.55rem;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+      z-index: 1000;
+    }
+
+    [data-caption]:hover::after,
+    [data-caption]:focus-visible::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .nav-zone-right [data-caption]:last-child::after {
+      left: auto;
+      right: 0;
+      transform: translateY(-4px);
+    }
+
+    .nav-zone-right [data-caption]:last-child:hover::after {
+      transform: translateY(0);
+    }
+
+    .theme-segmented {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .theme-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--ink-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .theme-tab-btn:hover {
+      color: var(--ink-primary);
+    }
+
+    .theme-tab-btn.active {
+      background: var(--ink-primary);
+      color: var(--bg);
+      font-weight: 600;
+    }
+
+    [data-theme="paper"] .theme-tab-btn.active { color: #fbfaf7; }
+    [data-theme="crt"] .theme-tab-btn.active { color: #090d0b; }
+    [data-theme="amoled"] .theme-tab-btn.active { color: #000000; }
+
+    .agent-world-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--ink-primary);
+      padding: 0.32rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .agent-world-btn:hover {
+      border-color: var(--border-accent);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
     .pill-btn {
@@ -209,6 +380,25 @@
     [data-theme="paper"] .pill-btn.active { color: #fbfaf7; }
     [data-theme="crt"] .pill-btn.active { color: #090d0b; }
     [data-theme="amoled"] .pill-btn.active { color: #000000; }
+
+    @media (max-width: 980px) {
+      .nav-zone-center { display: none; }
+      .status-badge { display: none; }
+    }
+
+    @media (max-width: 680px) {
+      .nav-inner {
+        height: auto;
+        padding: 0.75rem 0;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .nav-zone-right {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.35rem;
+      }
+    }
 
     /* Main 404 Hero */
     main {
@@ -545,7 +735,7 @@
   <!-- Header Navigation -->
   <header>
     <div class="container nav-inner">
-      <div class="brand-group">
+      <div class="nav-zone-left">
         <a href="index.html" class="brand-link" aria-label="Pixasso home">
           <div class="brand-glyph" aria-hidden="true">
             <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -564,11 +754,57 @@
         <span class="status-badge" id="pathDisplay">/ 404_NOT_FOUND</span>
       </div>
 
-      <div class="theme-controls">
-        <button class="pill-btn active" id="btnPaper" type="button" aria-label="Paper light theme">Paper</button>
-        <button class="pill-btn" id="btnCRT" type="button" aria-label="CRT phosphor theme">CRT-mono</button>
-        <button class="pill-btn" id="btnAmoled" type="button" aria-label="Pitch black AMOLED theme">AMOLED</button>
-        <button class="pill-btn" id="btnSound" type="button" aria-label="Toggle sound feedback">Audio: On</button>
+      <nav class="nav-zone-center" aria-label="Quick links">
+        <ul class="nav-links">
+          <li><a href="index.html"><span class="nav-hotkey">[H]</span> Core Home</a></li>
+          <li><a href="index.html#pillars"><span class="nav-hotkey">[P]</span> 16 Pillars</a></li>
+          <li><a href="index.html#preview"><span class="nav-hotkey">[V]</span> Preview</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-zone-right">
+        <!-- SVG Platform Links Cluster with Hover Annotation Captions -->
+        <div class="icon-nav-group">
+          <a href="https://cursor.directory/plugins/pixasso" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="Cursor Directory [C]" aria-label="Cursor Plugin Directory">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2l9 5.2v10.4L12 22.8 3 17.6V7.2L12 2z"/>
+              <path d="M12 2v10.4m0 0l9-5.2m-9 5.2l-9-5.2"/>
+            </svg>
+          </a>
+          <a href="https://www.npmjs.com/package/pixasso-mcp" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="npm Registry [N]" aria-label="npm Package">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M2 5v14h20V5H2zm16 11h-3v-6h-2v6H7V8h11v8z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/Erebuzzz/pixasso" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="GitHub Repository [G]" aria-label="GitHub Repository">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Segmented Theme Switcher -->
+        <div class="theme-segmented" role="group" aria-label="Color theme">
+          <button class="theme-tab-btn active" id="btnPaper" type="button" data-caption="Paper Theme [1]">Paper</button>
+          <button class="theme-tab-btn" id="btnCRT" type="button" data-caption="CRT Terminal [2]">CRT</button>
+          <button class="theme-tab-btn" id="btnAmoled" type="button" data-caption="AMOLED Pitch Black [3]">OLED</button>
+        </div>
+
+        <!-- Audio toggle with caption -->
+        <button class="nav-icon-btn" id="btnSound" type="button" data-caption="Audio SFX: On [U]" aria-label="Toggle sound feedback">
+          <svg id="navAudioIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path class="audio-wave-1" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path class="audio-wave-2" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+        </button>
+
+        <!-- Agent World Link -->
+        <a href="index.html?mode=agent" class="agent-world-btn" data-caption="Launch Agent World [A]" aria-label="Launch Agent World">
+          <span class="agent-pulse-dot" aria-hidden="true"></span>
+          <span>Agent World</span>
+          <span class="nav-hotkey">[A]</span>
+        </a>
       </div>
     </div>
   </header>
