@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>404: Coordinate Not Found // Pixasso</title>
+  <meta name="description" content="The requested endpoint does not exist or has shifted along a different dimensional vector. Use the Pixasso recovery matrix to return."/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
+  <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
+  <link rel="alternate icon" href="favicon.ico"/>
+  <link rel="llms-txt" type="text/plain" href="llms.txt"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* Paper Theme (Default Light) */
+      --bg: #fbfaf7;
+      --bg-surface: #ffffff;
+      --bg-elevated: #f4f2ec;
+      --ink-primary: #191919;
+      --ink-secondary: #575752;
+      --ink-muted: #8c8c82;
+      --border: rgba(25, 25, 25, 0.12);
+      --border-accent: #191919;
+      --accent: #191919;
+      --accent-glow: rgba(0, 0, 0, 0.08);
+      --hotkey-color: #191919;
+      --dot-grid: rgba(25, 25, 25, 0.07);
+      --scanline-display: none;
+
+      /* Standardized Border Radii Tokens */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
+      --radius-circle: 50%;
+    }
+
+    [data-theme="crt"] {
+      --bg: #090d0b;
+      --bg-surface: #0d1410;
+      --bg-elevated: #131c17;
+      --ink-primary: #33ff66;
+      --ink-secondary: rgba(51, 255, 102, 0.7);
+      --ink-muted: rgba(51, 255, 102, 0.4);
+      --border: rgba(51, 255, 102, 0.25);
+      --border-accent: #33ff66;
+      --accent: #33ff66;
+      --accent-glow: rgba(51, 255, 102, 0.25);
+      --hotkey-color: #ffffff;
+      --dot-grid: rgba(51, 255, 102, 0.08);
+      --scanline-display: block;
+    }
+
+    [data-theme="amoled"] {
+      --bg: #000000;
+      --bg-surface: #0a0a0c;
+      --bg-elevated: #121216;
+      --ink-primary: #ffffff;
+      --ink-secondary: #a1a1aa;
+      --ink-muted: #52525b;
+      --border: rgba(255, 255, 255, 0.12);
+      --border-accent: #0000ff;
+      --accent: #0000ff;
+      --accent-glow: rgba(0, 0, 255, 0.25);
+      --hotkey-color: #0000ff;
+      --dot-grid: rgba(255, 255, 255, 0.06);
+      --scanline-display: none;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink-primary);
+      font-family: var(--font-mono);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: background 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
+
+    /* Scanlines for CRT Mode */
+    .crt-scanlines {
+      display: var(--scanline-display);
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+      background-size: 100% 3px;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    /* Header Navigation */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 1rem;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--ink-primary);
+    }
+
+    .brand-glyph {
+      width: 28px;
+      height: 28px;
+      background: #0a0f0d;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .brand-glyph svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .brand-text {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .status-badge {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.6rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-full);
+    }
+
+    .theme-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pill-btn:hover {
+      color: var(--ink-primary);
+      border-color: var(--border-accent);
+    }
+
+    .pill-btn.active {
+      background: var(--ink-primary);
+      color: var(--bg);
+      border-color: var(--ink-primary);
+      font-weight: 600;
+    }
+
+    [data-theme="paper"] .pill-btn.active { color: #fbfaf7; }
+    [data-theme="crt"] .pill-btn.active { color: #090d0b; }
+    [data-theme="amoled"] .pill-btn.active { color: #000000; }
+
+    /* Main 404 Hero */
+    main {
+      flex: 1;
+      padding: 4rem 0 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .error-hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 3.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .error-hero { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .tag-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.76rem;
+      color: var(--ink-muted);
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .pill-tag {
+      padding: 0.15rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      font-size: 0.72rem;
+    }
+
+    .error-code-display {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 11vw, 8.5rem);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+      color: var(--ink-primary);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .error-code-dim {
+      font-size: clamp(1rem, 2.5vw, 1.8rem);
+      font-family: var(--font-mono);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--ink-muted);
+    }
+
+    .error-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink-primary);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .error-desc {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      color: var(--ink-secondary);
+      line-height: 1.65;
+      margin-bottom: 2rem;
+      max-width: 540px;
+    }
+
+    .action-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn {
+      background: var(--ink-primary);
+      color: var(--bg);
+      padding: 0.75rem 1.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid var(--ink-primary);
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    [data-theme="paper"] .primary-btn { color: #fbfaf7; }
+    [data-theme="crt"] .primary-btn { color: #090d0b; }
+    [data-theme="amoled"] .primary-btn { color: #000000; }
+
+    .primary-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .secondary-btn {
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      padding: 0.75rem 1.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .secondary-btn:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+
+    .hotkey-badge {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+    }
+
+    /* Radar / Signal Canvas Card */
+    .signal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .signal-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--ink-secondary);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .signal-canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+    }
+
+    #signalCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .signal-telemetry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.74rem;
+      color: var(--ink-muted);
+    }
+
+    /* Recovery Hub Grid */
+    .recovery-section {
+      border-top: 1px solid var(--border);
+      padding-top: 3rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+      color: var(--ink-primary);
+    }
+
+    .section-desc {
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.75rem;
+      max-width: 600px;
+    }
+
+    .recovery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 1024px) {
+      .recovery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .recovery-grid { grid-template-columns: 1fr; }
+    }
+
+    .recovery-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      text-decoration: none;
+      color: var(--ink-primary);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .recovery-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+
+    .card-arrow {
+      margin-top: auto;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Diagnostics Log Box */
+    .diagnostics-box {
+      margin-top: 2rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      font-size: 0.78rem;
+      color: var(--ink-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .diagnostics-code {
+      font-family: var(--font-mono);
+      color: var(--ink-primary);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg-surface);
+      padding: 1.75rem 0;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--ink-secondary);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover { color: var(--ink-primary); }
+  </style>
+</head>
+<body>
+  <div class="crt-scanlines"></div>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="container nav-inner">
+      <div class="brand-group">
+        <a href="index.html" class="brand-link" aria-label="Pixasso home">
+          <div class="brand-glyph" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 6.5h8.5a6.5 6.5 0 0 1 6.5 6.5c0 3.59-2.91 6.5-6.5 6.5H12.5v6H8V6.5zm4.5 4v5h4a2.5 2.5 0 0 0 0-5h-4z" fill="#fbfaf7" />
+              <circle cx="23.5" cy="23.5" r="2.5" fill="url(#brandGrad404)" />
+              <defs>
+                <linearGradient id="brandGrad404" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2563eb" />
+                  <stop offset="100%" stop-color="#33ff66" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="brand-text">Pixasso</span>
+        </a>
+        <span class="status-badge" id="pathDisplay">/ 404_NOT_FOUND</span>
+      </div>
+
+      <div class="theme-controls">
+        <button class="pill-btn active" id="btnPaper" type="button" aria-label="Paper light theme">Paper</button>
+        <button class="pill-btn" id="btnCRT" type="button" aria-label="CRT phosphor theme">CRT-mono</button>
+        <button class="pill-btn" id="btnAmoled" type="button" aria-label="Pitch black AMOLED theme">AMOLED</button>
+        <button class="pill-btn" id="btnSound" type="button" aria-label="Toggle sound feedback">Audio: On</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main 404 Experience -->
+  <main>
+    <div class="container">
+      <div class="error-hero">
+        <div>
+          <div class="tag-row">
+            <span>/</span>
+            <span>Error Protocol</span>
+            <span class="pill-tag">SECTOR 0x0194</span>
+            <span class="pill-tag">HTTP 404</span>
+            <span class="pill-tag">DIMENSIONAL_SHIFT</span>
+          </div>
+
+          <div class="error-code-display">
+            <span>404</span>
+            <span class="error-code-dim">// VOID</span>
+          </div>
+
+          <h1 class="error-title">Lost in Coordinate Space.</h1>
+
+          <p class="error-desc">
+            The requested route or asset has no mapped location in this design genome. The dimensional projection may have shifted along an alternate axis, or the resource was relocated.
+          </p>
+
+          <div class="action-cta-row">
+            <a href="index.html" class="primary-btn" id="btnHomeCta">
+              <span>Return Home</span>
+              <span class="hotkey-badge">[H]</span>
+            </a>
+            <a href="index.html#pillars" class="secondary-btn" id="btnPillarsCta">
+              <span>Explore 16 Pillars</span>
+              <span class="hotkey-badge">[P]</span>
+            </a>
+            <a href="index.html?mode=agent" class="secondary-btn" id="btnAgentCta">
+              <span>Agent Mode</span>
+              <span class="hotkey-badge">[A]</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Signal Oscilloscope Card -->
+        <div class="signal-card">
+          <div class="signal-card-header">
+            <span>[ RADAR // TELEMETRY ]</span>
+            <span id="signalStatus">SEARCHING SIGNAL...</span>
+          </div>
+          <div class="signal-canvas-wrap">
+            <canvas id="signalCanvas"></canvas>
+          </div>
+          <div class="signal-telemetry">
+            <span>CARRIER: 404.00 MHz</span>
+            <span>VECTOR: NULL // DISCONNECTED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recovery Hub -->
+      <section class="recovery-section">
+        <h2 class="section-title">System Recovery Matrix</h2>
+        <p class="section-desc">
+          Select a verified navigation vector below or use your keyboard hotkeys to re-anchor into the application.
+        </p>
+
+        <div class="recovery-grid">
+          <a href="index.html" class="recovery-card">
+            <div class="card-top">
+              <span>VECTOR 01</span>
+              <span>[H]</span>
+            </div>
+            <h3 class="card-title">Root Showcase</h3>
+            <p class="card-desc">Return to the primary Pixasso landing experience and live interactive preview sandbox.</p>
+            <div class="card-arrow">
+              <span>Go to Home</span>
+              <span>&rarr;</span>
+            </div>
+          </a>
+
+          <a href="index.html#pillars" class="recovery-card">
+            <div class="card-top">
+              <span>VECTOR 02</span>
+              <span>[P]</span>
+            </div>
+            <h3 class="card-title">The 16 Pillars</h3>
+            <p class="card-desc">Inspect the full spectrum of frontend disciplines: type, motion, state, Zod forms, and testing.</p>
+            <div class="card-arrow">
+              <span>Explore Pillars</span>
+              <span>&rarr;</span>
+            </div>
+          </a>
+
+          <a href="examples/3d-suite/index.html" class="recovery-card">
+            <div class="card-top">
+              <span>VECTOR 03</span>
+              <span>[3]</span>
+            </div>
+            <h3 class="card-title">3D Spatial Suite</h3>
+            <p class="card-desc">Launch the Three.js spatial studio featuring the kinetic sculpture and GPU particle galaxy.</p>
+            <div class="card-arrow">
+              <span>Launch 3D Suite</span>
+              <span>&rarr;</span>
+            </div>
+          </a>
+
+          <a href="index.html?mode=agent" class="recovery-card">
+            <div class="card-top">
+              <span>VECTOR 04</span>
+              <span>[A]</span>
+            </div>
+            <h3 class="card-title">Agent Mode & Manifest</h3>
+            <p class="card-desc">Inspect JSON-RPC tool schemas, simulate stdio payloads, or view machine-readable llms.txt.</p>
+            <div class="card-arrow">
+              <span>Open Agent Inspector</span>
+              <span>&rarr;</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="diagnostics-box">
+          <div>
+            <span style="color: var(--ink-muted);">Diagnostics:</span>
+            <span class="diagnostics-code" id="diagDetails">GET 404 // Target route undefined</span>
+          </div>
+          <div>
+            <span style="color: var(--ink-muted);">Quick Action:</span>
+            <span class="diagnostics-code">Press [H] to return to home base</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <span>Pixasso // End-to-End Frontend Engineering & Design Orchestrator</span>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="https://www.npmjs.com/package/pixasso-mcp" target="_blank">npm: pixasso-mcp</a>
+        <a href="https://github.com/Erebuzzz/pixasso/pkgs/npm/pixasso-mcp" target="_blank">GitHub Packages</a>
+        <a href="https://cursor.directory/plugins/pixasso" target="_blank">Cursor Directory</a>
+        <a href="https://github.com/Erebuzzz/pixasso" target="_blank">GitHub</a>
+        <a href="llms.txt" target="_blank">llms.txt</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Path Diagnostic Display
+    const pathDisplay = document.getElementById('pathDisplay');
+    const diagDetails = document.getElementById('diagDetails');
+    if (pathDisplay && window.location.pathname) {
+      const cleanPath = window.location.pathname;
+      pathDisplay.textContent = `/ ${cleanPath.replace(/^\//, '') || '404_NOT_FOUND'}`;
+      if (diagDetails) {
+        diagDetails.textContent = `GET ${cleanPath} // STATUS 404`;
+      }
+    }
+
+    // Theme Switcher Logic
+    const html = document.documentElement;
+    const btnPaper = document.getElementById('btnPaper');
+    const btnCRT = document.getElementById('btnCRT');
+    const btnAmoled = document.getElementById('btnAmoled');
+    const btnSound = document.getElementById('btnSound');
+
+    let audioEnabled = true;
+
+    // Web Audio API Synthesizer
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function playSound(freq, type = 'sine', duration = 0.08) {
+      if (!audioEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      [btnPaper, btnCRT, btnAmoled].forEach(b => b.classList.remove('active'));
+
+      if (theme === 'paper') {
+        btnPaper.classList.add('active');
+        playSound(520, 'triangle');
+      } else if (theme === 'crt') {
+        btnCRT.classList.add('active');
+        playSound(440, 'sawtooth', 0.12);
+      } else if (theme === 'amoled') {
+        btnAmoled.classList.add('active');
+        playSound(320, 'sine');
+      }
+    }
+
+    btnPaper.addEventListener('click', () => setTheme('paper'));
+    btnCRT.addEventListener('click', () => setTheme('crt'));
+    btnAmoled.addEventListener('click', () => setTheme('amoled'));
+
+    btnSound.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      btnSound.textContent = 'Audio: ' + (audioEnabled ? 'On' : 'Off');
+      if (audioEnabled) playSound(880, 'sine', 0.1);
+    });
+
+    // Keyboard Shortcuts Navigation
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+      const key = e.key.toLowerCase();
+
+      if (key === 'h' || e.key === 'Escape') {
+        playSound(640, 'sine', 0.09);
+        window.location.href = 'index.html';
+      } else if (key === 'p') {
+        playSound(600, 'sine', 0.09);
+        window.location.href = 'index.html#pillars';
+      } else if (key === '3') {
+        playSound(520, 'triangle', 0.09);
+        window.location.href = 'examples/3d-suite/index.html';
+      } else if (key === 'a') {
+        playSound(720, 'sine', 0.09);
+        window.location.href = 'index.html?mode=agent';
+      }
+    });
+
+    // Signal Radar / Oscilloscope Canvas
+    const canvas = document.getElementById('signalCanvas');
+    const ctx = canvas.getContext('2d');
+    const signalStatus = document.getElementById('signalStatus');
+
+    let w = canvas.width = canvas.parentElement.clientWidth;
+    let h = canvas.height = canvas.parentElement.clientHeight;
+
+    window.addEventListener('resize', () => {
+      w = canvas.width = canvas.parentElement.clientWidth;
+      h = canvas.height = canvas.parentElement.clientHeight;
+    });
+
+    let time = 0;
+    let sweepAngle = 0;
+
+    function drawSignal() {
+      time += 0.03;
+      sweepAngle = (sweepAngle + 0.02) % (Math.PI * 2);
+      ctx.clearRect(0, 0, w, h);
+
+      const inkColor = getComputedStyle(html).getPropertyValue('--ink-primary').trim();
+      const dotColor = getComputedStyle(html).getPropertyValue('--dot-grid').trim() || 'rgba(0,0,0,0.06)';
+
+      // Background Grid
+      ctx.fillStyle = dotColor;
+      const step = 24;
+      for (let x = 12; x < w; x += step) {
+        for (let y = 12; y < h; y += step) {
+          ctx.fillRect(x, y, 1.5, 1.5);
+        }
+      }
+
+      // Radar Crosshairs
+      const cx = w / 2;
+      const cy = h / 2;
+      const maxR = Math.min(w, h) * 0.42;
+
+      ctx.strokeStyle = inkColor.startsWith('#') ? inkColor + '33' : 'rgba(0,0,0,0.15)';
+      ctx.lineWidth = 1;
+
+      // Concentric circles
+      [0.3, 0.6, 1.0].forEach(factor => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, maxR * factor, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Cross lines
+      ctx.beginPath();
+      ctx.moveTo(cx - maxR, cy);
+      ctx.lineTo(cx + maxR, cy);
+      ctx.moveTo(cx, cy - maxR);
+      ctx.lineTo(cx, cy + maxR);
+      ctx.stroke();
+
+      // Radar Sweep Line
+      ctx.strokeStyle = inkColor.startsWith('#') ? inkColor + 'aa' : inkColor;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(sweepAngle) * maxR, cy + Math.sin(sweepAngle) * maxR);
+      ctx.stroke();
+
+      // Glitch carrier wave along bottom
+      ctx.strokeStyle = inkColor;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      for (let x = 0; x < w; x += 3) {
+        const norm = x / w;
+        // Lost carrier wave with erratic glitches
+        const noiseGlitch = Math.sin(norm * 18 + time * 3) * 6 * Math.sin(time * 0.7);
+        const y = (h * 0.82) + Math.sin(norm * 8 + time * 2) * 12 + noiseGlitch;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Update signal status text periodically
+      if (Math.floor(time * 10) % 60 === 0 && signalStatus) {
+        const statuses = ['SEARCHING SIGNAL...', 'CARRIER LOST [0x0194]', 'SECTOR OUT OF BOUNDS', 'DIMENSIONAL PROJECTION VOID'];
+        const idx = Math.floor(Math.random() * statuses.length);
+        signalStatus.textContent = statuses[idx];
+      }
+
+      requestAnimationFrame(drawSignal);
+    }
+
+    drawSignal();
+  </script>
+</body>
+</html>
