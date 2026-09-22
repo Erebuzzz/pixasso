@@ -169,16 +169,48 @@ statusReport.push({ target: 'Claude Code CLI', status: claudeCliStatus });
 
 // 6. Check VS Code (Cline / Roo Code)
 console.log('Checking VS Code Cline / Roo Code storage...');
+let vscodeGlobalStorage = '';
+if (process.platform === 'win32') {
+  vscodeGlobalStorage = path.join(
+    process.env.APPDATA || path.join(homeDir, 'AppData', 'Roaming'),
+    'Code',
+    'User',
+    'globalStorage'
+  );
+} else if (process.platform === 'darwin') {
+  vscodeGlobalStorage = path.join(
+    homeDir,
+    'Library',
+    'Application Support',
+    'Code',
+    'User',
+    'globalStorage'
+  );
+} else {
+  vscodeGlobalStorage = path.join(
+    homeDir,
+    '.config',
+    'Code',
+    'User',
+    'globalStorage'
+  );
+}
+
 const clineSettingsPath = path.join(
-  process.env.APPDATA || path.join(homeDir, 'AppData', 'Roaming'),
-  'Code',
-  'User',
-  'globalStorage',
+  vscodeGlobalStorage,
   'saoudrizwan.claude-dev',
   'settings',
   'cline_mcp_settings.json'
 );
 
+const rooSettingsPath = path.join(
+  vscodeGlobalStorage,
+  'rooveterinaryinc.roo-cline',
+  'settings',
+  'cline_mcp_settings.json'
+);
+
+let clineConfigured = false;
 if (fs.existsSync(path.dirname(clineSettingsPath))) {
   const clineOk = updateJsonConfig(clineSettingsPath, (cfg) => {
     cfg.mcpServers = cfg.mcpServers || {};
@@ -186,8 +218,20 @@ if (fs.existsSync(path.dirname(clineSettingsPath))) {
     return cfg;
   });
   statusReport.push({ target: 'VS Code (Cline)', status: clineOk ? 'Configured' : 'Skipped' });
-} else {
-  statusReport.push({ target: 'VS Code (Cline)', status: 'Not detected (skipped)' });
+  clineConfigured = true;
+}
+
+if (fs.existsSync(path.dirname(rooSettingsPath))) {
+  const rooOk = updateJsonConfig(rooSettingsPath, (cfg) => {
+    cfg.mcpServers = cfg.mcpServers || {};
+    cfg.mcpServers.pixasso = pixassoMcpConfig;
+    return cfg;
+  });
+  statusReport.push({ target: 'VS Code (Roo Code)', status: rooOk ? 'Configured' : 'Skipped' });
+}
+
+if (!clineConfigured && !fs.existsSync(path.dirname(rooSettingsPath))) {
+  statusReport.push({ target: 'VS Code (Cline / Roo)', status: 'Not detected (skipped)' });
 }
 
 // 7. Output Final Status Report

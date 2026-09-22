@@ -9,6 +9,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png"/>
   <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
   <link rel="alternate icon" href="favicon.ico"/>
+  <link rel="llms-txt" type="text/plain" href="llms.txt"/>
+  <meta name="agent-api" content="llms.txt" data-protocol="mcp-2024-11-05" data-tools="6" data-catalogs="31"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
@@ -955,6 +957,316 @@
       text-decoration: none;
     }
     .footer-links a:hover { color: var(--ink-primary); }
+
+    /* Agent Mode Toggle & Slide-Over Inspector Drawer */
+    .agent-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-color: var(--border-accent);
+      position: relative;
+    }
+
+    .agent-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: var(--radius-circle);
+      background: #33ff66;
+      box-shadow: 0 0 6px #33ff66;
+      display: inline-block;
+      animation: pulseAgent 2s infinite ease-in-out;
+    }
+
+    [data-theme="paper"] .agent-pulse-dot {
+      background: #2563eb;
+      box-shadow: 0 0 6px rgba(37, 99, 235, 0.6);
+    }
+
+    @keyframes pulseAgent {
+      0%, 100% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
+
+    .agent-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 9998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .agent-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .agent-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(720px, 100vw);
+      background: var(--bg-surface);
+      border-left: 1px solid var(--border);
+      box-shadow: -10px 0 35px rgba(0, 0, 0, 0.45);
+      z-index: 9999;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .agent-drawer.open {
+      transform: translateX(0);
+    }
+
+    .agent-drawer-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .agent-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .agent-pill {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--radius-full);
+      background: var(--ink-primary);
+      color: var(--bg);
+    }
+
+    [data-theme="paper"] .agent-pill { color: #fbfaf7; }
+    [data-theme="crt"] .agent-pill { color: #090d0b; }
+    [data-theme="amoled"] .agent-pill { color: #000000; }
+
+    .agent-mono-dim {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+    }
+
+    .agent-drawer-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink-primary);
+    }
+
+    .agent-close-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--ink-secondary);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+
+    .agent-close-btn:hover {
+      border-color: var(--border-accent);
+      color: var(--ink-primary);
+    }
+
+    .agent-drawer-tabs {
+      display: flex;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      padding: 0.45rem 0.85rem;
+      gap: 0.35rem;
+    }
+
+    .agent-tab-btn {
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .agent-tab-btn:hover {
+      color: var(--ink-primary);
+      border-color: var(--border-accent);
+    }
+
+    .agent-tab-btn.active {
+      color: var(--bg);
+      background: var(--ink-primary);
+      border-color: var(--ink-primary);
+      font-weight: 600;
+    }
+
+    [data-theme="paper"] .agent-tab-btn.active { color: #fbfaf7; }
+    [data-theme="crt"] .agent-tab-btn.active { color: #090d0b; }
+    [data-theme="amoled"] .agent-tab-btn.active { color: #000000; }
+
+    .agent-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+    }
+
+    .agent-pane {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .agent-pane.active {
+      display: flex;
+    }
+
+    .agent-control-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      background: var(--bg-elevated);
+      padding: 0.6rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .agent-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .agent-select {
+      background: var(--bg);
+      color: var(--ink-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.65rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .agent-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-left: auto;
+    }
+
+    .agent-preset-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--ink-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .agent-preset-btn:hover {
+      border-color: var(--border-accent);
+      color: var(--ink-primary);
+    }
+
+    .agent-pre {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ink-primary);
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 480px;
+    }
+
+    .agent-textarea {
+      width: 100%;
+      height: 140px;
+      background: var(--bg);
+      color: var(--ink-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      resize: vertical;
+      outline: none;
+    }
+
+    .agent-tester-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .agent-field-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .agent-subhead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .agent-telemetry {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--ink-primary);
+    }
+
+    .tester-run-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 0.65rem 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .code-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -984,6 +1296,7 @@
         <li><a href="#preview"><span class="nav-hotkey">[V]</span> Preview</a></li>
         <li><a href="#examples"><span class="nav-hotkey">[E]</span> Examples</a></li>
         <li><a href="#install"><span class="nav-hotkey">[I]</span> Install</a></li>
+        <li><a href="#agent" id="navAgentLink"><span class="nav-hotkey">[A]</span> Agent Mode</a></li>
         <li><a href="https://cursor.directory/plugins/pixasso" target="_blank" title="Cursor Plugin Directory"><span class="nav-hotkey">[C]</span> Cursor</a></li>
         <li><a href="https://www.npmjs.com/package/pixasso-mcp" target="_blank" title="npm package"><span class="nav-hotkey">[N]</span> npm</a></li>
         <li><a href="https://github.com/Erebuzzz/pixasso" target="_blank"><span class="nav-hotkey">[G]</span> GitHub</a></li>
@@ -994,6 +1307,11 @@
         <button class="pill-btn" id="btnCRT" type="button" aria-label="CRT phosphor theme">CRT-mono</button>
         <button class="pill-btn" id="btnAmoled" type="button" aria-label="Pitch black AMOLED theme">AMOLED</button>
         <button class="pill-btn" id="btnSound" type="button" aria-label="Toggle sound feedback">Audio: On</button>
+        <button class="pill-btn agent-toggle-btn" id="btnAgentMode" type="button" aria-label="Toggle Agent Mode" title="Toggle Agent Inspector (Hotkey: A)">
+          <span class="agent-pulse-dot" aria-hidden="true"></span>
+          <span>Agent Mode</span>
+          <span class="nav-hotkey">[A]</span>
+        </button>
       </div>
     </div>
   </header>
@@ -1423,27 +1741,154 @@
 
       <div class="install-box">
         <div class="tab-header">
-          <button class="tab-btn active" data-tab="unified">Unified Installer</button>
-          <button class="tab-btn" data-tab="npm">npm Registry</button>
-          <button class="tab-btn" data-tab="cursor">Cursor Directory</button>
+          <button class="tab-btn active" data-tab="skills">skills.sh (Universal)</button>
+          <button class="tab-btn" data-tab="npm">npm / npx</button>
+          <button class="tab-btn" data-tab="cursor">Cursor IDE</button>
           <button class="tab-btn" data-tab="mcpregistry">MCP Registry</button>
           <button class="tab-btn" data-tab="antigravity">Antigravity</button>
           <button class="tab-btn" data-tab="claude">Claude Desktop</button>
           <button class="tab-btn" data-tab="claudecode">Claude Code</button>
+          <button class="tab-btn" data-tab="clone">Local Clone</button>
         </div>
 
         <div class="tab-content" id="tabContent">
           <div class="code-snippet">
-            <code id="installCommand">node scripts/install.js</code>
-            <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+            <pre style="margin: 0; flex: 1; overflow-x: auto; white-space: pre-wrap; word-break: break-all;"><code id="installCommand">npx skills add Erebuzzz/pixasso</code></pre>
+            <div class="code-actions">
+              <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+              <a class="copy-btn" id="tabExtLink" href="https://www.skills.sh/erebuzzz/pixasso/pixasso" target="_blank" style="text-decoration: none;">skills.sh &nearr;</a>
+            </div>
           </div>
-          <p id="installDesc" style="margin-top: 1rem; font-size: 0.82rem; color: var(--ink-secondary);">
-            Auto-detects and installs Pixasso MCP Server, Antigravity plugin bundle, and global Cursor / Claude configurations.
+          <p id="installDesc" style="margin-top: 1rem; font-size: 0.82rem; color: var(--ink-secondary); line-height: 1.6;">
+            Universal skill install for Cursor, Claude Desktop, Antigravity, and Codex via official skills.sh.
           </p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Agent Mode Backdrop & Slide-over Inspector Drawer -->
+  <div class="agent-backdrop" id="agentBackdrop" aria-hidden="true"></div>
+  <aside class="agent-drawer" id="agentDrawer" role="dialog" aria-modal="true" aria-label="Pixasso Agent Inspector">
+    <div class="agent-drawer-header">
+      <div>
+        <div class="agent-badge-row">
+          <span class="agent-pulse-dot" aria-hidden="true"></span>
+          <span class="agent-pill">AGENT INSPECTOR</span>
+          <span class="agent-mono-dim">JSON-RPC 2.0 // MCP v1.0.4</span>
+        </div>
+        <h2 class="agent-drawer-title">Pixasso Machine Interface</h2>
+      </div>
+      <div class="agent-header-actions">
+        <button class="agent-close-btn" id="agentCloseBtn" type="button" aria-label="Close Agent Inspector">
+          <span>Close</span>
+          <span class="nav-hotkey">[Esc]</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="agent-drawer-tabs">
+      <button class="agent-tab-btn active" data-agent-tab="tools">Tool Schemas (6)</button>
+      <button class="agent-tab-btn" data-agent-tab="tester">Live Payload Tester</button>
+      <button class="agent-tab-btn" data-agent-tab="prompts">System Prompts (3)</button>
+      <button class="agent-tab-btn" data-agent-tab="llmstxt">llms.txt</button>
+    </div>
+
+    <div class="agent-drawer-body">
+      <!-- Tab 1: Tool Schemas -->
+      <div class="agent-pane active" id="paneTools">
+        <div class="agent-control-bar">
+          <label for="agentToolSelect" class="agent-label">Select Tool:</label>
+          <select id="agentToolSelect" class="agent-select">
+            <option value="pixasso_discover_intent">pixasso_discover_intent</option>
+            <option value="pixasso_search_references">pixasso_search_references</option>
+            <option value="pixasso_generate_genome">pixasso_generate_genome</option>
+            <option value="pixasso_generate_brain">pixasso_generate_brain</option>
+            <option value="pixasso_audit_design">pixasso_audit_design</option>
+            <option value="pixasso_generate_test_plan">pixasso_generate_test_plan</option>
+          </select>
+          <button class="copy-btn" id="copyToolSchemaBtn" type="button">Copy Schema</button>
+          <button class="copy-btn" id="sendToTesterBtn" type="button">Load in Tester &rarr;</button>
+        </div>
+        <div class="agent-tool-info">
+          <p id="agentToolDesc" style="font-size: 0.82rem; color: var(--ink-secondary); margin-bottom: 0.75rem;"></p>
+          <pre class="agent-pre"><code id="agentToolSchemaCode"></code></pre>
+        </div>
+      </div>
+
+      <!-- Tab 2: Live Payload Tester -->
+      <div class="agent-pane" id="paneTester">
+        <div class="agent-control-bar">
+          <label for="testerToolSelect" class="agent-label">Tool:</label>
+          <select id="testerToolSelect" class="agent-select">
+            <option value="pixasso_discover_intent">pixasso_discover_intent</option>
+            <option value="pixasso_search_references">pixasso_search_references</option>
+            <option value="pixasso_generate_genome">pixasso_generate_genome</option>
+            <option value="pixasso_generate_brain">pixasso_generate_brain</option>
+            <option value="pixasso_audit_design">pixasso_audit_design</option>
+            <option value="pixasso_generate_test_plan">pixasso_generate_test_plan</option>
+          </select>
+          <div class="agent-presets">
+            <button class="agent-preset-btn" data-preset="discover_app" type="button">Brief: SaaS App</button>
+            <button class="agent-preset-btn" data-preset="audit_card" type="button">Audit: Cliché Check</button>
+            <button class="agent-preset-btn" data-preset="genome_crt" type="button">Genome: CRT Mode</button>
+            <button class="agent-preset-btn" data-preset="test_plan" type="button">Test: 4-Viewport</button>
+          </div>
+        </div>
+
+        <div class="agent-tester-grid">
+          <div class="agent-field-block">
+            <div class="agent-subhead">
+              <span>Input Payload (JSON Arguments):</span>
+              <button class="copy-btn" id="resetPayloadBtn" type="button">Reset</button>
+            </div>
+            <textarea id="testerInput" class="agent-textarea" spellcheck="false"></textarea>
+            <button class="primary-btn tester-run-btn" id="testerRunBtn" type="button">
+              <span>Execute Tool Call (Simulated stdio)</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+
+          <div class="agent-field-block">
+            <div class="agent-subhead">
+              <span>Execution Output:</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span id="testerLatency" class="agent-telemetry">Ready</span>
+                <button class="copy-btn" id="copyOutputBtn" type="button">Copy Response</button>
+              </div>
+            </div>
+            <pre class="agent-pre" style="min-height: 160px;"><code id="testerOutput">Select a tool and press "Execute Tool Call" to view the simulated JSON-RPC response.</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: System Prompts -->
+      <div class="agent-pane" id="panePrompts">
+        <div class="agent-control-bar">
+          <label for="promptSelect" class="agent-label">Prompt Spec:</label>
+          <select id="promptSelect" class="agent-select">
+            <option value="master">Pixasso Master System Prompt</option>
+            <option value="discovery">Adaptive Discovery Protocol</option>
+            <option value="critique">Objective Design Critique Rubric</option>
+          </select>
+          <button class="copy-btn" id="copyPromptBtn" type="button" style="margin-left: auto;">Copy Prompt</button>
+        </div>
+        <pre class="agent-pre" style="max-height: 520px;"><code id="promptCode"></code></pre>
+      </div>
+
+      <!-- Tab 4: llms.txt -->
+      <div class="agent-pane" id="paneLlmstxt">
+        <div class="agent-control-bar">
+          <span class="agent-mono-dim">Standard LLM Context: /llms.txt</span>
+          <div style="display: flex; gap: 0.4rem; margin-left: auto;">
+            <button class="copy-btn" id="copyLlmstxtBtn" type="button">Copy File</button>
+            <a href="llms.txt" target="_blank" class="copy-btn" style="text-decoration: none;">View Raw &nearr;</a>
+          </div>
+        </div>
+        <pre class="agent-pre" style="max-height: 520px;"><code id="llmstxtCode">Loading /llms.txt...</code></pre>
+      </div>
+    </div>
+  </aside>
 
   <!-- Footer -->
   <footer>
@@ -1527,7 +1972,11 @@
     window.addEventListener('keydown', (e) => {
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
       const key = e.key.toLowerCase();
-      if (key === 'p') {
+      if (e.key === 'Escape') {
+        closeAgentDrawer();
+      } else if (key === 'a') {
+        toggleAgentDrawer();
+      } else if (key === 'p') {
         const target = document.getElementById('pillars');
         if (target) target.scrollIntoView({ behavior: 'smooth' });
         playSound(600, 'sine');
@@ -1593,35 +2042,83 @@
     window.addEventListener('resize', updateViewportDimensions);
     setTimeout(updateViewportDimensions, 400);
 
-    // Install Tabs Data
+    // Install Tabs Data (100% Reality, Zero Placeholders)
     const tabData = {
-      unified: {
-        cmd: 'node scripts/install.js',
-        desc: 'Auto-detects and installs Pixasso MCP Server, Antigravity plugin bundle, and global Cursor / Claude configurations.'
+      skills: {
+        cmd: 'npx skills add Erebuzzz/pixasso',
+        desc: 'Universal skill install across Cursor, Claude Desktop, Antigravity, and Codex via official skills.sh.',
+        linkText: 'skills.sh ↗',
+        linkUrl: 'https://www.skills.sh/erebuzzz/pixasso/pixasso'
       },
       npm: {
         cmd: 'npx -y pixasso-mcp',
-        desc: 'Official npm package published at https://www.npmjs.com/package/pixasso-mcp (v1.0.4).'
+        desc: 'Official npm package published at https://www.npmjs.com/package/pixasso-mcp (v1.0.4). Runs stdio MCP server directly.',
+        linkText: 'npmjs.com ↗',
+        linkUrl: 'https://www.npmjs.com/package/pixasso-mcp'
       },
       cursor: {
-        cmd: 'npx skills add Erebuzzz/pixasso',
-        desc: 'Listed on the Cursor Plugin Directory at https://cursor.directory/plugins/pixasso. Installs skills and configures MCP.'
+        cmd: JSON.stringify({
+          mcpServers: {
+            pixasso: {
+              command: 'npx',
+              args: ['-y', 'pixasso-mcp']
+            }
+          }
+        }, null, 2),
+        desc: 'Add to ~/.cursor/mcp.json or .cursor/mcp.json. Or install via Cursor Plugin Directory (cursor.directory/plugins/pixasso).',
+        linkText: 'Cursor Directory ↗',
+        linkUrl: 'https://cursor.directory/plugins/pixasso'
       },
       mcpregistry: {
-        cmd: 'mcp-publisher publish',
-        desc: 'Official Model Context Protocol Registry entry: io.github.Erebuzzz/pixasso (active on registry.modelcontextprotocol.io).'
+        cmd: JSON.stringify({
+          mcpServers: {
+            pixasso: {
+              command: 'npx',
+              args: ['-y', 'pixasso-mcp']
+            }
+          }
+        }, null, 2),
+        desc: 'Official Model Context Protocol Registry entry: io.github.Erebuzzz/pixasso (active on registry.modelcontextprotocol.io).',
+        linkText: 'MCP Registry ↗',
+        linkUrl: 'https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.Erebuzzz/pixasso'
       },
       antigravity: {
-        cmd: 'cp -r plugins/pixasso ~/.gemini/config/plugins/pixasso',
-        desc: 'Installs the Pixasso plugin package directly into Google Antigravity config.'
+        cmd: JSON.stringify({
+          mcpServers: {
+            pixasso: {
+              command: 'npx',
+              args: ['-y', 'pixasso-mcp']
+            }
+          }
+        }, null, 2),
+        desc: 'Add to ~/.gemini/antigravity/mcp_config.json or install skill bundle via "npx skills add Erebuzzz/pixasso".',
+        linkText: 'skills.sh ↗',
+        linkUrl: 'https://www.skills.sh/erebuzzz/pixasso/pixasso'
       },
       claude: {
-        cmd: 'node scripts/install.js',
-        desc: 'Writes pixasso configuration into claude_desktop_config.json.'
+        cmd: JSON.stringify({
+          mcpServers: {
+            pixasso: {
+              command: 'npx',
+              args: ['-y', 'pixasso-mcp']
+            }
+          }
+        }, null, 2),
+        desc: 'Add to %APPDATA%/Claude/claude_desktop_config.json (Windows) or ~/Library/Application Support/Claude/claude_desktop_config.json (macOS).',
+        linkText: 'Model Context Protocol ↗',
+        linkUrl: 'https://modelcontextprotocol.io'
       },
       claudecode: {
-        cmd: '/plugin marketplace add Erebuzzz/pixasso',
-        desc: 'Registers Pixasso marketplace and MCP plugin directly with Claude Code.'
+        cmd: 'claude mcp add pixasso npx -y pixasso-mcp',
+        desc: 'Registers Pixasso MCP server with the Claude Code CLI. Or use: /plugin marketplace add Erebuzzz/pixasso',
+        linkText: 'GitHub Repo ↗',
+        linkUrl: 'https://github.com/Erebuzzz/pixasso'
+      },
+      clone: {
+        cmd: 'git clone https://github.com/Erebuzzz/pixasso.git && cd pixasso && npm install && node scripts/install.js',
+        desc: 'Clone the repository and run the automated multi-platform installer to configure local paths across all installed editors.',
+        linkText: 'GitHub Repo ↗',
+        linkUrl: 'https://github.com/Erebuzzz/pixasso'
       }
     };
 
@@ -1629,6 +2126,7 @@
     const cmdEl = document.getElementById('installCommand');
     const descEl = document.getElementById('installDesc');
     const copyBtn = document.getElementById('copyBtn');
+    const tabExtLink = document.getElementById('tabExtLink');
 
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1636,8 +2134,14 @@
         btn.classList.add('active');
         const key = btn.getAttribute('data-tab');
         const data = tabData[key];
-        cmdEl.textContent = data.cmd;
-        descEl.textContent = data.desc;
+        if (data) {
+          cmdEl.textContent = data.cmd;
+          descEl.textContent = data.desc;
+          if (tabExtLink) {
+            tabExtLink.href = data.linkUrl;
+            tabExtLink.textContent = data.linkText;
+          }
+        }
         playSound(480, 'sine', 0.05);
       });
     });
@@ -1648,6 +2152,653 @@
       playSound(880, 'sine', 0.15);
       setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
     });
+
+    // ==========================================
+    // AGENT MODE CONTROLLER & SIMULATION ENGINE
+    // ==========================================
+    const agentDrawer = document.getElementById('agentDrawer');
+    const agentBackdrop = document.getElementById('agentBackdrop');
+    const btnAgentMode = document.getElementById('btnAgentMode');
+    const navAgentLink = document.getElementById('navAgentLink');
+    const agentCloseBtn = document.getElementById('agentCloseBtn');
+    const agentTabButtons = document.querySelectorAll('.agent-tab-btn');
+    const agentPanes = document.querySelectorAll('.agent-pane');
+
+    function openAgentDrawer() {
+      if (agentDrawer && agentBackdrop) {
+        agentDrawer.classList.add('open');
+        agentBackdrop.classList.add('open');
+        playSound(720, 'sine', 0.09);
+      }
+    }
+
+    function closeAgentDrawer() {
+      if (agentDrawer && agentBackdrop) {
+        agentDrawer.classList.remove('open');
+        agentBackdrop.classList.remove('open');
+        playSound(440, 'triangle', 0.07);
+      }
+    }
+
+    function toggleAgentDrawer() {
+      if (agentDrawer && agentDrawer.classList.contains('open')) {
+        closeAgentDrawer();
+      } else {
+        openAgentDrawer();
+      }
+    }
+
+    if (btnAgentMode) btnAgentMode.addEventListener('click', toggleAgentDrawer);
+    if (navAgentLink) {
+      navAgentLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openAgentDrawer();
+      });
+    }
+    if (agentCloseBtn) agentCloseBtn.addEventListener('click', closeAgentDrawer);
+    if (agentBackdrop) agentBackdrop.addEventListener('click', closeAgentDrawer);
+
+    // Agent Drawer Tab Switching
+    agentTabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        agentTabButtons.forEach(b => b.classList.remove('active'));
+        agentPanes.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        const tabKey = btn.getAttribute('data-agent-tab');
+        const paneMap = {
+          tools: 'paneTools',
+          tester: 'paneTester',
+          prompts: 'panePrompts',
+          llmstxt: 'paneLlmstxt'
+        };
+        const targetPane = document.getElementById(paneMap[tabKey]);
+        if (targetPane) targetPane.classList.add('active');
+        playSound(520, 'sine', 0.04);
+      });
+    });
+
+    // Tool Schemas Store
+    const TOOL_SCHEMAS = {
+      pixasso_discover_intent: {
+        description: 'Initiate adaptive intent discovery for a frontend project across the 16 pillars and generate tailored popup questions.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            projectArchetype: {
+              type: 'string',
+              enum: ['full_web_app', 'editorial_landing_page', 'creative_3d_canvas', 'design_system', 'general'],
+              description: 'The primary archetype of the frontend project.'
+            },
+            description: {
+              type: 'string',
+              description: 'Initial brief or description of the project.'
+            },
+            targetAudience: {
+              type: 'string',
+              description: 'Target audience or user persona if known.'
+            }
+          },
+          required: ['projectArchetype', 'description']
+        }
+      },
+      pixasso_search_references: {
+        description: 'Search across all 20 Pixasso design reference catalogs, 11 templates, and the 16 frontend pillars (31 total resources).',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            query: {
+              type: 'string',
+              description: 'Keywords to search across design references and templates.'
+            },
+            category: {
+              type: 'string',
+              enum: ['all', 'reference', 'template'],
+              description: 'Filter category.'
+            },
+            tag: {
+              type: 'string',
+              description: 'Filter by tag (e.g. typography, motion, a11y, 3d, components).'
+            }
+          },
+          required: ['query']
+        }
+      },
+      pixasso_generate_genome: {
+        description: 'Validate design decisions and compile a machine-readable design-genome.yaml specification.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            projectName: { type: 'string', description: 'Name of the project or app.' },
+            themeMode: {
+              type: 'string',
+              enum: ['paper', 'crt_mono', 'amoled_black', 'custom'],
+              description: 'Visual theme mode.'
+            },
+            groundTone: { type: 'string', description: 'Hex ground tone (#fbfaf7, #090d0b, #000000).' },
+            typography: {
+              type: 'object',
+              properties: {
+                displayFont: { type: 'string', description: 'Display headline font.' },
+                bodyFont: { type: 'string', description: 'Body reading font.' },
+                monoFont: { type: 'string', description: 'Monospace font for data/code.' },
+                scaleRatio: { type: 'string', description: 'Modular scale ratio (1.25, 1.333, 1.414).' }
+              },
+              required: ['displayFont', 'bodyFont', 'monoFont']
+            },
+            colorTokens: {
+              type: 'object',
+              properties: {
+                primary: { type: 'string', description: 'Primary ink color.' },
+                accent: { type: 'string', description: 'Highlight accent color.' },
+                border: { type: 'string', description: 'Border divider color.' }
+              },
+              required: ['primary', 'accent', 'border']
+            },
+            dimensionality: {
+              type: 'string',
+              enum: ['2d_planar', '2.5d_parallax', '3d_webgl'],
+              description: 'Visual dimensionality.'
+            },
+            motionFeel: { type: 'string', description: 'Motion pacing and easing description.' }
+          },
+          required: ['projectName', 'themeMode', 'groundTone', 'typography', 'colorTokens']
+        }
+      },
+      pixasso_generate_brain: {
+        description: 'Build a Graphify-style Mermaid visualization mapping design decisions and Task DAG execution state.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            projectName: { type: 'string', description: 'Name of the project.' },
+            decisions: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  category: { type: 'string' },
+                  choice: { type: 'string' },
+                  rationale: { type: 'string' }
+                },
+                required: ['category', 'choice', 'rationale']
+              },
+              description: 'List of key design decisions.'
+            },
+            tasks: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  title: { type: 'string' },
+                  role: { type: 'string' },
+                  status: { type: 'string', enum: ['pending', 'running', 'completed', 'blocked'] },
+                  dependencies: { type: 'array', items: { type: 'string' } }
+                },
+                required: ['id', 'title', 'role', 'status']
+              },
+              description: 'Task DAG nodes.'
+            }
+          },
+          required: ['projectName', 'decisions']
+        }
+      },
+      pixasso_audit_design: {
+        description: 'Audit HTML, JSX, or CSS against generic AI clichés, accessibility guidelines, and the 16-pillar rubric.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            componentMarkup: { type: 'string', description: 'HTML, JSX, or CSS to evaluate.' },
+            contextDescription: { type: 'string', description: 'Contextual design intent.' }
+          },
+          required: ['componentMarkup']
+        }
+      },
+      pixasso_generate_test_plan: {
+        description: 'Generate an automated multi-viewport testing matrix (390px, 768px, 1024px, 1440px) and overflow detection script.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            projectName: { type: 'string', description: 'Application or website name.' },
+            testUrl: { type: 'string', description: 'Target URL to test.' },
+            testedViewports: {
+              type: 'array',
+              items: { type: 'number' },
+              description: 'Viewport widths to test (defaults to 390, 768, 1024, 1440).'
+            }
+          },
+          required: ['projectName']
+        }
+      }
+    };
+
+    // Tool Schemas UI Binding
+    const agentToolSelect = document.getElementById('agentToolSelect');
+    const agentToolDesc = document.getElementById('agentToolDesc');
+    const agentToolSchemaCode = document.getElementById('agentToolSchemaCode');
+    const copyToolSchemaBtn = document.getElementById('copyToolSchemaBtn');
+    const sendToTesterBtn = document.getElementById('sendToTesterBtn');
+
+    function renderToolSchema(toolName) {
+      const tool = TOOL_SCHEMAS[toolName];
+      if (!tool) return;
+      if (agentToolDesc) agentToolDesc.textContent = tool.description;
+      if (agentToolSchemaCode) {
+        agentToolSchemaCode.textContent = JSON.stringify(tool, null, 2);
+      }
+    }
+
+    if (agentToolSelect) {
+      agentToolSelect.addEventListener('change', (e) => {
+        renderToolSchema(e.target.value);
+        playSound(480, 'sine', 0.04);
+      });
+      renderToolSchema(agentToolSelect.value);
+    }
+
+    if (copyToolSchemaBtn && agentToolSchemaCode) {
+      copyToolSchemaBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(agentToolSchemaCode.textContent);
+        copyToolSchemaBtn.textContent = 'Copied!';
+        playSound(880, 'sine', 0.12);
+        setTimeout(() => { copyToolSchemaBtn.textContent = 'Copy Schema'; }, 2000);
+      });
+    }
+
+    if (sendToTesterBtn && agentToolSelect) {
+      sendToTesterBtn.addEventListener('click', () => {
+        const toolName = agentToolSelect.value;
+        const testerToolSelect = document.getElementById('testerToolSelect');
+        if (testerToolSelect) {
+          testerToolSelect.value = toolName;
+          loadPresetForTool(toolName);
+        }
+        // Switch to tester tab
+        const testerTabBtn = document.querySelector('.agent-tab-btn[data-agent-tab="tester"]');
+        if (testerTabBtn) testerTabBtn.click();
+      });
+    }
+
+    // Tester Preset Payloads Store
+    const PRESETS = {
+      discover_app: {
+        tool: 'pixasso_discover_intent',
+        payload: {
+          projectArchetype: 'full_web_app',
+          description: 'High-throughput operational telemetry dashboard with realtime streaming charts, Zod forms, and audit logging.',
+          targetAudience: 'Infrastructure site reliability engineers'
+        }
+      },
+      audit_card: {
+        tool: 'pixasso_audit_design',
+        payload: {
+          componentMarkup: '<div class="p-6 rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-600 backdrop-blur-md text-white shadow-xl flex items-center justify-between"><div class="flex items-center gap-3"><i class="lucide lucide-sparkles"></i><span>AI Magic Insights</span></div><button class="px-4 py-2 bg-white text-purple-700 rounded-full font-bold">Explore</button></div>',
+          contextDescription: 'AI summary card in a SaaS workspace'
+        }
+      },
+      genome_crt: {
+        tool: 'pixasso_generate_genome',
+        payload: {
+          projectName: 'Phosphor-Core',
+          themeMode: 'crt_mono',
+          groundTone: '#090d0b',
+          typography: {
+            displayFont: 'Syne',
+            bodyFont: 'JetBrains Mono',
+            monoFont: 'JetBrains Mono',
+            scaleRatio: '1.25'
+          },
+          colorTokens: {
+            primary: '#33ff66',
+            accent: '#ffffff',
+            border: 'rgba(51, 255, 102, 0.25)'
+          },
+          dimensionality: '2.5d_parallax',
+          motionFeel: 'Phosphor cathode decay, snappy 120ms spring easing'
+        }
+      },
+      test_plan: {
+        tool: 'pixasso_generate_test_plan',
+        payload: {
+          projectName: 'Pixasso Core App',
+          testUrl: 'https://pixasso.erebuzzz.tech',
+          testedViewports: [390, 768, 1024, 1440]
+        }
+      }
+    };
+
+    const testerToolSelect = document.getElementById('testerToolSelect');
+    const testerInput = document.getElementById('testerInput');
+    const testerRunBtn = document.getElementById('testerRunBtn');
+    const testerOutput = document.getElementById('testerOutput');
+    const testerLatency = document.getElementById('testerLatency');
+    const copyOutputBtn = document.getElementById('copyOutputBtn');
+    const resetPayloadBtn = document.getElementById('resetPayloadBtn');
+    const presetButtons = document.querySelectorAll('.agent-preset-btn');
+
+    function loadPresetForTool(toolName) {
+      if (!testerInput) return;
+      if (toolName === 'pixasso_discover_intent') {
+        testerInput.value = JSON.stringify(PRESETS.discover_app.payload, null, 2);
+      } else if (toolName === 'pixasso_audit_design') {
+        testerInput.value = JSON.stringify(PRESETS.audit_card.payload, null, 2);
+      } else if (toolName === 'pixasso_generate_genome') {
+        testerInput.value = JSON.stringify(PRESETS.genome_crt.payload, null, 2);
+      } else if (toolName === 'pixasso_generate_test_plan') {
+        testerInput.value = JSON.stringify(PRESETS.test_plan.payload, null, 2);
+      } else if (toolName === 'pixasso_search_references') {
+        testerInput.value = JSON.stringify({ query: 'typography modular scale', category: 'reference' }, null, 2);
+      } else if (toolName === 'pixasso_generate_brain') {
+        testerInput.value = JSON.stringify({
+          projectName: 'Telemetry Hub',
+          decisions: [
+            { category: 'Typography', choice: 'Newsreader serif body with Syne display', rationale: 'Editorial authority' },
+            { category: 'Dimensionality', choice: '2.5D Parallax with hairlines', rationale: 'Architectural clarity' }
+          ],
+          tasks: [
+            { id: 'T1', title: 'Scaffold tokens', role: 'Art Director', status: 'completed', dependencies: [] },
+            { id: 'T2', title: 'Build telemetry feed', role: 'Frontend Architect', status: 'running', dependencies: ['T1'] }
+          ]
+        }, null, 2);
+      }
+    }
+
+    if (testerToolSelect) {
+      testerToolSelect.addEventListener('change', (e) => {
+        loadPresetForTool(e.target.value);
+        playSound(480, 'sine', 0.04);
+      });
+      loadPresetForTool(testerToolSelect.value);
+    }
+
+    presetButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-preset');
+        const p = PRESETS[key];
+        if (p && testerToolSelect && testerInput) {
+          testerToolSelect.value = p.tool;
+          testerInput.value = JSON.stringify(p.payload, null, 2);
+          playSound(560, 'sine', 0.05);
+        }
+      });
+    });
+
+    if (resetPayloadBtn && testerToolSelect) {
+      resetPayloadBtn.addEventListener('click', () => {
+        loadPresetForTool(testerToolSelect.value);
+        playSound(440, 'triangle', 0.05);
+      });
+    }
+
+    // Client-side Simulator Handlers
+    function simulateToolCall(name, args) {
+      switch (name) {
+        case 'pixasso_discover_intent':
+          return {
+            status: 'DISCOVERY_INITIALIZED',
+            projectArchetype: args.projectArchetype || 'full_web_app',
+            inquiryProtocol: 'Adaptive Discovery Matrix (16 Pillars)',
+            compulsoryGate: 'ask_question',
+            generatedQuestions: [
+              {
+                id: 'brand_status',
+                question: 'Do you have existing brand tokens/guidelines, or should Pixasso synthesize them from scratch?',
+                options: ['Existing tokens available', 'Synthesize from scratch (Recommended)']
+              },
+              {
+                id: 'typography_direction',
+                question: 'What typographic voice best conveys the intended authority?',
+                options: ['Architectural Grotesque + Newsreader Serif (Recommended)', 'CRT Phosphor Monospace', 'Clean Swiss Sans']
+              },
+              {
+                id: 'dimensionality',
+                question: 'What dimensionality mode suits the product experience?',
+                options: ['2.5D Layered Parallax with hairlines', '2D Precision Editorial Planar', '3D WebGL Spatial Canvas']
+              },
+              {
+                id: 'state_architecture',
+                question: 'Which client state and cache architecture will you employ?',
+                options: ['Zustand + TanStack Query (Recommended)', 'URL Search Params as single source of truth', 'Redux Toolkit']
+              }
+            ],
+            targetAudience: args.targetAudience || 'Production engineers and designers'
+          };
+
+        case 'pixasso_search_references':
+          return {
+            status: 'SEARCH_COMPLETE',
+            query: args.query,
+            totalCatalogsIndexed: 31,
+            matches: [
+              {
+                id: 'frontend-architecture-pillars',
+                title: 'Frontend Architecture Pillars',
+                category: 'reference',
+                excerpt: 'Complete guide covering the 16 foundational pillars of frontend engineering and design craft.'
+              },
+              {
+                id: 'typography-system',
+                title: 'Typography System and Mathematics',
+                category: 'reference',
+                excerpt: 'Typeface.fyi integration, modular scales (1.25 Major Third, 1.333 Perfect Fourth), line lengths, and optical pairings.'
+              },
+              {
+                id: 'anti-patterns-and-critique',
+                title: 'Anti-Patterns and Objective Critique',
+                category: 'reference',
+                excerpt: 'Elimination of generic AI design tropes: purple gradients, Lucide icon flooding, and blanket glassmorphism.'
+              }
+            ]
+          };
+
+        case 'pixasso_generate_genome':
+          return {
+            status: 'GENOME_VALIDATED',
+            genomeYaml: [
+              `# Design Genome Specification: ${args.projectName}`,
+              `version: "1.0.4"`,
+              `meta:`,
+              `  projectName: "${args.projectName}"`,
+              `  themeMode: "${args.themeMode}"`,
+              `tokens:`,
+              `  groundTone: "${args.groundTone}"`,
+              `  typography:`,
+              `    display: "${args.typography?.displayFont || 'Syne'}"`,
+              `    body: "${args.typography?.bodyFont || 'Newsreader'}"`,
+              `    mono: "${args.typography?.monoFont || 'JetBrains Mono'}"`,
+              `    ratio: "${args.typography?.scaleRatio || '1.25'}"`,
+              `  colors:`,
+              `    primary: "${args.colorTokens?.primary || '#191919'}"`,
+              `    accent: "${args.colorTokens?.accent || '#2563eb'}"`,
+              `    border: "${args.colorTokens?.border || 'rgba(25,25,25,0.12)'}"`,
+              `  dimensionality: "${args.dimensionality || '2.5d_parallax'}"`,
+              `  motion: "${args.motionFeel || '180ms easeOutQuad'}"`
+            ].join('\n')
+          };
+
+        case 'pixasso_generate_brain':
+          return {
+            status: 'BRAIN_GENERATED',
+            graphifyMermaid: [
+              'flowchart TD',
+              `  subgraph Decisions ["${args.projectName} Architectural Decisions"]`,
+              ...(args.decisions || []).map((d, i) => `    D${i}["${d.category}: ${d.choice}"]`),
+              '  end',
+              '  subgraph Tasks ["Task DAG State"]',
+              ...(args.tasks || []).map(t => `    ${t.id}["${t.title} (${t.status})"]`),
+              '  end',
+              '  Decisions --> Tasks'
+            ].join('\n')
+          };
+
+        case 'pixasso_audit_design':
+          const markup = args.componentMarkup || '';
+          const hasPurple = /purple|indigo|#8b5cf6|#6366f1/i.test(markup);
+          const hasLucide = /lucide|sparkles/i.test(markup);
+          const hasBlur = /backdrop-blur/i.test(markup);
+          const antiPatterns = [];
+          if (hasPurple) antiPatterns.push('Generic AI trope: saturated purple-to-indigo gradient background.');
+          if (hasLucide) antiPatterns.push('Lucide sparkle cliché: decorative sparkle icon adding zero informational density.');
+          if (hasBlur) antiPatterns.push('Blanket glassmorphism: muddy backdrop blur without crisp architectural borders.');
+
+          return {
+            status: 'AUDIT_COMPLETE',
+            overallGrade: antiPatterns.length > 0 ? 'NEEDS_REFACTOR' : 'EXEMPLARY',
+            score: Math.max(45, 100 - (antiPatterns.length * 25)),
+            rubric: '16-Pillar Frontend Engineering Framework',
+            antiPatternsDetected: antiPatterns,
+            remediation: [
+              'Replace purple gradient with purposeful ground tone (#fbfaf7 ivory, #090d0b phosphor, or #000000 AMOLED).',
+              'Replace decorative sparkle with high-contrast text label or telemetry metric.',
+              'Use crisp 1px solid border tokens instead of muddy blur layers.'
+            ]
+          };
+
+        case 'pixasso_generate_test_plan':
+          return {
+            status: 'TEST_PLAN_GENERATED',
+            projectName: args.projectName,
+            targetUrl: args.testUrl || 'http://localhost:3000',
+            viewports: args.testedViewports || [390, 768, 1024, 1440],
+            gates: [
+              'Zero horizontal DOM overflow (scrollWidth === innerWidth)',
+              'Touch targets >= 44x44px on mobile (390px)',
+              'WCAG 2.2 AA color contrast >= 4.5:1',
+              'Web Audio context latency < 15ms'
+            ],
+            overflowDetectionScript: '(() => { const doc = document.documentElement; return { scrollW: doc.scrollWidth, clientW: doc.clientWidth, overflow: doc.scrollWidth > doc.clientWidth }; })();'
+          };
+
+        default:
+          return { error: 'Unknown tool: ' + name };
+      }
+    }
+
+    if (testerRunBtn && testerInput && testerOutput && testerLatency) {
+      testerRunBtn.addEventListener('click', () => {
+        let args = {};
+        try {
+          args = JSON.parse(testerInput.value);
+        } catch (err) {
+          testerOutput.textContent = 'JSON Parse Error: ' + err.message;
+          testerLatency.textContent = 'Syntax Error';
+          playSound(220, 'sawtooth', 0.15);
+          return;
+        }
+
+        const toolName = testerToolSelect ? testerToolSelect.value : 'pixasso_discover_intent';
+        const t0 = performance.now();
+        const result = simulateToolCall(toolName, args);
+        const t1 = performance.now();
+        const elapsed = (t1 - t0).toFixed(1);
+
+        testerLatency.textContent = `200 OK (${elapsed}ms)`;
+        testerOutput.textContent = JSON.stringify(result, null, 2);
+        playSound(880, 'sine', 0.08);
+      });
+    }
+
+    if (copyOutputBtn && testerOutput) {
+      copyOutputBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(testerOutput.textContent);
+        copyOutputBtn.textContent = 'Copied!';
+        playSound(880, 'sine', 0.12);
+        setTimeout(() => { copyOutputBtn.textContent = 'Copy Response'; }, 2000);
+      });
+    }
+
+    // System Prompts Store
+    const PROMPTS = {
+      master: `# Pixasso Master System Prompt
+
+You are Pixasso, a senior design-research, intent-discovery, and full-spectrum frontend engineering orchestrator inspired by Picasso's multidisciplinary breadth.
+
+## Operating Pipeline
+Intent Discovery -> Design Genome -> Decision Graph -> Capability Graph -> Task DAG -> Specialist Agents -> Automated QA.
+
+## Behavioral Guardrails
+1. Compulsory Interactive Discovery: Call ask_question before planning or generating code. Inquire on brand identity, typography voice, ground tone, dimensionality (2D vs 2.5D vs 3D), state architecture, and conversion goals.
+2. Zero Emdashes: Never generate emdashes. Use colons, commas, parentheses, or hyphens for lists.
+3. Low Emoji: Professional restraint with minimal to zero emojis.
+4. Human-Written Code Quality: Modular, readable, accessible HTML5, modern CSS custom properties, and typed TypeScript.
+5. Anti-Pattern Guardrail: Eliminate generic AI design tropes (purple gradients, Lucide flooding, universal scroll-fades, blanket glassmorphism).`,
+
+      discovery: `# Adaptive Discovery Protocol Prompt
+
+Conduct an adaptive intent inquiry across the 16 Frontend Architecture Pillars:
+- Brand Status: Existing design tokens vs formulate from scratch.
+- Typography: Headline personality, serif vs sans vs mono, modular scale ratio.
+- Dimensionality: 2D Planar vs 2.5D Layered Parallax vs 3D WebGL Spatial Suite.
+- State & Forms: Zustand vs Redux, Zod validation contracts, optimistic UI updates.
+- Sensory Craft: Subtle Web Audio API tactile cues.
+
+Formulate 2 to 3 curated directions rather than asking vague open-ended questions.`,
+
+      critique: `# Objective Design Critique Rubric Prompt
+
+Evaluate the candidate interface code against the 16 Pillars:
+1. Anti-Pattern Check: Does the code contain purple gradients, Lucide flooding, or muddy glassmorphism?
+2. Accessibility Check: Are semantic landmark tags (main, nav, article) used? Do interactive controls have visible focus rings and accessible names?
+3. Typography System: Is there a consistent modular scale and optical rhythm?
+4. Viewport Discipline: Are fluid units used? Does the component guarantee zero DOM overflow at 390px, 768px, 1024px, and 1440px?`
+    };
+
+    const promptSelect = document.getElementById('promptSelect');
+    const promptCode = document.getElementById('promptCode');
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+
+    function renderPrompt(promptKey) {
+      if (promptCode && PROMPTS[promptKey]) {
+        promptCode.textContent = PROMPTS[promptKey];
+      }
+    }
+
+    if (promptSelect) {
+      promptSelect.addEventListener('change', (e) => {
+        renderPrompt(e.target.value);
+        playSound(480, 'sine', 0.04);
+      });
+      renderPrompt(promptSelect.value);
+    }
+
+    if (copyPromptBtn && promptCode) {
+      copyPromptBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(promptCode.textContent);
+        copyPromptBtn.textContent = 'Copied!';
+        playSound(880, 'sine', 0.12);
+        setTimeout(() => { copyPromptBtn.textContent = 'Copy Prompt'; }, 2000);
+      });
+    }
+
+    // llms.txt Loader
+    const llmstxtCode = document.getElementById('llmstxtCode');
+    const copyLlmstxtBtn = document.getElementById('copyLlmstxtBtn');
+
+    fetch('llms.txt')
+      .then(res => res.text())
+      .then(text => {
+        if (llmstxtCode) llmstxtCode.textContent = text;
+      })
+      .catch(() => {
+        if (llmstxtCode) {
+          llmstxtCode.textContent = '# Pixasso Machine Manifest\\nAvailable via /llms.txt on pixasso.erebuzzz.tech';
+        }
+      });
+
+    if (copyLlmstxtBtn && llmstxtCode) {
+      copyLlmstxtBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(llmstxtCode.textContent);
+        copyLlmstxtBtn.textContent = 'Copied!';
+        playSound(880, 'sine', 0.12);
+        setTimeout(() => { copyLlmstxtBtn.textContent = 'Copy File'; }, 2000);
+      });
+    }
+
+    // URL Query Parameter Detection (?mode=agent or #agent)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mode') === 'agent' || urlParams.get('agent') === 'true' || window.location.hash === '#agent') {
+      setTimeout(openAgentDrawer, 350);
+    }
 
     // Generative Wave Canvas
     const canvas = document.getElementById('heroWaveCanvas');

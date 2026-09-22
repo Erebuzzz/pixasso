@@ -25,7 +25,7 @@ import { PIXASSO_PROMPTS, renderPrompt } from './prompts/index';
 const server = new Server(
   {
     name: 'pixasso-mcp',
-    version: '1.0.0'
+    version: '1.0.4'
   },
   {
     capabilities: {
@@ -169,7 +169,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: 'pixasso_audit_design',
-        description: 'Audit HTML, JSX, or CSS against generic AI clichés, accessibility guidelines, and the 5-pillar rubric.',
+        description: 'Audit HTML, JSX, or CSS against generic AI clichés, accessibility guidelines, and the 16-pillar rubric.',
         inputSchema: {
           type: 'object',
           properties: {

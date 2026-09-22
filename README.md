@@ -3,6 +3,8 @@
 > **The Complete End-to-End Frontend Engineering & Design Orchestrator for AI Agents and Humans.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/pixasso-mcp?color=cb3837)](https://www.npmjs.com/package/pixasso-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/pixasso-mcp?color=2b7489)](https://www.npmjs.com/package/pixasso-mcp)
 [![MCP Server](https://img.shields.io/badge/MCP%20Server-JSON--RPC%202.0-orange)](mcp-server/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](mcp-server/src/)
 [![Platform Support](https://img.shields.io/badge/Platforms-Cursor%20|%20Antigravity%20|%20Claude%20|%20VS%20Code-brightgreen)](scripts/install.js)
@@ -234,52 +236,81 @@ The installer automatically configures:
 
 ### 2. Manual Configuration by Platform
 
-#### Cursor IDE
+#### Published npm Package (Recommended)
+You can run Pixasso on any machine with Node.js installed using `npx -y pixasso-mcp`.
+
+##### Cursor IDE
 Add to `~/.cursor/mcp.json` or `.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "pixasso": {
-      "command": "node",
-      "args": ["d:/pixasso/mcp-server/build/index.js"]
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
     }
   }
 }
 ```
+Or install via skills.sh:
+```bash
+npx skills add Erebuzzz/pixasso
+```
 
-#### Claude Desktop
+##### Claude Desktop
 Add to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
 
 ```json
 {
   "mcpServers": {
     "pixasso": {
-      "command": "node",
-      "args": ["d:/pixasso/mcp-server/build/index.js"]
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
     }
   }
 }
 ```
 
-#### Claude Code CLI
+##### Claude Code CLI
 ```bash
-claude mcp add pixasso node d:/pixasso/mcp-server/build/index.js
+claude mcp add pixasso npx -y pixasso-mcp
+```
+Or register the marketplace plugin:
+```bash
+/plugin marketplace add Erebuzzz/pixasso
 ```
 
-#### Google Antigravity & Gemini CLI
-Pixasso is packaged as an Antigravity plugin under `plugins/pixasso/` and as an active skill under `skills/pixasso/`. Configure `~/.gemini/antigravity/mcp_config.json`:
+##### Google Antigravity & Gemini CLI
+Add to `~/.gemini/antigravity/mcp_config.json` or `~/.gemini/config/mcp_config.json`:
 
 ```json
 {
   "mcpServers": {
     "pixasso": {
-      "command": "node",
-      "args": ["d:/pixasso/mcp-server/build/index.js"]
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
     }
   }
 }
 ```
+Or install the skill bundle:
+```bash
+npx skills add Erebuzzz/pixasso
+```
+
+##### Local Repository Clone (Developers)
+If running against your local clone instead of npm, replace `"command": "npx"` and `"args": ["-y", "pixasso-mcp"]` with:
+```json
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "node",
+      "args": ["/path/to/pixasso/mcp-server/build/index.js"]
+    }
+  }
+}
+```
+Tip: running `node scripts/install.js` configures your local clone path automatically across all installed editors.
 
 #### ChatGPT / OpenAI Custom GPTs / Web UIs
 For web-based LLMs, import the standalone system prompts located in:
@@ -298,7 +329,7 @@ The Pixasso MCP Server (`mcp-server/`) exposes the full design intelligence engi
 | Tool Name | Purpose | Parameters |
 | :--- | :--- | :--- |
 | `pixasso_discover_intent` | Generates adaptive discovery questions based on archetype | `archetype`, `user_input` |
-| `pixasso_search_references` | Queries the 31 curated catalogs for UI, motion, and design patterns | `query`, `category`, `limit` |
+| `pixasso_search_references` | Queries the 31 curated catalogs (20 references, 11 templates) for UI, motion, and design patterns | `query`, `category`, `limit` |
 | `pixasso_generate_genome` | Compiles design choices into a validated `design-genome.yaml` | `theme`, `typography`, `dimensionality`, `motion`, `primary_cta` |
 | `pixasso_generate_brain` | Generates a Graphify-style Mermaid decision map and Task DAG | `genome`, `project_name` |
 | `pixasso_audit_design` | Audits code against generic AI anti-patterns and the 16 pillars | `code_snippet`, `context` |
@@ -306,7 +337,7 @@ The Pixasso MCP Server (`mcp-server/`) exposes the full design intelligence engi
 
 ### Resources
 
-Access 31 curated knowledge resources directly through `pixasso://` URIs:
+Access 31 curated knowledge resources directly through `pixasso://` URIs (20 references and 11 templates):
 - `pixasso://references/frontend-architecture-pillars`
 - `pixasso://references/typography-system`
 - `pixasso://references/sound-and-sensory-design`

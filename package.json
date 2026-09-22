@@ -1,8 +1,19 @@
 {
-  "name": "pixasso",
-  "version": "1.0.0",
-  "description": "The complete end-to-end frontend engineering and design skill, plugin, and MCP server.",
+  "name": "pixasso-mcp",
+  "version": "1.0.4",
+  "description": "The complete end-to-end frontend engineering and design orchestrator, plugin, and MCP server.",
   "main": "mcp-server/build/index.js",
+  "bin": {
+    "pixasso-mcp": "mcp-server/build/index.js"
+  },
+  "homepage": "https://pixasso.erebuzzz.tech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Erebuzzz/pixasso.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Erebuzzz/pixasso/issues"
+  },
   "scripts": {
     "build": "npm run build --prefix mcp-server",
     "start": "node mcp-server/build/index.js",
@@ -12,7 +23,10 @@
   },
   "keywords": [
     "pixasso",
+    "pixasso-mcp",
+    "mcp",
     "mcp-server",
+    "model-context-protocol",
     "frontend-engineering",
     "design-system",
     "typography",

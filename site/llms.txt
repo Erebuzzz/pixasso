@@ -1,0 +1,176 @@
+# Pixasso
+
+> The complete end-to-end frontend engineering and design orchestrator, skill, and Model Context Protocol (MCP) server for AI agents and humans.
+
+Pixasso is an autonomous design-research and frontend engineering framework inspired by Picasso's multidisciplinary breadth. It guides coding agents and engineers through an end-to-end craft pipeline:
+Intent Discovery -> Design Genome -> Decision Graph -> Capability Graph -> Task DAG -> Specialist Agents -> Automated QA.
+
+- Web Showcase: https://pixasso.erebuzzz.tech
+- Official npm Package: https://www.npmjs.com/package/pixasso-mcp (v1.0.4)
+- MCP Registry Identifier: io.github.Erebuzzz/pixasso
+- Skills.sh Registry: https://www.skills.sh/erebuzzz/pixasso/pixasso
+- Cursor Plugin Directory: https://cursor.directory/plugins/pixasso
+- GitHub Repository: https://github.com/Erebuzzz/pixasso
+
+---
+
+## Quickstart & Installation
+
+### 1. skills.sh (Universal for Cursor, Claude Desktop, Antigravity, Codex)
+```bash
+npx skills add Erebuzzz/pixasso
+```
+
+### 2. npm CLI / npx (Zero Install MCP Execution)
+```bash
+npx -y pixasso-mcp
+```
+
+### 3. Cursor IDE (`~/.cursor/mcp.json` or `.cursor/mcp.json`)
+```json
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
+    }
+  }
+}
+```
+
+### 4. Claude Desktop (`claude_desktop_config.json`)
+```json
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
+    }
+  }
+}
+```
+
+### 5. Claude Code CLI
+```bash
+claude mcp add pixasso npx -y pixasso-mcp
+```
+
+### 6. Google Antigravity (`~/.gemini/antigravity/mcp_config.json`)
+```json
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
+    }
+  }
+}
+```
+
+### 7. Unified Local Clone Installer
+```bash
+git clone https://github.com/Erebuzzz/pixasso.git
+cd pixasso
+npm install
+node scripts/install.js
+```
+
+---
+
+## The 16 Frontend Architecture Pillars
+
+1. UI and Visual Design: Semantic color scales, modular typography ratios, surface elevation, and design tokens.
+2. Semantic HTML and JSX: Accessible landmark tags (`main`, `nav`, `article`, `header`), ARIA roles, and zero div soup.
+3. Modern CSS Systems: CSS custom properties, container queries, Cascade Layers (`@layer`), subgrid, and zero-runtime styling.
+4. TypeScript Excellence: Strict type checking, discriminated unions for UI state, zero `any`, and typed event handlers.
+5. Framework Architecture: Component lifecycle, React 19, Next.js App Router, Svelte 5 runes, and Islands Architecture.
+6. State Management: Server state caching (TanStack Query), client state (Zustand), and URL search params as source of truth.
+7. API and Realtime Data: Type-safe REST, GraphQL, WebSockets, Server-Sent Events, and optimistic UI updates.
+8. Client Authentication UX: Route protection guards, PKCE OAuth flows, token refresh queues, and zero credential flicker.
+9. Forms and Input Validation: React Hook Form, Zod schema validation, accessible fieldsets, and inline error states.
+10. Motion and WebGL 3D: Kinetic direction, Motion (motion.dev), GSAP timelines, Three.js shaders, and `prefers-reduced-motion`.
+11. Responsive Multi-Device Design: Fluid typography (`clamp()`), container queries, and verified viewports (390px, 768px, 1024px, 1440px).
+12. Accessibility (WCAG 2.2 AA/AAA): Screen reader tree navigation, keyboard traps, high-contrast focus rings, and ARIA live regions.
+13. Core Web Vitals: LCP under 1.2s, INP under 100ms, zero CLS, streaming SSR, and image srcset optimization.
+14. Frontend Testing: Vitest component unit tests, Playwright end-to-end tests, and automated visual regression sweeps.
+15. Tooling and Bundling: Vite, Turbopack, Biome/ESLint linting, automated dependency updates, and container builds.
+16. Deployment and Edge CDN: Edge runtime handlers, cache headers (`stale-while-revalidate`), atomic rollbacks, and CI/CD.
+
+---
+
+## MCP Server Tools Reference (JSON-RPC 2.0)
+
+### 1. `pixasso_discover_intent`
+Initiates adaptive intent discovery for a frontend project across the 16 pillars and generates tailored popup questions.
+- Parameters:
+  - `projectArchetype` (string, enum: `full_web_app`, `editorial_landing_page`, `creative_3d_canvas`, `design_system`, `general`)
+  - `description` (string, required): Initial brief or problem description
+  - `targetAudience` (string, optional): Target persona or demographic
+
+### 2. `pixasso_search_references`
+Queries all 31 curated knowledge resources (20 reference catalogs and 11 templates) across the 16 frontend pillars.
+- Parameters:
+  - `query` (string, required): Search keywords
+  - `category` (string, enum: `all`, `reference`, `template`)
+  - `tag` (string, optional): Tag filter (`typography`, `motion`, `a11y`, `3d`, `components`)
+
+### 3. `pixasso_generate_genome`
+Validates design decisions and compiles a machine-readable `design-genome.yaml` specification.
+- Parameters:
+  - `projectName` (string, required)
+  - `themeMode` (string, enum: `paper`, `crt_mono`, `amoled_black`, `custom`)
+  - `groundTone` (string, required, hex code)
+  - `typography` (object, required: `displayFont`, `bodyFont`, `monoFont`, `scaleRatio`)
+  - `colorTokens` (object, required: `primary`, `accent`, `border`)
+  - `dimensionality` (string, enum: `2d_planar`, `2.5d_parallax`, `3d_webgl`)
+  - `motionFeel` (string, optional)
+
+### 4. `pixasso_generate_brain`
+Builds a Graphify-style Mermaid visualization mapping design decisions and Task DAG execution state.
+- Parameters:
+  - `projectName` (string, required)
+  - `decisions` (array of objects with `category`, `choice`, `rationale`)
+  - `tasks` (array of objects with `id`, `title`, `role`, `status`, `dependencies`)
+
+### 5. `pixasso_audit_design`
+Audits HTML, JSX, or CSS against generic AI clichés, accessibility guidelines, and the 16-pillar rubric.
+- Parameters:
+  - `componentMarkup` (string, required): Markup or CSS to evaluate
+  - `contextDescription` (string, optional): Contextual design intent
+
+### 6. `pixasso_generate_test_plan`
+Generates an automated multi-viewport testing matrix (390px, 768px, 1024px, 1440px) and overflow detection script.
+- Parameters:
+  - `projectName` (string, required)
+  - `testUrl` (string, optional)
+  - `testedViewports` (array of numbers, optional: defaults to `[390, 768, 1024, 1440]`)
+
+---
+
+## Curated Knowledge Resources (`pixasso://`)
+
+- `pixasso://references/frontend-architecture-pillars`: 16-pillar frontend engineering guide
+- `pixasso://references/discovery-framework`: Adaptive discovery questions matrix
+- `pixasso://references/design-genome`: Epistemic states and token schemas
+- `pixasso://references/design-brain`: Mermaid Graphify visualization templates
+- `pixasso://references/typography-system`: Typography mathematics and Typeface.fyi pairings
+- `pixasso://references/sound-and-sensory-design`: Web Audio API UISFX engine
+- `pixasso://references/interface-testing-and-qa`: Automated multi-viewport and overflow QA
+- `pixasso://references/anti-patterns-and-critique`: Generic AI design cliché elimination
+- `pixasso://templates/design-genome`: Design Genome YAML schema
+- `pixasso://templates/task-graph`: Task Graph YAML schema
+- `pixasso://templates/interface-test-plan`: Interface QA verification checklist
+
+---
+
+## Master System Prompt for AI Agents
+
+When acting as Pixasso, adhere to the core operating principle:
+Intent -> Design Genome -> Decision Graph -> Capability Graph -> Task DAG -> Specialist Agents -> Validation.
+
+Key Behavioral Guardrails:
+1. Compulsory Interactive Discovery: Never assume styling. Inquire about aesthetic feel and architecture first using `ask_question`.
+2. Zero Emdashes: Never use emdashes. Use colons, commas, parentheses, or hyphens for lists.
+3. Low Emoji: Maintain professional restraint with minimal to zero emojis.
+4. Human-Written Code Quality: Production-tested, semantic HTML5, WCAG AA accessible, responsive, and performant.
+5. Anti-Pattern Guardrail: Eliminate generic AI tropes (purple gradients, Lucide flooding, universal scroll-fades, blanket glassmorphism).
