@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
   <link rel="alternate icon" href="favicon.ico"/>
   <link rel="llms-txt" type="text/plain" href="llms.txt"/>
-  <meta name="agent-api" content="llms.txt" data-protocol="mcp-2024-11-05" data-tools="6" data-catalogs="31"/>
+  <meta name="agent-api" content="llms.txt" data-protocol="mcp-2024-11-05" data-tools="7" data-catalogs="31"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
@@ -2301,7 +2301,7 @@
           </div>
           <div class="telemetry-box">
             <span class="telemetry-label">TOOLS</span>
-            <span class="telemetry-val">6 ACTIVE</span>
+            <span class="telemetry-val">7 ACTIVE</span>
           </div>
           <div class="telemetry-box">
             <span class="telemetry-label">RESOURCES</span>
@@ -2339,7 +2339,7 @@
       <!-- Workstation Navigation Tabs -->
       <div class="agent-deck-tabs" role="tablist">
         <button class="agent-tab-btn active" data-agent-tab="tester" type="button" role="tab" aria-selected="true">Live Payload Tester</button>
-        <button class="agent-tab-btn" data-agent-tab="tools" type="button" role="tab" aria-selected="false">Tool Schemas (6)</button>
+        <button class="agent-tab-btn" data-agent-tab="tools" type="button" role="tab" aria-selected="false">Tool Schemas (7)</button>
         <button class="agent-tab-btn" data-agent-tab="prompts" type="button" role="tab" aria-selected="false">System Prompts (3)</button>
         <button class="agent-tab-btn" data-agent-tab="llmstxt" type="button" role="tab" aria-selected="false">Machine Manifests (/llms.txt)</button>
       </div>
@@ -2351,6 +2351,7 @@
           <select id="testerToolSelect" class="agent-select">
             <option value="pixasso_discover_intent">pixasso_discover_intent</option>
             <option value="pixasso_search_references">pixasso_search_references</option>
+            <option value="pixasso_fetch_reference">pixasso_fetch_reference</option>
             <option value="pixasso_generate_genome">pixasso_generate_genome</option>
             <option value="pixasso_generate_brain">pixasso_generate_brain</option>
             <option value="pixasso_audit_design">pixasso_audit_design</option>
@@ -2358,6 +2359,7 @@
           </select>
           <div class="agent-presets">
             <button class="agent-preset-btn" data-preset="discover_app" type="button">Preset: SaaS App</button>
+            <button class="agent-preset-btn" data-preset="fetch_ref" type="button">Preset: Fetch Ref</button>
             <button class="agent-preset-btn" data-preset="audit_card" type="button">Preset: Cliché Check</button>
             <button class="agent-preset-btn" data-preset="genome_crt" type="button">Preset: CRT Mode</button>
             <button class="agent-preset-btn" data-preset="test_plan" type="button">Preset: 4-Viewport</button>
@@ -2397,6 +2399,7 @@
           <select id="agentToolSelect" class="agent-select">
             <option value="pixasso_discover_intent">pixasso_discover_intent</option>
             <option value="pixasso_search_references">pixasso_search_references</option>
+            <option value="pixasso_fetch_reference">pixasso_fetch_reference</option>
             <option value="pixasso_generate_genome">pixasso_generate_genome</option>
             <option value="pixasso_generate_brain">pixasso_generate_brain</option>
             <option value="pixasso_audit_design">pixasso_audit_design</option>
@@ -2924,9 +2927,24 @@
             targetAudience: {
               type: 'string',
               description: 'Target audience or user persona if known.'
+            },
+            hasBrandIdentity: {
+              type: 'boolean',
+              description: 'Whether an existing brand identity exists or needs to be synthesized from scratch.'
+            },
+            referenceUrls: {
+              type: 'array',
+              items: { type: 'string' },
+              description: 'Optional list of reference URLs capturing the desired feel.'
             }
           },
           required: ['projectArchetype', 'description']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       pixasso_search_references: {
@@ -2949,6 +2967,36 @@
             }
           },
           required: ['query']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
+        }
+      },
+      pixasso_fetch_reference: {
+        description: 'Fetch and deconstruct a live reference website server-side. Extracts page title, meta description, heading structure (h1-h4), visible links, and readable text content. Detects client-rendered SPAs (Framer, Webflow, React shells).',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'string',
+              description: 'Target HTTP or HTTPS URL to fetch and analyze.'
+            },
+            focus: {
+              type: 'string',
+              enum: ['full', 'layout', 'typography', 'color', 'motion'],
+              description: 'Analytical focus area.'
+            }
+          },
+          required: ['url']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: false,
+          openWorldHint: true
         }
       },
       pixasso_generate_genome: {
@@ -2987,9 +3035,20 @@
               enum: ['2d_planar', '2.5d_parallax', '3d_webgl'],
               description: 'Visual dimensionality.'
             },
-            motionFeel: { type: 'string', description: 'Motion pacing and easing description.' }
+            motionFeel: { type: 'string', description: 'Motion pacing and easing description.' },
+            references: {
+              type: 'array',
+              items: { type: 'object' },
+              description: 'Audited reference sites analyzed via pixasso_fetch_reference.'
+            }
           },
           required: ['projectName', 'themeMode', 'groundTone', 'typography', 'colorTokens']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       pixasso_generate_brain: {
@@ -3028,6 +3087,12 @@
             }
           },
           required: ['projectName', 'decisions']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       pixasso_audit_design: {
@@ -3039,6 +3104,12 @@
             contextDescription: { type: 'string', description: 'Contextual design intent.' }
           },
           required: ['componentMarkup']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       pixasso_generate_test_plan: {
@@ -3055,6 +3126,12 @@
             }
           },
           required: ['projectName']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       }
     };
@@ -3116,6 +3193,13 @@
           targetAudience: 'Infrastructure site reliability engineers'
         }
       },
+      fetch_ref: {
+        tool: 'pixasso_fetch_reference',
+        payload: {
+          url: 'https://stripe.com',
+          focus: 'full'
+        }
+      },
       audit_card: {
         tool: 'pixasso_audit_design',
         payload: {
@@ -3167,6 +3251,8 @@
       if (!testerInput) return;
       if (toolName === 'pixasso_discover_intent') {
         testerInput.value = JSON.stringify(PRESETS.discover_app.payload, null, 2);
+      } else if (toolName === 'pixasso_fetch_reference') {
+        testerInput.value = JSON.stringify(PRESETS.fetch_ref.payload, null, 2);
       } else if (toolName === 'pixasso_audit_design') {
         testerInput.value = JSON.stringify(PRESETS.audit_card.payload, null, 2);
       } else if (toolName === 'pixasso_generate_genome') {
@@ -3276,6 +3362,27 @@
                 excerpt: 'Elimination of generic AI design tropes: purple gradients, Lucide icon flooding, and blanket glassmorphism.'
               }
             ]
+          };
+
+        case 'pixasso_fetch_reference':
+          return {
+            status: 'FETCH_COMPLETE',
+            url: args.url || 'https://stripe.com',
+            finalUrl: args.url || 'https://stripe.com',
+            fetchedAt: new Date().toISOString(),
+            renderedContentDetected: true,
+            bodyCharacterCount: 1420,
+            title: 'Financial Infrastructure for the Internet',
+            description: 'Stripe powers online commerce with developer-first payment APIs and architectural restraint.',
+            headings: [
+              { level: 'h1', text: 'Financial Infrastructure for the Internet' },
+              { level: 'h2', text: 'Modular Global Payments' },
+              { level: 'h3', text: 'Architectural Hierarchy' }
+            ],
+            linksSample: ['Documentation', 'Pricing', 'API Reference', 'Global Network'],
+            focus: args.focus || 'full',
+            epistemicStatus: 'known',
+            capabilitiesNote: 'Server-side HTML extraction via streaming engine. Computed CSS and layout require headless browser tools.'
           };
 
         case 'pixasso_generate_genome':

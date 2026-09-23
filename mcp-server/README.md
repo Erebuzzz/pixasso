@@ -146,15 +146,18 @@ Add to `~/.gemini/antigravity/mcp_config.json`:
 
 ## Exposed MCP Tools
 
-| Tool | Purpose | Key Inputs |
-| :--- | :--- | :--- |
-| `pixasso_discover_intent` | Deterministic template-question picker across 16 pillars and brand genesis. Generates targeted interactive popup questions for host `ask_question`. | `projectArchetype`, `description`, `hasBrandIdentity`, `referenceUrls` |
-| `pixasso_search_references` | Search across 31 curated design & architecture catalogs. | `query`, `category`, `tag` |
-| `pixasso_fetch_reference` | Fetches live HTML, extracts title/headings/readable text, detects client SPAs, and caches verified fetches. | `url`, `focus` |
-| `pixasso_generate_genome` | Compiles tokens, color ramps, typography, and libraries into `design-genome.yaml`. Enforces programmatic hard gate on verified references. | `archetype`, `palette`, `typography`, `references` |
-| `pixasso_generate_brain` | Synthesizes a visual Graphify Mermaid decision graph and Task DAG. | `decisions`, `components` |
-| `pixasso_audit_design` | Evaluates markup and styling against AI design anti-patterns. | `codeSnippet`, `context` |
-| `pixasso_generate_test_plan` | Produces multi-viewport QA plans (390px, 768px, 1024px, 1440px). | `targetUrls`, `checkSensory` |
+Every tool conforms to the official Model Context Protocol specification and declares all four directory hints (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`):
+
+| Tool | Purpose | Key Inputs | Hints |
+| :--- | :--- | :--- | :--- |
+| `pixasso_discover_intent` | Deterministic template-question picker across 16 pillars and brand genesis. Generates targeted interactive popup questions for host `ask_question`. | `projectArchetype`, `description`, `targetAudience`, `hasBrandIdentity`, `referenceUrls` | readOnly, idempotent |
+| `pixasso_search_references` | Search across 31 curated design & architecture catalogs. | `query`, `category`, `tag` | readOnly, idempotent |
+| `pixasso_fetch_reference` | Fetches live HTML, extracts title/headings/readable text, detects client SPAs, and caches verified fetches. | `url`, `focus` | readOnly, openWorld |
+| `pixasso_generate_genome` | Compiles tokens, color ramps, typography, and libraries into `design-genome.yaml`. Enforces programmatic hard gate on verified references. | `projectName`, `themeMode`, `groundTone`, `typography`, `colorTokens`, `references` | readOnly, idempotent |
+| `pixasso_generate_brain` | Synthesizes a visual Graphify Mermaid decision graph and Task DAG. | `projectName`, `decisions`, `tasks` | readOnly, idempotent |
+| `pixasso_audit_design` | Evaluates markup and styling against AI design anti-patterns. | `componentMarkup`, `contextDescription` | readOnly, idempotent |
+| `pixasso_generate_test_plan` | Produces multi-viewport QA plans (390px, 768px, 1024px, 1440px). | `projectName`, `testUrl`, `testedViewports` | readOnly, idempotent |
+
 
 ### Tool Scope & Design Integrity Hard Gates
 

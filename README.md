@@ -336,15 +336,18 @@ The Pixasso MCP Server (`mcp-server/`) exposes the full design intelligence engi
 
 ### Tools
 
-| Tool Name | Purpose | Parameters |
-| :--- | :--- | :--- |
-| `pixasso_discover_intent` | Generates adaptive discovery questions based on archetype | `archetype`, `user_input`, `referenceUrls` |
-| `pixasso_search_references` | Queries the 31 curated catalogs (20 references, 11 templates) for UI, motion, and design patterns | `query`, `category`, `limit` |
-| `pixasso_fetch_reference` | Fetches and analyzes live URLs via streaming HTML and Readability, extracting headings, copy, and detecting client-rendered SPA shells | `url` |
-| `pixasso_generate_genome` | Compiles design choices into a validated `design-genome.yaml` with hard-gate reference verification | `projectName`, `themeMode`, `groundTone`, `typography`, `colorTokens`, `references` |
-| `pixasso_generate_brain` | Generates a Graphify-style Mermaid decision map and Task DAG | `genomeYaml`, `projectName` |
-| `pixasso_audit_design` | Audits code against generic AI anti-patterns and the 16 pillars | `code`, `componentType`, `framework` |
-| `pixasso_generate_test_plan` | Produces an operational multi-viewport interface test plan | `componentName`, `targetViewports`, `interactiveBehaviors` |
+Every tool conforms to the official Model Context Protocol specification and declares all four directory hints (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`):
+
+| Tool Name | Purpose | Parameters | Annotations / Hints |
+| :--- | :--- | :--- | :--- |
+| `pixasso_discover_intent` | Generates adaptive discovery questions across 16 pillars and brand identity | `projectArchetype`, `description`, `targetAudience`, `hasBrandIdentity`, `referenceUrls` | readOnly, idempotent |
+| `pixasso_search_references` | Searches 31 curated catalogs (20 references, 11 templates) | `query`, `category`, `tag` | readOnly, idempotent |
+| `pixasso_fetch_reference` | Fetches live HTML, extracts title/headings/readable text, and flags client SPAs | `url`, `focus` | readOnly, openWorld |
+| `pixasso_generate_genome` | Compiles tokens into validated `design-genome.yaml` with reference verification hard gate | `projectName`, `themeMode`, `groundTone`, `typography`, `colorTokens`, `dimensionality`, `motionFeel`, `references` | readOnly, idempotent |
+| `pixasso_generate_brain` | Generates Graphify-style Mermaid decision map and Task DAG | `projectName`, `decisions`, `tasks` | readOnly, idempotent |
+| `pixasso_audit_design` | Audits code against generic AI clichés, accessibility guidelines, and 16 pillars | `componentMarkup`, `contextDescription` | readOnly, idempotent |
+| `pixasso_generate_test_plan` | Produces automated multi-viewport testing matrix (390px, 768px, 1024px, 1440px) | `projectName`, `testUrl`, `testedViewports` | readOnly, idempotent |
+
 
 ### Resources
 
