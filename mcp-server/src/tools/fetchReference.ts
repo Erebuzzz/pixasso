@@ -25,38 +25,41 @@ export {
 import { recordVerifiedFetch, VerifiedFetchEntry } from './referenceCache';
 
 export async function handleFetchReference(input: FetchReferenceInput) {
-  const targetUrl = input.url.trim();
-
-  let response: Response;
   try {
-    response = await fetch(targetUrl, {
-      signal: AbortSignal.timeout(12000),
-      headers: {
-        'User-Agent': 'Pixasso-Reference-Fetcher/1.0 (+https://pixasso.erebuzzz.tech; reference deconstruction engine)',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-      },
-      redirect: 'follow'
-    });
-  } catch (err: any) {
-    if (err.name === 'TimeoutError') {
-      throw new Error(`Connection timed out after 12s while fetching reference: ${targetUrl}`);
+    const validated = fetchReferenceSchema.parse(input);
+    const targetUrl = validated.url.trim();
+
+    let response: Response;
+    try {
+      response = await fetch(targetUrl, {
+        signal: AbortSignal.timeout(12000),
+        headers: {
+          'User-Agent': 'Pixasso-Reference-Fetcher/1.0 (+https://pixasso.erebuzzz.tech; reference deconstruction engine)',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+        },
+        redirect: 'follow'
+      });
+    } catch (err: any) {
+      if (err.name === 'TimeoutError') {
+        throw new Error(`Connection timed out after 12s while fetching reference: ${targetUrl}`);
+      }
+      throw new Error(`Network failure while fetching reference ${targetUrl}: ${err.message || String(err)}`);
     }
-    throw new Error(`Network failure while fetching reference ${targetUrl}: ${err.message || String(err)}`);
-  }
 
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status} (${response.statusText}) when requesting reference: ${targetUrl}`);
-  }
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status} (${response.statusText}) when requesting reference: ${targetUrl}`);
+    }
 
-  const finalUrl = response.url || targetUrl;
-  const html = await response.text();
+    const finalUrl = response.url || targetUrl;
+    const html = await response.text();
 
-  if (!html || html.trim().length === 0) {
-    throw new Error(`Received empty response body from: ${finalUrl}`);
-  }
+    if (!html || html.trim().length === 0) {
+      throw new Error(`Received empty response body from: ${finalUrl}`);
+    }
 
-  const contentHash = crypto.createHash('sha256').update(html).digest('hex').substring(0, 16);
-  const fetchedAt = new Date().toISOString();
+    const contentHash = crypto.createHash('sha256').update(html).digest('hex').substring(0, 16);
+    const fetchedAt = new Date().toISOString();
+
 
   // Parse DOM with linkedom
   const { document } = parseHTML(html);
@@ -155,25 +158,29 @@ export async function handleFetchReference(input: FetchReferenceInput) {
     );
   }
 
-  return {
-    url: targetUrl,
-    finalUrl,
-    fetchedAt,
-    contentHash,
-    renderedContentDetected,
-    bodyCharacterCount: bodyLength,
-    title,
-    description,
-    headings: headings.slice(0, 30),
-    linksSample: linksSample.slice(0, 25),
-    extractedTextSample: extractedBodyText.slice(0, 1500),
-    focus: input.focus,
-    advisoryNotice,
-    epistemicStatus: renderedContentDetected ? 'known' : 'unavailable',
-    capabilitiesNote: (
-      'This tool extracts server-rendered textual and semantic heading content via static HTTP fetch. ' +
-      'It cannot evaluate computed CSS, layout geometry, rendered typography styles, or WebGL/canvas scenes. ' +
-      'For visual styling, use headless browser tools with rendered DOM inspection or request user screenshots.'
-    )
-  };
+    return {
+      url: targetUrl,
+      finalUrl,
+      fetchedAt,
+      contentHash,
+      renderedContentDetected,
+      bodyCharacterCount: bodyLength,
+      title,
+      description,
+      headings: headings.slice(0, 30),
+      linksSample: linksSample.slice(0, 25),
+      extractedTextSample: extractedBodyText.slice(0, 1500),
+      focus: input.focus,
+      advisoryNotice,
+      epistemicStatus: renderedContentDetected ? 'known' : 'unavailable',
+      capabilitiesNote: (
+        'This tool extracts server-rendered textual and semantic heading content via static HTTP fetch. ' +
+        'It cannot evaluate computed CSS, layout geometry, rendered typography styles, or WebGL/canvas scenes. ' +
+        'For visual styling, use headless browser tools with rendered DOM inspection or request user screenshots.'
+      )
+    };
+  } catch (error: any) {
+    throw new Error('Failed to fetch reference: ' + error.message);
+  }
 }
+

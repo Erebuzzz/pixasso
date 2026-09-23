@@ -518,8 +518,10 @@ Pixasso actively guards against generic AI aesthetics:
 
 ---
 
-## License & Contributing
+## License & Privacy
 
 - **License**: MIT. See [LICENSE](LICENSE).
+- **Privacy Policy**: Zero telemetry, zero prompt recording, ephemeral in-memory processing. See [PRIVACY.md](PRIVACY.md).
 - **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md).
 - **Security**: See [SECURITY.md](SECURITY.md).
+

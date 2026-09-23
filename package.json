@@ -20,6 +20,7 @@
     "start": "node mcp-server/build/index.js",
     "serve": "node scripts/serve.js",
     "install:all": "node scripts/install.js",
+    "test": "npm run test:mcp && npm run test --prefix mcp-server",
     "test:mcp": "node scripts/test-mcp.js",
     "sync:skills": "node scripts/sync-skill.js",
     "sync:check": "node scripts/sync-skill.js --check",

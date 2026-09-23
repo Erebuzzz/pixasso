@@ -17,9 +17,12 @@ export const discoverIntentSchema = z.object({
 export type DiscoverIntentInput = z.infer<typeof discoverIntentSchema>;
 
 export function handleDiscoverIntent(input: DiscoverIntentInput) {
-  const { projectArchetype, description } = input;
+  try {
+    const validated = discoverIntentSchema.parse(input);
+    const { projectArchetype, description } = validated;
 
-  const personas = [
+
+    const personas = [
     {
       name: 'Obsidian Precision',
       groundTone: 'Dark slate (#0a0f12)',
@@ -193,12 +196,15 @@ export function handleDiscoverIntent(input: DiscoverIntentInput) {
     );
   }
 
-  return {
-    status: 'discovery_initiated',
-    projectArchetype,
-    briefSummary: description,
-    recommendedPersonas: personas,
-    compulsoryPopupQuestions: questions,
-    instruction: 'Call the host ask_question tool with compulsoryPopupQuestions before drafting implementation_plan.md.'
-  };
+    return {
+      status: 'discovery_initiated',
+      projectArchetype,
+      briefSummary: description,
+      recommendedPersonas: personas,
+      compulsoryPopupQuestions: questions,
+      instruction: 'Call the host ask_question tool with compulsoryPopupQuestions before drafting implementation_plan.md.'
+    };
+  } catch (error: any) {
+    throw new Error('Failed to formulate intent discovery: ' + error.message);
+  }
 }

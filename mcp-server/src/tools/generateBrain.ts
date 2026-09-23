@@ -19,38 +19,40 @@ export const generateBrainSchema = z.object({
 export type GenerateBrainInput = z.infer<typeof generateBrainSchema>;
 
 export function handleGenerateBrain(input: GenerateBrainInput) {
-  const { projectName, decisions, tasks } = input;
+  try {
+    const validated = generateBrainSchema.parse(input);
+    const { projectName, decisions, tasks = [] } = validated;
 
-  let mermaid = `flowchart TD
+    let mermaid = `flowchart TD
     subgraph DecisionTree ["Design Decisions: ${projectName}"]\n`;
 
-  decisions.forEach((d, idx) => {
-    const safeCat = d.category.replace(/[^a-zA-Z0-9]/g, '_');
-    const safeChoice = d.choice.replace(/["()]/g, "'");
-    mermaid += `        D_${idx}["${d.category}: ${safeChoice}"]\n`;
-  });
-
-  mermaid += `    end\n\n`;
-
-  if (tasks.length > 0) {
-    mermaid += `    subgraph TaskDAG ["Task Execution Pipeline"]\n`;
-    tasks.forEach(t => {
-      const statusIcon = t.status === 'completed' ? '[DONE]' : t.status === 'running' ? '[WIP]' : '[TODO]';
-      mermaid += `        T_${t.id}["${statusIcon} ${t.id}: ${t.title} (${t.role})"]\n`;
+    decisions.forEach((d, idx) => {
+      const safeCat = d.category.replace(/[^a-zA-Z0-9]/g, '_');
+      const safeChoice = d.choice.replace(/["()]/g, "'");
+      mermaid += `        D_${idx}["${d.category}: ${safeChoice}"]\n`;
     });
 
-    tasks.forEach(t => {
-      if (t.dependencies && t.dependencies.length > 0) {
-        t.dependencies.forEach(dep => {
-          mermaid += `        T_${dep} --> T_${t.id}\n`;
-        });
-      }
-    });
+    mermaid += `    end\n\n`;
 
-    mermaid += `    end\n\n    DecisionTree --> TaskDAG\n`;
-  }
+    if (tasks.length > 0) {
+      mermaid += `    subgraph TaskDAG ["Task Execution Pipeline"]\n`;
+      tasks.forEach(t => {
+        const statusIcon = t.status === 'completed' ? '[DONE]' : t.status === 'running' ? '[WIP]' : '[TODO]';
+        mermaid += `        T_${t.id}["${statusIcon} ${t.id}: ${t.title} (${t.role})"]\n`;
+      });
 
-  const markdown = `# Design Brain: ${projectName}
+      tasks.forEach(t => {
+        if (t.dependencies && t.dependencies.length > 0) {
+          t.dependencies.forEach(dep => {
+            mermaid += `        T_${dep} --> T_${t.id}\n`;
+          });
+        }
+      });
+
+      mermaid += `    end\n\n    DecisionTree --> TaskDAG\n`;
+    }
+
+    const markdown = `# Design Brain: ${projectName}
 
 ## Decision Map & Pipeline
 
@@ -62,9 +64,13 @@ ${mermaid}
 ${decisions.map(d => `- **${d.category}**: ${d.choice} (Rationale: ${d.rationale})`).join('\n')}
 `;
 
-  return {
-    projectName,
-    mermaidDiagram: mermaid,
-    fullMarkdown: markdown
-  };
+    return {
+      projectName,
+      mermaidDiagram: mermaid,
+      fullMarkdown: markdown
+    };
+  } catch (error: any) {
+    throw new Error('Failed to generate design brain: ' + error.message);
+  }
 }
+

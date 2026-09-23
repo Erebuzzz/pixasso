@@ -9,9 +9,11 @@ export const generateTestPlanSchema = z.object({
 export type GenerateTestPlanInput = z.infer<typeof generateTestPlanSchema>;
 
 export function handleGenerateTestPlan(input: GenerateTestPlanInput) {
-  const { projectName, testUrl, testedViewports } = input;
+  try {
+    const validated = generateTestPlanSchema.parse(input);
+    const { projectName, testUrl = 'http://localhost:3000', testedViewports = [390, 768, 1024, 1440] } = validated;
 
-  const overflowScript = `// Run in browser console or via Chrome DevTools MCP evaluate_script
+    const overflowScript = `// Run in browser console or via Chrome DevTools MCP evaluate_script
 const viewports = [${testedViewports.join(', ')}];
 console.log('Testing document overflow on ' + window.location.href);
 
@@ -34,18 +36,18 @@ if (elementsWithOverflow.length > 0) {
 }
 `;
 
-  const matrix = testedViewports.map(vp => ({
-    viewportWidth: `${vp}px`,
-    deviceCategory: vp <= 480 ? 'Mobile (iPhone 14/15)' : vp <= 800 ? 'Tablet Portrait (iPad Mini)' : vp <= 1100 ? 'Tablet Landscape' : 'Desktop (MacBook/FHD)',
-    criticalChecks: [
-      'Zero horizontal scroll (scrollWidth === innerWidth)',
-      vp <= 480 ? 'Mobile drawer/menu toggles smoothly' : 'Header navigation visible with hotkey badges',
-      vp <= 480 ? 'Touch targets >= 44x44px' : 'Hover states trigger micro-interaction',
-      'Typography maintains readable line lengths (55-75 chars)'
-    ]
-  }));
+    const matrix = testedViewports.map(vp => ({
+      viewportWidth: `${vp}px`,
+      deviceCategory: vp <= 480 ? 'Mobile (iPhone 14/15)' : vp <= 800 ? 'Tablet Portrait (iPad Mini)' : vp <= 1100 ? 'Tablet Landscape' : 'Desktop (MacBook/FHD)',
+      criticalChecks: [
+        'Zero horizontal scroll (scrollWidth === innerWidth)',
+        vp <= 480 ? 'Mobile drawer/menu toggles smoothly' : 'Header navigation visible with hotkey badges',
+        vp <= 480 ? 'Touch targets >= 44x44px' : 'Hover states trigger micro-interaction',
+        'Typography maintains readable line lengths (55-75 chars)'
+      ]
+    }));
 
-  const markdown = `# Interface Test Plan: ${projectName}
+    const markdown = `# Interface Test Plan: ${projectName}
 
 ## 1. Multi-Viewport Inspection Matrix
 | Viewport | Category | Critical Checks |
@@ -64,11 +66,15 @@ ${overflowScript}
 - SEO: >= 95
 `;
 
-  return {
-    projectName,
-    testUrl,
-    matrix,
-    overflowDetectionScript: overflowScript,
-    fullMarkdown: markdown
-  };
+    return {
+      projectName,
+      testUrl,
+      matrix,
+      overflowDetectionScript: overflowScript,
+      fullMarkdown: markdown
+    };
+  } catch (error: any) {
+    throw new Error('Failed to generate test plan: ' + error.message);
+  }
 }
+

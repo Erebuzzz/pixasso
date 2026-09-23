@@ -227,6 +227,8 @@ Pixasso orchestrates 16 distinct engineering disciplines:
 
 ---
 
-## License
+## License & Privacy
 
-MIT (c) Erebuzzz
+- **License**: MIT (c) Erebuzzz. See [LICENSE](../LICENSE).
+- **Privacy Policy**: Zero telemetry, zero prompt recording, ephemeral in-memory processing. See [PRIVACY.md](PRIVACY.md).
+

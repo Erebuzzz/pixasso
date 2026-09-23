@@ -18,6 +18,7 @@
     "dev:worker": "wrangler dev",
     "deploy:worker": "wrangler deploy",
     "type-check:worker": "tsc --project tsconfig.worker.json",
+    "test": "npx ts-node tests/all-tools-coverage.test.ts",
     "start": "node build/index.js"
   },
   "dependencies": {

@@ -71,6 +71,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ['projectArchetype', 'description']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       {
@@ -94,6 +100,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ['query']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       {
@@ -113,6 +125,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ['url']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: false,
+          openWorldHint: true
         }
       },
       {
@@ -170,6 +188,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ['projectName', 'themeMode', 'groundTone', 'typography', 'colorTokens']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       {
@@ -209,6 +233,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ['projectName', 'decisions']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       {
@@ -221,6 +251,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             contextDescription: { type: 'string', description: 'Contextual design intent.' }
           },
           required: ['componentMarkup']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       },
       {
@@ -238,6 +274,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ['projectName']
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
         }
       }
     ]

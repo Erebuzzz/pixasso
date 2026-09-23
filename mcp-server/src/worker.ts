@@ -33,8 +33,11 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
       }
     };
 
+    const readOnlyHints = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
+    const openWorldHints = { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: true };
+
     // 1. pixasso_discover_intent
-    this.server.tool(
+    const t1 = this.server.tool(
       'pixasso_discover_intent',
       'Initiate adaptive intent discovery for a frontend project across the 16 pillars and generate tailored popup questions.',
       discoverIntentSchema.shape,
@@ -46,9 +49,10 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
         };
       }
     );
+    t1.annotations = readOnlyHints;
 
     // 2. pixasso_search_references
-    this.server.tool(
+    const t2 = this.server.tool(
       'pixasso_search_references',
       'Search across all 20 Pixasso design reference catalogs, 11 templates, and the 16 frontend pillars.',
       searchReferencesSchema.shape,
@@ -60,9 +64,10 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
         };
       }
     );
+    t2.annotations = readOnlyHints;
 
     // 3. pixasso_fetch_reference (Worker streaming HTMLRewriter variant)
-    this.server.tool(
+    const t3 = this.server.tool(
       'pixasso_fetch_reference',
       'Fetch and deconstruct a live reference site server-side using streaming HTMLRewriter. Inspects headings, visible links, readable text, and detects client-rendered SPA shells.',
       fetchReferenceSchema.shape,
@@ -74,9 +79,10 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
         };
       }
     );
+    t3.annotations = openWorldHints;
 
     // 4. pixasso_generate_genome
-    this.server.tool(
+    const t4 = this.server.tool(
       'pixasso_generate_genome',
       'Compile design tokens, typography system, color roles, and technical stack into a validated design-genome.yaml specification.',
       generateGenomeSchema.shape,
@@ -88,9 +94,10 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
         };
       }
     );
+    t4.annotations = readOnlyHints;
 
     // 5. pixasso_generate_brain
-    this.server.tool(
+    const t5 = this.server.tool(
       'pixasso_generate_brain',
       'Generate a visual Graphify-style Mermaid architectural decision graph and dependency-aware Task DAG.',
       generateBrainSchema.shape,
@@ -102,9 +109,10 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
         };
       }
     );
+    t5.annotations = readOnlyHints;
 
     // 6. pixasso_audit_design
-    this.server.tool(
+    const t6 = this.server.tool(
       'pixasso_audit_design',
       'Audit frontend code and design specifications against common AI anti-patterns and quality standards.',
       auditDesignSchema.shape,
@@ -116,9 +124,10 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
         };
       }
     );
+    t6.annotations = readOnlyHints;
 
     // 7. pixasso_generate_test_plan
-    this.server.tool(
+    const t7 = this.server.tool(
       'pixasso_generate_test_plan',
       'Generate a comprehensive interface test plan and automated QA verification matrix across viewports and sensory feedback.',
       generateTestPlanSchema.shape,
@@ -130,6 +139,7 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
         };
       }
     );
+    t7.annotations = readOnlyHints;
 
     // Dynamic resource templates for references and templates
     this.server.resource(

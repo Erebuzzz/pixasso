@@ -36,8 +36,9 @@ export const generateGenomeSchema = z.object({
 export type GenerateGenomeInput = z.input<typeof generateGenomeSchema>;
 
 export function handleGenerateGenome(rawInput: GenerateGenomeInput) {
-  const input = generateGenomeSchema.parse(rawInput);
-  // AUDIT-02: Hard gate enforcement against unverified or hallucinated references
+  try {
+    const input = generateGenomeSchema.parse(rawInput);
+    // AUDIT-02: Hard gate enforcement against unverified or hallucinated references
   if (input.references && input.references.length > 0) {
     for (const ref of input.references) {
       const entry = verifiedFetchCache.get(ref.url) || verifiedFetchCache.get(normalizeUrlKey(ref.url));
@@ -128,9 +129,12 @@ anti_patterns_excluded:
   - "sub-4.5_contrast_ratios"
 `;
 
-  return {
-    projectName: input.projectName,
-    genomeYaml: yaml,
-    recommendation: 'Save this content to design-genome.yaml and reference it as the project truth.'
-  };
+    return {
+      projectName: input.projectName,
+      genomeYaml: yaml,
+      recommendation: 'Save this content to design-genome.yaml and reference it as the project truth.'
+    };
+  } catch (error: any) {
+    throw error;
+  }
 }

@@ -27,28 +27,31 @@ export interface FetchReferenceResult {
 }
 
 export async function handleFetchReferenceWorker(input: FetchReferenceInput): Promise<FetchReferenceResult> {
-  const targetUrl = input.url.trim();
-
-  let response: Response;
   try {
-    response = await fetch(targetUrl, {
-      signal: AbortSignal.timeout(12000),
-      headers: {
-        'User-Agent': 'Pixasso-Reference-Fetcher/1.0 (+https://pixasso.erebuzzz.tech; reference deconstruction engine)',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-      },
-      redirect: 'follow'
-    });
-  } catch (err: any) {
-    throw new Error(`Failed to fetch reference URL "${targetUrl}": ${err.message || String(err)}`);
-  }
+    const validated = fetchReferenceSchema.parse(input);
+    const targetUrl = validated.url.trim();
 
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status} (${response.statusText}) when requesting reference: ${targetUrl}`);
-  }
+    let response: Response;
+    try {
+      response = await fetch(targetUrl, {
+        signal: AbortSignal.timeout(12000),
+        headers: {
+          'User-Agent': 'Pixasso-Reference-Fetcher/1.0 (+https://pixasso.erebuzzz.tech; reference deconstruction engine)',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+        },
+        redirect: 'follow'
+      });
+    } catch (err: any) {
+      throw new Error(`Failed to fetch reference URL "${targetUrl}": ${err.message || String(err)}`);
+    }
 
-  const finalUrl = response.url || targetUrl;
-  const fetchedAt = new Date().toISOString();
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status} (${response.statusText}) when requesting reference: ${targetUrl}`);
+    }
+
+    const finalUrl = response.url || targetUrl;
+    const fetchedAt = new Date().toISOString();
+
 
   let title = '';
   let ogTitle = '';
@@ -164,18 +167,22 @@ export async function handleFetchReferenceWorker(input: FetchReferenceInput): Pr
     );
   }
 
-  return {
-    url: targetUrl,
-    finalUrl,
-    fetchedAt,
-    contentHash,
-    renderedContentDetected,
-    bodyCharacterCount: bodyLength,
-    title: finalTitle,
-    description: finalDescription,
-    headings,
-    links,
-    readableText: readableText.slice(0, 4000),
-    advisoryNotice
-  };
+    return {
+      url: targetUrl,
+      finalUrl,
+      fetchedAt,
+      contentHash,
+      renderedContentDetected,
+      bodyCharacterCount: bodyLength,
+      title: finalTitle,
+      description: finalDescription,
+      headings,
+      links,
+      readableText: readableText.slice(0, 4000),
+      advisoryNotice
+    };
+  } catch (error: any) {
+    throw new Error('Failed to fetch reference: ' + error.message);
+  }
 }
+
