@@ -8,6 +8,7 @@
 [![MCP Server](https://img.shields.io/badge/MCP%20Server-JSON--RPC%202.0-orange)](mcp-server/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](mcp-server/src/)
 [![Platform Support](https://img.shields.io/badge/Platforms-Cursor%20|%20Antigravity%20|%20Claude%20|%20VS%20Code-brightgreen)](scripts/install.js)
+[![M8ven Score](https://m8ven.ai/badge/mcp/erebuzzz-pixasso-gijvqs?v=79b5f02615a15b3ad87ba88163657744)](https://m8ven.ai/mcp/erebuzzz-pixasso-gijvqs)
 [![Live](https://img.shields.io/badge/Live%20Showcase-pixasso.erebuzzz.tech-purple)](https://pixasso.erebuzzz.tech)
 
 Live Documentation and Showcase: **[pixasso.erebuzzz.tech](https://pixasso.erebuzzz.tech)**
