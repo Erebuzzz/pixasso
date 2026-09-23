@@ -237,14 +237,104 @@ The installer automatically configures:
 
 ### 2. Connection Transports
 
-Pixasso MCP supports both local stdio execution and hosted remote streaming:
+Pixasso provides dual transport architectures: a hosted remote edge endpoint (zero local setup) and a local stdio runner via npm.
+
+```mermaid
+flowchart TD
+    subgraph Clients ["Supported MCP Clients"]
+        C1["Cursor IDE"]
+        C2["Claude Desktop"]
+        C3["Claude Code CLI"]
+        C4["Google Antigravity / Gemini"]
+    end
+
+    subgraph RemoteTransport ["Option A: Hosted Remote (Zero Local Runtime)"]
+        R_URL["Endpoint: https://mcp.pixasso.erebuzzz.tech/mcp"]
+        R_AUTH["GitHub OAuth 2.0 (read:user, user:email)"]
+        R_KV["Edge KV Rate Limiter (200 calls/day per user)"]
+        R_WORKER["Cloudflare Worker + Durable Objects"]
+
+        R_URL --> R_AUTH --> R_KV --> R_WORKER
+    end
+
+    subgraph LocalTransport ["Option B: Local Stdio (Full Offline Execution)"]
+        L_NPX["npx -y pixasso-mcp"]
+        L_LOCAL["Node.js stdio JSON-RPC process"]
+
+        L_NPX --> L_LOCAL
+    end
+
+    subgraph Engine ["Pixasso Design Engine (7 Tools)"]
+        T1["pixasso_discover_intent"]
+        T2["pixasso_search_references"]
+        T3["pixasso_fetch_reference"]
+        T4["pixasso_generate_genome"]
+        T5["pixasso_generate_brain"]
+        T6["pixasso_audit_design"]
+        T7["pixasso_generate_test_plan"]
+    end
+
+    C1 & C2 & C3 & C4 -->|Remote HTTP SSE| R_URL
+    C1 & C2 & C3 & C4 -->|Local Subprocess| L_NPX
+    R_WORKER --> Engine
+    L_LOCAL --> Engine
+```
 
 #### Option A: Hosted Remote Endpoint (Zero Local Runtime)
+
 Connect any remote-compatible MCP client directly to:
 ```text
 https://mcp.pixasso.erebuzzz.tech/mcp
 ```
-Secured with GitHub OAuth and a 200 call/day allowance per user. Ideal for environments where running local Node background processes is inconvenient.
+
+- **Zero dependencies**: No Node.js runtime, no local dependencies, and zero background CPU usage.
+- **Authentication**: Secured with GitHub OAuth (`read:user`, `user:email`). On initial tool invocation, your client or browser will present an authorization link to authenticate your GitHub account.
+- **Usage quota**: 200 free tool calls per day per authenticated user, reset every 24 hours. Rate limits and sessions are managed ephemerally via Cloudflare KV.
+- **Transport**: Standard HTTP Streamable SSE (Server-Sent Events) adhering to the MCP specifications.
+
+##### Cursor IDE (Remote)
+Add to `~/.cursor/mcp.json` or `.cursor/mcp.json`:
+```json
+{
+  "mcpServers": {
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
+    }
+  }
+}
+```
+
+##### Claude Desktop (Remote)
+Add to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
+```json
+{
+  "mcpServers": {
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
+    }
+  }
+}
+```
+
+##### Claude Code CLI (Remote)
+Run directly from your terminal:
+```bash
+claude mcp add pixasso-remote --transport http https://mcp.pixasso.erebuzzz.tech/mcp
+```
+
+##### Google Antigravity & Gemini CLI (Remote)
+Add to `~/.gemini/antigravity/mcp_config.json` or `~/.gemini/config/mcp_config.json`:
+```json
+{
+  "mcpServers": {
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
+    }
+  }
+}
+```
+
+---
 
 #### Option B: Published npm Package (Local Stdio)
 You can run Pixasso locally on any machine with Node.js installed using `npx -y pixasso-mcp`.

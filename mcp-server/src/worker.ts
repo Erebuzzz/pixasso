@@ -19,7 +19,7 @@ import { PIXASSO_PROMPTS, renderPrompt } from './prompts/index';
 export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProps> {
   server = new McpServer({
     name: 'pixasso-mcp',
-    version: '1.1.0'
+    version: '1.1.1'
   });
 
   async init() {

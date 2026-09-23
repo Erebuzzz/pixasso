@@ -1,6 +1,6 @@
 {
   "name": "pixasso-mcp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "mcpName": "io.github.Erebuzzz/pixasso",
   "description": "Model Context Protocol server for Pixasso: the end-to-end frontend engineering and design orchestrator.",
   "main": "build/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "pixasso-mcp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "The complete end-to-end frontend engineering and design orchestrator, plugin, and MCP server.",
   "main": "mcp-server/build/index.js",
   "bin": {

@@ -50,6 +50,26 @@ jobs:
       - name: Publish to GitHub Packages registry
         run: |
           cd mcp-server
-          npm publish
+          PKG_NAME=$(node -p "require('./package.json').name")
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "Target package: ${PKG_NAME}@${PKG_VERSION}"
+
+          ALREADY_PUBLISHED=$(npm view "${PKG_NAME}@${PKG_VERSION}" version --registry=https://npm.pkg.github.com 2>/dev/null || true)
+
+          if [ "$ALREADY_PUBLISHED" = "$PKG_VERSION" ]; then
+            echo "Version ${PKG_VERSION} of ${PKG_NAME} is already published on GitHub Packages. Skipping publication."
+          else
+            echo "Publishing ${PKG_NAME}@${PKG_VERSION} to GitHub Packages registry..."
+            OUTPUT=$(npm publish 2>&1) && echo "$OUTPUT" || {
+              STATUS=$?
+              echo "$OUTPUT"
+              if echo "$OUTPUT" | grep -iq "409 Conflict"; then
+                echo "Package version ${PKG_VERSION} is already published (HTTP 409). Skipping without error."
+              else
+                exit $STATUS
+              fi
+            }
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
