@@ -25,7 +25,7 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
   async init() {
     const checkRate = async () => {
       const userId = this.props?.login || 'anonymous';
-      const result = await checkAndIncrementRateLimit(this.env.OAUTH_KV, userId, 500);
+      const result = await checkAndIncrementRateLimit(this.env.OAUTH_KV, userId, 200);
       if (!result.allowed) {
         throw new Error(
           `Daily rate limit exceeded for GitHub user @${userId}: You have used ${result.currentCount}/${result.maxAllowed} tool calls today. Resets at ${result.resetsAt}.`

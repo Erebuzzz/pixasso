@@ -58,7 +58,7 @@ Connect any remote-compatible MCP client directly to:
 https://mcp.pixasso.erebuzzz.tech/mcp
 ```
 
-Connecting will open a GitHub OAuth prompt (`read:user`, `user:email`) to authorize your session. Each authenticated GitHub account receives a daily allowance of 500 tool calls.
+Connecting will open a GitHub OAuth prompt (`read:user`, `user:email`) to authorize your session. Each authenticated GitHub account receives a daily allowance of 200 tool calls.
 
 ---
 

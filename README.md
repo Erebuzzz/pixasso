@@ -244,7 +244,7 @@ Connect any remote-compatible MCP client directly to:
 ```text
 https://mcp.pixasso.erebuzzz.tech/mcp
 ```
-Secured with GitHub OAuth and a 500 call/day allowance per user. Ideal for environments where running local Node background processes is inconvenient.
+Secured with GitHub OAuth and a 200 call/day allowance per user. Ideal for environments where running local Node background processes is inconvenient.
 
 #### Option B: Published npm Package (Local Stdio)
 You can run Pixasso locally on any machine with Node.js installed using `npx -y pixasso-mcp`.

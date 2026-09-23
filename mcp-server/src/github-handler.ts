@@ -457,7 +457,7 @@ app.get('/', (c) => {
         </div>
         <div class="meta-item">
           <div class="meta-label">Daily Quota</div>
-          <div class="meta-value">500 Calls / User / Day</div>
+          <div class="meta-value">200 Calls / User / Day</div>
         </div>
       </div>
     </div>

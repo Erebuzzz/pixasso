@@ -15,7 +15,8 @@
     "url": "https://github.com/Erebuzzz/pixasso/issues"
   },
   "scripts": {
-    "build": "npm run build --prefix mcp-server",
+    "build": "node scripts/build.js",
+    "build:mcp": "npm run build --prefix mcp-server",
     "start": "node mcp-server/build/index.js",
     "serve": "node scripts/serve.js",
     "install:all": "node scripts/install.js",

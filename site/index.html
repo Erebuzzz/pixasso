@@ -2223,6 +2223,7 @@
       <div class="install-box">
         <div class="tab-header">
           <button class="tab-btn active" data-tab="skills">skills.sh (Universal)</button>
+          <button class="tab-btn" data-tab="remote">Remote HTTP</button>
           <button class="tab-btn" data-tab="npm">npm / npx</button>
           <button class="tab-btn" data-tab="cursor">Cursor IDE</button>
           <button class="tab-btn" data-tab="mcpregistry">MCP Registry</button>
@@ -2254,6 +2255,7 @@
       <span>Pixasso // End-to-End Frontend Engineering & Design Orchestrator</span>
       <div class="footer-links">
         <a href="https://pixasso.erebuzzz.tech">pixasso.erebuzzz.tech</a>
+        <a href="https://mcp.pixasso.erebuzzz.tech" target="_blank">mcp.pixasso.erebuzzz.tech (Remote)</a>
         <a href="https://www.npmjs.com/package/pixasso-mcp" target="_blank">npm: pixasso-mcp</a>
         <a href="https://cursor.directory/plugins/pixasso" target="_blank">Cursor Directory</a>
         <a href="https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.Erebuzzz/pixasso" target="_blank">MCP Registry</a>
@@ -2594,6 +2596,12 @@
 
     // Install Tabs Data (100% Reality, Zero Placeholders)
     const tabData = {
+      remote: {
+        cmd: 'https://mcp.pixasso.erebuzzz.tech/mcp',
+        desc: 'Hosted Cloudflare Workers Streamable HTTP endpoint with GitHub OAuth. 200 tool calls/day quota. Connect directly without local Node runtime.',
+        linkText: 'Remote Dashboard ↗',
+        linkUrl: 'https://mcp.pixasso.erebuzzz.tech'
+      },
       skills: {
         cmd: 'npx skills add Erebuzzz/pixasso',
         desc: 'Universal skill install across Cursor, Claude Desktop, Antigravity, and Codex via official skills.sh.',

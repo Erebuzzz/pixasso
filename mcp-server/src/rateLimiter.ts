@@ -13,7 +13,7 @@ export interface KVLike {
 export async function checkAndIncrementRateLimit(
   kv: KVLike | undefined,
   userId: string,
-  maxDaily: number = 500
+  maxDaily: number = 200
 ): Promise<RateLimitCheckResult> {
   const now = new Date();
   const utcDate = now.toISOString().slice(0, 10);
