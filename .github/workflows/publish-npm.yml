@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           cd mcp-server
-          npm install
+          npm ci --legacy-peer-deps
           npm run build
 
       - name: Publish to npm with provenance

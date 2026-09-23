@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies and compile TypeScript
         run: |
           cd mcp-server
-          npm install
+          npm ci --legacy-peer-deps
           npm run build
 
       - name: Prepare scoped package manifest for GitHub Packages
