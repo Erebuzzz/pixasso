@@ -62,7 +62,7 @@ async function runTests() {
     const toolsRes = await sendRequest('tools/list');
     const toolNames = toolsRes.result.tools.map(t => t.name);
     console.log('Tools found (' + toolNames.length + '):', toolNames.join(', '));
-    if (toolNames.length !== 6) throw new Error('Expected 6 tools, got ' + toolNames.length);
+    if (toolNames.length !== 7) throw new Error('Expected 7 tools, got ' + toolNames.length);
 
     // 3. Call tool: pixasso_search_references
     console.log('3. Testing tools/call (pixasso_search_references)...');

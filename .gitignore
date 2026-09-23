@@ -9,6 +9,8 @@ node_modules/
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
 *.pem
 *.key
 credentials.json
@@ -21,6 +23,7 @@ workflow_context.md
 *workflow_context*
 *.workflow_context.md
 code_review.md
+brain/
 
 # OS junk
 .DS_Store
@@ -33,6 +36,7 @@ ehthumbs.db
 *.swp
 *.swo
 *~
+.gemini/
 .vscode/*
 !.vscode/extensions.json
 
@@ -53,6 +57,7 @@ coverage/
 .turbo/
 .next/
 out/
+.wrangler/
 
 .vercel
 site/examples/

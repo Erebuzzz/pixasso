@@ -1,0 +1,40 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pixasso-mcp",
+  "account_id": "edff6c06b3afbcead214b2340c0cd841",
+  "main": "src/worker.ts",
+  "compatibility_date": "2025-03-10",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "migrations": [
+    {
+      "new_sqlite_classes": ["PixassoMcpAgent"],
+      "tag": "v1"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "class_name": "PixassoMcpAgent",
+        "name": "PIXASSO_MCP_OBJECT"
+      }
+    ]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "7c38634bfc7f4e4badf3e97df89d7d65"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "mcp.pixasso.erebuzzz.tech",
+      "custom_domain": true
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "dev": {
+    "port": 8788
+  }
+}

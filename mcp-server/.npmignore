@@ -1,0 +1,8 @@
+# Ignore all source, config, test, and private files
+.dev.vars*
+.wrangler
+dist
+src
+tests
+tsconfig*.json
+wrangler.jsonc

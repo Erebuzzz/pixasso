@@ -22,25 +22,47 @@ flowchart TD
     subgraph Tools ["Exposed Tools (JSON-RPC)"]
         T1["pixasso_discover_intent"]
         T2["pixasso_search_references"]
-        T3["pixasso_generate_genome"]
-        T4["pixasso_generate_brain"]
-        T5["pixasso_audit_design"]
-        T6["pixasso_generate_test_plan"]
+        T3["pixasso_fetch_reference"]
+        T4["pixasso_generate_genome"]
+        T5["pixasso_generate_brain"]
+        T6["pixasso_audit_design"]
+        T7["pixasso_generate_test_plan"]
     end
 
     Server --> Tools
 
-    T1 --> P1["Adaptive Discovery Matrix<br/>(16 Architecture Pillars)"]
+    T1 --> P1["Deterministic Inquiry Picker<br/>(16 Architecture Pillars & Brand Gate)"]
     T2 --> P2["31 Deep Reference Catalogs<br/>(Typography, Shaders, Layouts)"]
-    T3 --> P3["Design Genome Specification<br/>(YAML Tokens & Tech Stack)"]
-    T4 --> P4["Design Brain DAG<br/>(Mermaid Decision Graph)"]
-    T5 --> P5["Objective Critique Engine<br/>(5-Pillar Scorecard)"]
-    T6 --> P6["Automated Interface QA<br/>(390px, 768px, 1024px, 1440px)"]
+    T3 --> P3["Live DOM & Content Extraction<br/>(Linkedom, Readability, SPA Detection)"]
+    T4 --> P4["Design Genome Specification<br/>(YAML Tokens, Verified References)"]
+    T5 --> P5["Design Brain DAG<br/>(Mermaid Decision Graph)"]
+    T6 --> P6["Objective Critique Engine<br/>(5-Pillar Scorecard)"]
+    T7 --> P7["Automated Interface QA<br/>(390px, 768px, 1024px, 1440px)"]
 ```
 
 ---
 
-## Quick Start
+## Deployment & Connection Transports
+
+Pixasso MCP ships with dual transport architectures side by side:
+1. **Local Stdio (npm)**: Runs locally on your machine via stdio with zero network latency.
+2. **Hosted Remote (Cloudflare Workers)**: Serverless Streamable HTTP endpoint secured via GitHub OAuth, requiring zero local runtime dependencies.
+
+---
+
+## 1. Hosted Remote Endpoint (Streamable HTTP)
+
+Connect any remote-compatible MCP client directly to:
+
+```text
+https://mcp.pixasso.erebuzzz.tech/mcp
+```
+
+Connecting will open a GitHub OAuth prompt (`read:user`, `user:email`) to authorize your session. Each authenticated GitHub account receives a daily allowance of 500 tool calls.
+
+---
+
+## 2. Local Stdio Quick Start
 
 Run instantly without local installation:
 
@@ -64,9 +86,12 @@ Add to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "pixasso": {
+    "pixasso-local": {
       "command": "npx",
       "args": ["-y", "pixasso-mcp"]
+    },
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
     }
   }
 }
@@ -78,19 +103,26 @@ Add to your Cursor MCP settings (`~/.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
-    "pixasso": {
+    "pixasso-local": {
       "command": "npx",
       "args": ["-y", "pixasso-mcp"]
+    },
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
     }
   }
 }
 ```
 
 ### 3. Claude Code CLI
-Register in a single command:
+Register local or remote:
 
 ```bash
+# Local stdio
 claude mcp add pixasso npx -y pixasso-mcp
+
+# Remote HTTP
+claude mcp add pixasso-remote --transport http https://mcp.pixasso.erebuzzz.tech/mcp
 ```
 
 ### 4. Google Antigravity & Gemini CLI
@@ -102,6 +134,9 @@ Add to `~/.gemini/antigravity/mcp_config.json`:
     "pixasso": {
       "command": "npx",
       "args": ["-y", "pixasso-mcp"]
+    },
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
     }
   }
 }
@@ -113,12 +148,19 @@ Add to `~/.gemini/antigravity/mcp_config.json`:
 
 | Tool | Purpose | Key Inputs |
 | :--- | :--- | :--- |
-| `pixasso_discover_intent` | Generates adaptive inquiry matrix across the 16 pillars and brand genesis. | `projectType`, `hasBrandIdentity`, `userGoal` |
-| `pixasso_search_references` | Search across 31 curated design & architecture catalogs. | `query`, `category` |
-| `pixasso_generate_genome` | Compiles tokens, color ramps, typography, and libraries into `design-genome.yaml`. | `archetype`, `palette`, `typography` |
+| `pixasso_discover_intent` | Deterministic template-question picker across 16 pillars and brand genesis. Generates targeted interactive popup questions for host `ask_question`. | `projectArchetype`, `description`, `hasBrandIdentity`, `referenceUrls` |
+| `pixasso_search_references` | Search across 31 curated design & architecture catalogs. | `query`, `category`, `tag` |
+| `pixasso_fetch_reference` | Fetches live HTML, extracts title/headings/readable text, detects client SPAs, and caches verified fetches. | `url`, `focus` |
+| `pixasso_generate_genome` | Compiles tokens, color ramps, typography, and libraries into `design-genome.yaml`. Enforces programmatic hard gate on verified references. | `archetype`, `palette`, `typography`, `references` |
 | `pixasso_generate_brain` | Synthesizes a visual Graphify Mermaid decision graph and Task DAG. | `decisions`, `components` |
 | `pixasso_audit_design` | Evaluates markup and styling against AI design anti-patterns. | `codeSnippet`, `context` |
 | `pixasso_generate_test_plan` | Produces multi-viewport QA plans (390px, 768px, 1024px, 1440px). | `targetUrls`, `checkSensory` |
+
+### Tool Scope & Design Integrity Hard Gates
+
+- **`pixasso_discover_intent` (Deterministic Question Picker)**: This tool is purposefully deterministic. It evaluates the project archetype, brand status, and whether reference URLs were supplied, outputting structured popup questions without relying on non-deterministic LLM prompting within the tool. The returned `compulsoryPopupQuestions` are intended to be presented directly to the user via the host agent interactive modal (`ask_question`).
+- **`pixasso_fetch_reference` (Real Content Deconstruction)**: Autonomous models often hallucinate visual traits from domain names alone. `pixasso_fetch_reference` inspects live pages, extracting DOM headings, metadata, visible links, and readable text via Mozilla Readability. If the page is an empty client SPA shell (under 200 characters of text), it flags `renderedContentDetected: false` so agents do not fabricate visual descriptions.
+- **Reference Gate on `pixasso_generate_genome`**: Any reference URL supplied to `pixasso_generate_genome` must first be verified through `pixasso_fetch_reference` in the active session. If an unfetched URL is passed, the tool rejects the call with an informative error. Furthermore, unrendered SPA shells cannot claim `epistemicStatus: 'known'` without screenshot verification.
 
 ---
 

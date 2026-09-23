@@ -13,5 +13,13 @@
     "resolveJsonModule": true,
     "declaration": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": [
+    "src/worker.ts",
+    "src/**/*.worker.ts",
+    "src/github-handler.ts",
+    "src/workers-oauth-utils.ts",
+    "src/rateLimiter.ts",
+    "tests/**/*"
+  ]
 }

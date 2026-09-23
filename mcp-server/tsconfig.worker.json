@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "types": ["@cloudflare/workers-types"],
+    "noEmit": true
+  },
+  "include": [
+    "src/worker.ts",
+    "src/**/*.worker.ts",
+    "src/github-handler.ts",
+    "src/workers-oauth-utils.ts",
+    "src/rateLimiter.ts",
+    "src/tools/**/*",
+    "src/resources/**/*",
+    "src/prompts/**/*"
+  ],
+  "exclude": []
+}

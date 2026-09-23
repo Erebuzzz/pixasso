@@ -26,6 +26,11 @@ Never assume design requirements, never bury clarifying questions in an unread p
      - **Logo, Wordmark & Favicon System**: Shape language (geometric monogram, abstract symbol, or typographic wordmark) and dynamic SVG favicon specs that adapt automatically across Light, Dark, and AMOLED themes.
      - **Landing / Hero Section Architecture**: Layout composition (split 3D/canvas hero, centered architectural headline with interactive dials, or command-center telemetry).
      - **Product Preview & Proof Section**: Demonstration format (interactive multi-device sandbox with responsive viewports, feature bento grid, or interactive playground).
+8. **Reference Sites & Visual Anchors (Optional Non-Blocking Inquiry)**:
+   - Inquire whether the user has specific reference sites or apps that capture the desired feel.
+   - Question: *"Do you have any reference sites or apps that capture the feel you are going for? (Optional, skip if you want Pixasso to formulate the aesthetic from scratch)"*
+   - Options: `(Recommended) Synthesize from scratch` or user-provided URLs.
+   - Non-blocking constraint: If skipped, Pixasso formulates the aesthetic from scratch. If URLs are provided, `pixasso_fetch_reference` must be called on each reference before producing deconstruction claims.
 
 ### Protocol for `ask_question` Execution
 

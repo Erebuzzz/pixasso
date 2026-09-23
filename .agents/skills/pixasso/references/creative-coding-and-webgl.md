@@ -159,3 +159,43 @@ function disposeScene(scene) {
 ```
 
 Every experimental interface designed by Pixasso must degrade gracefully. If WebGL crashes or is blocked by enterprise browser policies, the core informational content and user actions must remain completely functional.
+
+---
+
+## 5. Proven 3D Recipes (Inspired by viettranx/3dviz-pro-max)
+
+Drawing from the proven kits and recipes of `viettranx/3dviz-pro-max`, Pixasso implements verified spatial patterns for web interfaces:
+
+### Recipe 1: Procedural Kinetic Polyhedron
+- **Use Case**: Abstract hero centerpieces, AI conceptual models, spatial tokens.
+- **Composition**:
+  - Outer Shell: Truncated icosahedron or dodecahedron with `MeshStandardMaterial` (wireframe toggle, roughness 0.2, metalness 0.8).
+  - Inner Core: High-density metallic polyhedron with `MeshPhysicalMaterial` (clearcoat 0.8, clearcoatRoughness 0.1).
+  - Quantum Heart: Octahedron core pulsating via harmonic scale oscillation: `1 + Math.sin(time * 0.004) * 0.12`.
+  - Gimbal Orbital Rings: Three concentric `TorusGeometry` rings rotated at 60-degree angles running on independent gyro axes.
+
+### Recipe 2: GPU Gravitational Particle Galaxy
+- **Use Case**: Data volume visualizers, cosmic backgrounds, real-time telemetry representation.
+- **Mathematics**:
+  - Logarithmic spiral distribution: `radius = Math.random() * 6 + 0.2`, `spinAngle = radius * 1.8`, `branchAngle = (branchIndex * 2 * PI) / branches`.
+  - Mouse Gravitational Field: Map pointer coordinates to world space and apply inverse square distance attraction: `particles.rotation.x = mouse.y * 0.25`.
+  - Material: `PointsMaterial` with `sizeAttenuation: true`, `depthWrite: false`, and `blending: THREE.AdditiveBlending` for intense optical luminescence.
+
+### Recipe 3: Spatial Hardware Explainer with Exploded View
+- **Use Case**: Product technical teardowns, physical device explainers, architecture blueprints.
+- **Layered Hierarchy**:
+  1. Outer Chassis Bezel (`CylinderGeometry` + `TorusGeometry`)
+  2. Optical Lens Array (`SphereGeometry` scaled on Y with `transmission: 0.85`, `ior: 1.5`)
+  3. Cryogenic Heat Sink (`BoxGeometry` radial fin array rotated around a central hub)
+  4. Neural Silicon Die (`BoxGeometry` substrate with micro-chip die)
+  5. CNC Base Mounting Plate (`CylinderGeometry` with bracket slots)
+- **Disassembly Math**:
+  - Interpolate layer offsets along the Y-axis: `layer[i].position.y = (i - centerIndex) * (spreadFactor * spreadStep)`.
+  - Project 3D layer coordinates to 2D screen space via `vector.project(camera)` to bind floating HTML annotation labels.
+
+### Recipe 4: Adaptive 3-Theme Material Tokens
+Ensure the WebGL scene synchronizes seamlessly with frontend design system modes:
+- **Paper Light**: Scene ground `#fbfaf7`, wireframe ink `#191919`, core sapphire `#2563eb`, studio soft key light.
+- **CRT Phosphor**: Scene ground `#0a0f0d`, wireframe emerald `#33ff66`, core mint `#00ff88`, green ambient wash, scanline overlay.
+- **Pitch Black AMOLED**: Scene ground `#000000`, wireframe white `#ffffff`, core electric cobalt `#0066ff`, chrome reflections, high-contrast rim light.
+

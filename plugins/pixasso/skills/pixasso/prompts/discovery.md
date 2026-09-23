@@ -15,7 +15,7 @@ Goals:
 - Adapt later questions based on answers
 - Produce or update design-genome.yaml fields with epistemic status: known | inferred | uncertain | unavailable
 
-Discover: build category (open-ended), feel, theme/world/narrative, visual language (separate from theme), color emotion → palette roles, typography (first-class), dimensionality from spatial desire, motion feel, audience, goals, emotional outcome, primary action.
+Discover: build category (open-ended), feel, theme/world/narrative, visual language (separate from theme), color emotion → palette roles, typography (first-class), dimensionality from spatial desire, motion feel, audience, goals, emotional outcome, primary action, optional reference URLs (fetch via pixasso_fetch_reference if provided; otherwise synthesize from scratch).
 
 Tone example:
 "You want something that feels like a late-night film lab more than a SaaS dashboard. Before I lock color and type, is the primary job conversion on a landing page, or daily use inside a product shell?"

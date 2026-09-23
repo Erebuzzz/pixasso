@@ -15,6 +15,7 @@ import {
 
 import { discoverIntentSchema, handleDiscoverIntent } from './tools/discoverIntent';
 import { searchReferencesSchema, handleSearchReferences } from './tools/searchReferences';
+import { fetchReferenceSchema, handleFetchReference } from './tools/fetchReference';
 import { generateGenomeSchema, handleGenerateGenome } from './tools/generateGenome';
 import { generateBrainSchema, handleGenerateBrain } from './tools/generateBrain';
 import { auditDesignSchema, handleAuditDesign } from './tools/auditDesign';
@@ -25,7 +26,7 @@ import { PIXASSO_PROMPTS, renderPrompt } from './prompts/index';
 const server = new Server(
   {
     name: 'pixasso-mcp',
-    version: '1.0.4'
+    version: '1.1.0'
   },
   {
     capabilities: {
@@ -58,6 +59,15 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             targetAudience: {
               type: 'string',
               description: 'Target audience or user persona if known.'
+            },
+            hasBrandIdentity: {
+              type: 'boolean',
+              description: 'Whether an existing brand identity exists or needs to be synthesized from scratch.'
+            },
+            referenceUrls: {
+              type: 'array',
+              items: { type: 'string' },
+              description: 'Optional list of reference URLs capturing the desired feel. If omitted or empty, an optional question is included in discovery.'
             }
           },
           required: ['projectArchetype', 'description']
@@ -84,6 +94,25 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ['query']
+        }
+      },
+      {
+        name: 'pixasso_fetch_reference',
+        description: 'Fetch and deconstruct a live reference website server-side. Extracts page title, meta description, heading structure (h1-h4), visible links, and readable text content. Detects client-rendered SPAs (Framer, Webflow, React shells) and flags unrendered content rather than hallucinating. NOTE: Does not extract computed CSS (colors, rendered fonts); use headless browser tools or user screenshots for visual styling.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            url: {
+              type: 'string',
+              description: 'Target HTTP or HTTPS URL to fetch and analyze.'
+            },
+            focus: {
+              type: 'string',
+              enum: ['full', 'layout', 'typography', 'color', 'motion'],
+              description: 'Analytical focus area.'
+            }
+          },
+          required: ['url']
         }
       },
       {
@@ -123,7 +152,22 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
               enum: ['2d_planar', '2.5d_parallax', '3d_webgl'],
               description: 'Visual dimensionality.'
             },
-            motionFeel: { type: 'string', description: 'Motion pacing and easing description.' }
+            motionFeel: { type: 'string', description: 'Motion pacing and easing description.' },
+            references: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  url: { type: 'string' },
+                  fetchedAt: { type: 'string' },
+                  renderedContentDetected: { type: 'boolean' },
+                  extractedPrinciples: { type: 'array', items: { type: 'string' } },
+                  epistemicStatus: { type: 'string', enum: ['known', 'inferred', 'uncertain', 'unavailable'] }
+                },
+                required: ['url', 'fetchedAt', 'renderedContentDetected', 'extractedPrinciples', 'epistemicStatus']
+              },
+              description: 'Audited reference sites analyzed via pixasso_fetch_reference.'
+            }
           },
           required: ['projectName', 'themeMode', 'groundTone', 'typography', 'colorTokens']
         }
@@ -214,6 +258,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case 'pixasso_search_references': {
         const parsed = searchReferencesSchema.parse(args);
         const result = handleSearchReferences(parsed);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+      case 'pixasso_fetch_reference': {
+        const parsed = fetchReferenceSchema.parse(args);
+        const result = await handleFetchReference(parsed);
         return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
       }
       case 'pixasso_generate_genome': {

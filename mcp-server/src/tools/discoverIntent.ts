@@ -10,7 +10,8 @@ export const discoverIntentSchema = z.object({
   ]).describe('The primary archetype of the frontend project to tailor the discovery questions.'),
   description: z.string().describe('Initial brief or description provided by the user.'),
   targetAudience: z.string().optional().describe('Target audience or user persona if known.'),
-  hasBrandIdentity: z.boolean().optional().describe('Whether an existing brand identity exists or needs to be synthesized from scratch.')
+  hasBrandIdentity: z.boolean().optional().describe('Whether an existing brand identity exists or needs to be synthesized from scratch.'),
+  referenceUrls: z.array(z.string().url()).optional().describe('Optional list of reference URLs capturing the desired feel.')
 });
 
 export type DiscoverIntentInput = z.infer<typeof discoverIntentSchema>;
@@ -45,11 +46,23 @@ export function handleDiscoverIntent(input: DiscoverIntentInput) {
     }
   ];
 
-  let questions: Array<{
+  const questions: Array<{
     question: string;
     options: string[];
     is_multi_select: boolean;
   }> = [];
+
+  // Optional Reference Inquiry (Non-blocking)
+  if (!input.referenceUrls || input.referenceUrls.length === 0) {
+    questions.push({
+      question: 'Do you have any reference sites or apps that capture the feel you are going for? (Optional, skip if you want Pixasso to formulate the aesthetic from scratch)',
+      options: [
+        '(Recommended) Synthesize from scratch: Formulate the design language, palette, and typography system without external reference sites',
+        'I will provide reference URLs to deconstruct: Analyze visual hierarchy, layout geometry, and typographic rhythm from specific sites'
+      ],
+      is_multi_select: false
+    });
+  }
 
   // 1. Mandatory Brand Identity Gate
   if (input.hasBrandIdentity === undefined) {
@@ -77,7 +90,7 @@ export function handleDiscoverIntent(input: DiscoverIntentInput) {
   }
 
   if (projectArchetype === 'full_web_app') {
-    questions = [
+    questions.push(
       {
         question: 'Which framework and state management architecture best fits this application?',
         options: [
@@ -105,9 +118,9 @@ export function handleDiscoverIntent(input: DiscoverIntentInput) {
         ],
         is_multi_select: false
       }
-    ];
+    );
   } else if (projectArchetype === 'editorial_landing_page') {
-    questions = [
+    questions.push(
       {
         question: 'Which typography architecture best reflects the narrative voice of this site?',
         options: [
@@ -135,9 +148,9 @@ export function handleDiscoverIntent(input: DiscoverIntentInput) {
         ],
         is_multi_select: false
       }
-    ];
+    );
   } else if (projectArchetype === 'creative_3d_canvas') {
-    questions = [
+    questions.push(
       {
         question: 'Which canvas runtime and dimensionality approach should be implemented?',
         options: [
@@ -156,9 +169,9 @@ export function handleDiscoverIntent(input: DiscoverIntentInput) {
         ],
         is_multi_select: false
       }
-    ];
+    );
   } else {
-    questions = [
+    questions.push(
       {
         question: 'Which aesthetic persona best matches your intent?',
         options: [
@@ -177,7 +190,7 @@ export function handleDiscoverIntent(input: DiscoverIntentInput) {
         ],
         is_multi_select: false
       }
-    ];
+    );
   }
 
   return {

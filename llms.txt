@@ -6,7 +6,8 @@ Pixasso is an autonomous design-research and frontend engineering framework insp
 Intent Discovery -> Design Genome -> Decision Graph -> Capability Graph -> Task DAG -> Specialist Agents -> Automated QA.
 
 - Web Showcase: https://pixasso.erebuzzz.tech
-- Official npm Package: https://www.npmjs.com/package/pixasso-mcp (v1.0.4)
+- Official npm Package: https://www.npmjs.com/package/pixasso-mcp (v1.1.0)
+- Remote MCP Endpoint: https://mcp.pixasso.erebuzzz.tech/mcp (Streamable HTTP with GitHub OAuth)
 - MCP Registry Identifier: io.github.Erebuzzz/pixasso
 - Skills.sh Registry: https://www.skills.sh/erebuzzz/pixasso/pixasso
 - Cursor Plugin Directory: https://cursor.directory/plugins/pixasso

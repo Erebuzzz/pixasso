@@ -1,23 +1,40 @@
 {
   "name": "pixasso-mcp",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "mcpName": "io.github.Erebuzzz/pixasso",
   "description": "Model Context Protocol server for Pixasso: the end-to-end frontend engineering and design orchestrator.",
   "main": "build/index.js",
+  "files": [
+    "build",
+    "server.json",
+    "README.md"
+  ],
   "bin": {
     "pixasso-mcp": "build/index.js"
   },
   "scripts": {
     "build": "tsc",
+    "build:worker": "wrangler deploy --dry-run --outdir dist/worker",
+    "dev:worker": "wrangler dev",
+    "deploy:worker": "wrangler deploy",
+    "type-check:worker": "tsc --project tsconfig.worker.json",
     "start": "node build/index.js"
   },
   "dependencies": {
+    "@cloudflare/workers-oauth-provider": "^0.10.3",
     "@modelcontextprotocol/sdk": "^1.6.1",
+    "@mozilla/readability": "^0.6.0",
+    "agents": "^0.17.1",
+    "hono": "^4.13.8",
+    "linkedom": "^0.18.13",
+    "octokit": "^5.0.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260923.1",
     "@types/node": "^22.13.4",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "wrangler": "^4.136.3"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -27,7 +44,7 @@
   "homepage": "https://pixasso.erebuzzz.tech",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Erebuzzz/pixasso.git",
+    "url": "git+https://github.com/Erebuzzz/pixasso.git",
     "directory": "mcp-server"
   },
   "keywords": [

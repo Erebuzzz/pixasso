@@ -1,6 +1,6 @@
 {
   "name": "pixasso-mcp",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "The complete end-to-end frontend engineering and design orchestrator, plugin, and MCP server.",
   "main": "mcp-server/build/index.js",
   "bin": {
@@ -19,7 +19,13 @@
     "start": "node mcp-server/build/index.js",
     "serve": "node scripts/serve.js",
     "install:all": "node scripts/install.js",
-    "test:mcp": "node scripts/test-mcp.js"
+    "test:mcp": "node scripts/test-mcp.js",
+    "sync:skills": "node scripts/sync-skill.js",
+    "sync:check": "node scripts/sync-skill.js --check",
+    "worker:dev": "npm run dev:worker --prefix mcp-server",
+    "worker:deploy": "npm run deploy:worker --prefix mcp-server",
+    "worker:build": "npm run build:worker --prefix mcp-server",
+    "worker:secret": "wrangler secret put --config mcp-server/wrangler.jsonc"
   },
   "keywords": [
     "pixasso",

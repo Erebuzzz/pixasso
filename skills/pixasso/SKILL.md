@@ -477,10 +477,13 @@ When generating concept art or moodboards, supply technical art-direction parame
 
 ## 31. Reference Deconstruction Protocol
 
-When a user supplies a reference site or screenshot:
-1. Deconstruct structure, typography, composition, color, materiality, motion, and interaction.
-2. Identify the core principles that make it work.
-3. Construct a new, original design that applies those principles with its own unique identity.
+Before producing any deconstruction, palette, or layout claim about a reference URL, you must call `pixasso_fetch_reference` on it. Do not proceed to analysis from the URL or domain name alone. If the tool returns `renderedContentDetected: false`, say so to the user plainly and ask for a screenshot instead of fabricating a description.
+
+When an external reference is supplied:
+1. Inspect the server-rendered DOM via `pixasso_fetch_reference` to extract heading hierarchy, textual content, and semantic structure.
+2. If `renderedContentDetected: false` (client-rendered SPA shell), either inspect via headless browser tool (`chrome-devtools-mcp` or `browser-use`) or ask the user for a screenshot. Mark epistemic status as `unavailable` or `uncertain`.
+3. Identify the core principles that make the design work.
+4. Construct a new, original design that applies those principles with its own unique identity and design genome.
 
 ---
 

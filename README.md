@@ -234,10 +234,19 @@ The installer automatically configures:
 
 ---
 
-### 2. Manual Configuration by Platform
+### 2. Connection Transports
 
-#### Published npm Package (Recommended)
-You can run Pixasso on any machine with Node.js installed using `npx -y pixasso-mcp`.
+Pixasso MCP supports both local stdio execution and hosted remote streaming:
+
+#### Option A: Hosted Remote Endpoint (Zero Local Runtime)
+Connect any remote-compatible MCP client directly to:
+```text
+https://mcp.pixasso.erebuzzz.tech/mcp
+```
+Secured with GitHub OAuth and a 500 call/day allowance per user. Ideal for environments where running local Node background processes is inconvenient.
+
+#### Option B: Published npm Package (Local Stdio)
+You can run Pixasso locally on any machine with Node.js installed using `npx -y pixasso-mcp`.
 
 ##### Cursor IDE
 Add to `~/.cursor/mcp.json` or `.cursor/mcp.json`:
@@ -328,12 +337,13 @@ The Pixasso MCP Server (`mcp-server/`) exposes the full design intelligence engi
 
 | Tool Name | Purpose | Parameters |
 | :--- | :--- | :--- |
-| `pixasso_discover_intent` | Generates adaptive discovery questions based on archetype | `archetype`, `user_input` |
+| `pixasso_discover_intent` | Generates adaptive discovery questions based on archetype | `archetype`, `user_input`, `referenceUrls` |
 | `pixasso_search_references` | Queries the 31 curated catalogs (20 references, 11 templates) for UI, motion, and design patterns | `query`, `category`, `limit` |
-| `pixasso_generate_genome` | Compiles design choices into a validated `design-genome.yaml` | `theme`, `typography`, `dimensionality`, `motion`, `primary_cta` |
-| `pixasso_generate_brain` | Generates a Graphify-style Mermaid decision map and Task DAG | `genome`, `project_name` |
-| `pixasso_audit_design` | Audits code against generic AI anti-patterns and the 16 pillars | `code_snippet`, `context` |
-| `pixasso_generate_test_plan` | Produces an operational multi-viewport interface test plan | `component_name`, `viewports`, `features` |
+| `pixasso_fetch_reference` | Fetches and analyzes live URLs via streaming HTML and Readability, extracting headings, copy, and detecting client-rendered SPA shells | `url` |
+| `pixasso_generate_genome` | Compiles design choices into a validated `design-genome.yaml` with hard-gate reference verification | `projectName`, `themeMode`, `groundTone`, `typography`, `colorTokens`, `references` |
+| `pixasso_generate_brain` | Generates a Graphify-style Mermaid decision map and Task DAG | `genomeYaml`, `projectName` |
+| `pixasso_audit_design` | Audits code against generic AI anti-patterns and the 16 pillars | `code`, `componentType`, `framework` |
+| `pixasso_generate_test_plan` | Produces an operational multi-viewport interface test plan | `componentName`, `targetViewports`, `interactiveBehaviors` |
 
 ### Resources
 

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { verifiedFetchCache, normalizeUrlKey } from './referenceCache';
 
 export const generateGenomeSchema = z.object({
   projectName: z.string().describe('Name of the design project or application.'),
@@ -22,18 +23,58 @@ export const generateGenomeSchema = z.object({
     stateManager: z.string().default('Zustand'),
     formValidation: z.string().default('React Hook Form + Zod'),
     styling: z.string().default('Tailwind CSS + CSS Custom Properties')
-  }).optional()
+  }).optional(),
+  references: z.array(z.object({
+    url: z.string().url(),
+    fetchedAt: z.string(),
+    renderedContentDetected: z.boolean(),
+    extractedPrinciples: z.array(z.string()).describe('Principles extracted, not visual descriptions to copy verbatim'),
+    epistemicStatus: z.enum(['known', 'inferred', 'uncertain', 'unavailable'])
+  })).optional().describe('Audited reference sites analyzed via pixasso_fetch_reference.')
 });
 
-export type GenerateGenomeInput = z.infer<typeof generateGenomeSchema>;
+export type GenerateGenomeInput = z.input<typeof generateGenomeSchema>;
 
-export function handleGenerateGenome(input: GenerateGenomeInput) {
+export function handleGenerateGenome(rawInput: GenerateGenomeInput) {
+  const input = generateGenomeSchema.parse(rawInput);
+  // AUDIT-02: Hard gate enforcement against unverified or hallucinated references
+  if (input.references && input.references.length > 0) {
+    for (const ref of input.references) {
+      const entry = verifiedFetchCache.get(ref.url) || verifiedFetchCache.get(normalizeUrlKey(ref.url));
+      if (!entry) {
+        throw new Error(
+          `Reference URL "${ref.url}" has not been fetched via pixasso_fetch_reference in this session. ` +
+          `You must call pixasso_fetch_reference on each reference before producing deconstruction claims or compiling it into the Design Genome.`
+        );
+      }
+      if (entry.renderedContentDetected === false && ref.epistemicStatus === 'known') {
+        throw new Error(
+          `Reference URL "${ref.url}" was detected as an empty client-rendered SPA shell (renderedContentDetected: false). ` +
+          `Its epistemicStatus cannot be "known" without rendered visual inspection. Mark as "unavailable" or "uncertain", or ask the user for a screenshot.`
+        );
+      }
+    }
+  }
+
   const stack = input.technicalStack || {
     framework: 'React 19 / Next.js 15',
     stateManager: 'Zustand',
     formValidation: 'React Hook Form + Zod',
     styling: 'Tailwind CSS + CSS Custom Properties'
   };
+
+  let referencesYaml = 'references: []\n';
+  if (input.references && input.references.length > 0) {
+    referencesYaml = 'references:\n' + input.references.map(ref => {
+      const principles = ref.extractedPrinciples.length > 0
+        ? '\n    extracted_principles:\n' + ref.extractedPrinciples.map(p => `      - "${p.replace(/"/g, '\\"')}"`).join('\n')
+        : '\n    extracted_principles: []';
+      return `  - url: "${ref.url}"
+    fetched_at: "${ref.fetchedAt}"
+    rendered_content_detected: ${ref.renderedContentDetected}
+    epistemic_status: "${ref.epistemicStatus}"${principles}`;
+    }).join('\n') + '\n';
+  }
 
   const yaml = `schema_version: "2.0.0"
 project: "${input.projectName}"
@@ -47,6 +88,7 @@ intent:
     web_audio_uisfx: true
     audio_toggle: true
 
+${referencesYaml}
 typography:
   display:
     family: "${input.typography.displayFont}"
