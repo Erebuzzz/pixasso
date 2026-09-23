@@ -22,8 +22,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
+          cache-dependency-path: mcp-server/package-lock.json
 
       - name: Verify Zero Skill Drift
         run: node scripts/sync-skill.js --check
@@ -33,3 +34,6 @@ jobs:
 
       - name: Build MCP Server
         run: npm run build --prefix mcp-server
+
+      - name: Run MCP Protocol Tests
+        run: npm run test:mcp
