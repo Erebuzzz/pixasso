@@ -47,7 +47,22 @@ npx -y pixasso-mcp
 }
 ```
 
-### 5. Claude Desktop (`claude_desktop_config.json`)
+### 5. VS Code (`.vscode/mcp.json` or Cline / Roo Code settings)
+```json
+{
+  "mcpServers": {
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
+    },
+    "pixasso": {
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
+    }
+  }
+}
+```
+
+### 6. Claude Desktop (`claude_desktop_config.json`)
 ```json
 {
   "mcpServers": {
@@ -59,12 +74,12 @@ npx -y pixasso-mcp
 }
 ```
 
-### 6. Claude Code CLI
+### 7. Claude Code CLI
 ```bash
 claude mcp add pixasso npx -y pixasso-mcp
 ```
 
-### 7. Google Antigravity (`~/.gemini/antigravity/mcp_config.json`)
+### 8. Google Antigravity (`~/.gemini/antigravity/mcp_config.json`)
 ```json
 {
   "mcpServers": {
@@ -76,13 +91,17 @@ claude mcp add pixasso npx -y pixasso-mcp
 }
 ```
 
-### 8. Unified Local Clone Installer
+### 9. Unified Local Clone Installer
 ```bash
 git clone https://github.com/Erebuzzz/pixasso.git
 cd pixasso
 npm install
 node scripts/install.js
 ```
+
+### 10. Prompt for AI Assistant (Install in Any IDE)
+Send this prompt to your AI coding assistant:
+"Please configure the Pixasso MCP server for this project. Use either Hosted Remote (URL: https://mcp.pixasso.erebuzzz.tech/mcp) or Local Stdio (command: npx, args: ['-y', 'pixasso-mcp']) in the active editor's MCP configuration, and verify that the 7 Pixasso design tools are available."
 
 ---
 

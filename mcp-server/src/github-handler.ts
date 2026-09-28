@@ -467,13 +467,26 @@ app.get('/', (c) => {
       <div class="card-title">Client Configuration Snippets</div>
       <div class="tab-bar">
         <button class="tab-btn active" onclick="showTab('cursor')">Cursor</button>
+        <button class="tab-btn" onclick="showTab('vscode')">VS Code</button>
         <button class="tab-btn" onclick="showTab('claude-desktop')">Claude Desktop</button>
         <button class="tab-btn" onclick="showTab('claude-code')">Claude Code CLI</button>
         <button class="tab-btn" onclick="showTab('antigravity')">Antigravity / Gemini</button>
+        <button class="tab-btn" onclick="showTab('agent-prompt')">Agent Prompt</button>
       </div>
 
       <div id="tab-cursor">
         <pre class="code-block"><code>// Add to ~/.cursor/mcp.json
+{
+  "mcpServers": {
+    "pixasso-remote": {
+      "url": "${mcpUrl}"
+    }
+  }
+}</code></pre>
+      </div>
+
+      <div id="tab-vscode" style="display: none;">
+        <pre class="code-block"><code>// Add to .vscode/mcp.json (VS Code / Copilot) or Cline / Roo Code settings
 {
   "mcpServers": {
     "pixasso-remote": {
@@ -508,6 +521,12 @@ claude mcp add pixasso-remote --transport http ${mcpUrl}</code></pre>
     }
   }
 }</code></pre>
+      </div>
+
+      <div id="tab-agent-prompt" style="display: none;">
+        <pre class="code-block"><code>// Copy &amp; paste this prompt to your AI assistant:
+Please configure the Pixasso MCP server for this project.
+Set MCP server 'pixasso-remote' with URL '${mcpUrl}' in this editor's MCP configuration and verify the 7 design tools are loaded.</code></pre>
       </div>
     </div>
 
@@ -581,7 +600,7 @@ claude mcp add pixasso-remote --transport http ${mcpUrl}</code></pre>
     }
 
     function showTab(id) {
-      ['cursor', 'claude-desktop', 'claude-code', 'antigravity'].forEach(name => {
+      ['cursor', 'vscode', 'claude-desktop', 'claude-code', 'antigravity', 'agent-prompt'].forEach(name => {
         const el = document.getElementById('tab-' + name);
         if (el) el.style.display = (name === id) ? 'block' : 'none';
       });

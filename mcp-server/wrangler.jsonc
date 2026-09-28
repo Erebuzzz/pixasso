@@ -25,14 +25,29 @@
       "id": "7c38634bfc7f4e4badf3e97df89d7d65"
     }
   ],
+  "workers_dev": true,
   "routes": [
     {
       "pattern": "mcp.pixasso.erebuzzz.tech",
       "custom_domain": true
+    },
+    {
+      "pattern": "mcp.pixasso.erebuzzz.tech/*",
+      "zone_name": "erebuzzz.tech"
     }
   ],
   "observability": {
-    "enabled": true
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    },
+    "traces": {
+      "enabled": false,
+      "head_sampling_rate": 1,
+      "persist": true
+    }
   },
   "dev": {
     "port": 8788

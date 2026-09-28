@@ -2224,6 +2224,8 @@
         <div class="tab-header">
           <button class="tab-btn active" data-tab="skills">skills.sh (Universal)</button>
           <button class="tab-btn" data-tab="remote">Remote HTTP</button>
+          <button class="tab-btn" data-tab="agentprompt">Agent Prompt</button>
+          <button class="tab-btn" data-tab="vscode">VS Code</button>
           <button class="tab-btn" data-tab="npm">npm / npx</button>
           <button class="tab-btn" data-tab="cursor">Cursor IDE</button>
           <button class="tab-btn" data-tab="mcpregistry">MCP Registry</button>
@@ -2604,6 +2606,28 @@
         desc: 'Hosted Cloudflare Workers Streamable HTTP endpoint with GitHub OAuth. 200 tool calls/day quota. Connect directly without local Node runtime.',
         linkText: 'Remote Dashboard ↗',
         linkUrl: 'https://mcp.pixasso.erebuzzz.tech'
+      },
+      agentprompt: {
+        cmd: 'Please configure the Pixasso MCP server for this project and editor. Use either:\n- Hosted Remote: URL "https://mcp.pixasso.erebuzzz.tech/mcp"\n- Local Stdio: Command "npx" with args ["-y", "pixasso-mcp"]\nAdd it to the active editor MCP configuration (.vscode/mcp.json, ~/.cursor/mcp.json, or cline_mcp_settings.json) and verify all 7 design tools are loaded.',
+        desc: 'Send this instruction to any AI coding assistant (Cursor, Copilot, Windsurf, Claude, Cline, Roo Code, Antigravity) to install Pixasso automatically.',
+        linkText: 'README Setup ↗',
+        linkUrl: 'https://github.com/Erebuzzz/pixasso#readme'
+      },
+      vscode: {
+        cmd: JSON.stringify({
+          mcpServers: {
+            "pixasso-remote": {
+              "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
+            },
+            "pixasso": {
+              "command": "npx",
+              "args": ["-y", "pixasso-mcp"]
+            }
+          }
+        }, null, 2),
+        desc: 'Add to .vscode/mcp.json (VS Code native / Copilot) or Cline / Roo Code / Continue MCP settings.',
+        linkText: 'VS Code Setup ↗',
+        linkUrl: 'https://github.com/Erebuzzz/pixasso#vs-code'
       },
       skills: {
         cmd: 'npx skills add Erebuzzz/pixasso',

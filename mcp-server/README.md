@@ -114,7 +114,24 @@ Add to your Cursor MCP settings (`~/.cursor/mcp.json`):
 }
 ```
 
-### 3. Claude Code CLI
+### 3. VS Code
+Add to `.vscode/mcp.json` (for native VS Code MCP and GitHub Copilot) or your extension settings (Cline, Roo Code, Continue):
+
+```json
+{
+  "mcpServers": {
+    "pixasso-local": {
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
+    },
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
+    }
+  }
+}
+```
+
+### 4. Claude Code CLI
 Register local or remote:
 
 ```bash
@@ -125,7 +142,7 @@ claude mcp add pixasso npx -y pixasso-mcp
 claude mcp add pixasso-remote --transport http https://mcp.pixasso.erebuzzz.tech/mcp
 ```
 
-### 4. Google Antigravity & Gemini CLI
+### 5. Google Antigravity & Gemini CLI
 Add to `~/.gemini/antigravity/mcp_config.json`:
 
 ```json
@@ -140,6 +157,24 @@ Add to `~/.gemini/antigravity/mcp_config.json`:
     }
   }
 }
+```
+
+### 6. Agent Installation Prompt (Install in Any IDE via AI Assistant)
+
+You can prompt any AI coding assistant in your IDE (Cursor, VS Code, Windsurf, Claude, Copilot, Cline, Roo Code, Antigravity) to configure Pixasso automatically. Simply copy and paste the prompt below into your assistant chat:
+
+```text
+Please configure the Pixasso MCP server for my project and editor.
+
+Choose one of the two options:
+1. Option A (Hosted Remote, zero local runtime):
+   Configure MCP server "pixasso-remote" with URL:
+   https://mcp.pixasso.erebuzzz.tech/mcp
+
+2. Option B (Local Stdio):
+   Configure MCP server "pixasso" with command "npx" and args ["-y", "pixasso-mcp"]
+
+Add the configuration to the appropriate MCP settings file for this editor (such as .vscode/mcp.json, ~/.cursor/mcp.json, claude_desktop_config.json, or cline_mcp_settings.json) and verify that the 7 Pixasso design tools are active.
 ```
 
 ---

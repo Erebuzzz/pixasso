@@ -243,9 +243,10 @@ Pixasso provides dual transport architectures: a hosted remote edge endpoint (ze
 flowchart TD
     subgraph Clients ["Supported MCP Clients"]
         C1["Cursor IDE"]
-        C2["Claude Desktop"]
-        C3["Claude Code CLI"]
-        C4["Google Antigravity / Gemini"]
+        C2["VS Code (Copilot / Cline / Roo)"]
+        C3["Claude Desktop"]
+        C4["Claude Code CLI"]
+        C5["Google Antigravity / Gemini"]
     end
 
     subgraph RemoteTransport ["Option A: Hosted Remote (Zero Local Runtime)"]
@@ -274,8 +275,8 @@ flowchart TD
         T7["pixasso_generate_test_plan"]
     end
 
-    C1 & C2 & C3 & C4 -->|Remote HTTP SSE| R_URL
-    C1 & C2 & C3 & C4 -->|Local Subprocess| L_NPX
+    C1 & C2 & C3 & C4 & C5 -->|Remote HTTP SSE| R_URL
+    C1 & C2 & C3 & C4 & C5 -->|Local Subprocess| L_NPX
     R_WORKER --> Engine
     L_LOCAL --> Engine
 ```
@@ -294,6 +295,18 @@ https://mcp.pixasso.erebuzzz.tech/mcp
 
 ##### Cursor IDE (Remote)
 Add to `~/.cursor/mcp.json` or `.cursor/mcp.json`:
+```json
+{
+  "mcpServers": {
+    "pixasso-remote": {
+      "url": "https://mcp.pixasso.erebuzzz.tech/mcp"
+    }
+  }
+}
+```
+
+##### VS Code (Remote)
+Add to `.vscode/mcp.json` (for native VS Code MCP and GitHub Copilot) or your extension settings (Cline, Roo Code, Continue):
 ```json
 {
   "mcpServers": {
@@ -357,6 +370,20 @@ Or install via skills.sh:
 npx skills add Erebuzzz/pixasso
 ```
 
+##### VS Code (Local Stdio)
+Add to `.vscode/mcp.json` (for native VS Code MCP and GitHub Copilot) or your extension settings (Cline, Roo Code, Continue):
+
+```json
+{
+  "mcpServers": {
+    "pixasso": {
+      "command": "npx",
+      "args": ["-y", "pixasso-mcp"]
+    }
+  }
+}
+```
+
 ##### Claude Desktop
 Add to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
 
@@ -411,6 +438,28 @@ If running against your local clone instead of npm, replace `"command": "npx"` a
 }
 ```
 Tip: running `node scripts/install.js` configures your local clone path automatically across all installed editors.
+
+---
+
+### 3. Agent Installation Prompt (Install in Any IDE via AI Assistant)
+
+You can prompt any AI coding assistant in your IDE (Cursor, VS Code, Windsurf, Claude, Copilot, Cline, Roo Code, Antigravity) to configure Pixasso automatically. Simply copy and paste the prompt below into your assistant chat:
+
+```text
+Please configure the Pixasso MCP server for my project and editor.
+
+Choose one of the two options:
+1. Option A (Hosted Remote, zero local runtime):
+   Configure MCP server "pixasso-remote" with URL:
+   https://mcp.pixasso.erebuzzz.tech/mcp
+
+2. Option B (Local Stdio):
+   Configure MCP server "pixasso" with command "npx" and args ["-y", "pixasso-mcp"]
+
+Add the configuration to the appropriate MCP settings file for this editor (such as .vscode/mcp.json, ~/.cursor/mcp.json, claude_desktop_config.json, or cline_mcp_settings.json) and verify that the 7 Pixasso design tools are active.
+```
+
+---
 
 #### ChatGPT / OpenAI Custom GPTs / Web UIs
 For web-based LLMs, import the standalone system prompts located in:
