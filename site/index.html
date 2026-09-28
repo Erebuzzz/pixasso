@@ -3694,6 +3694,13 @@ Evaluate the candidate interface code against the 16 Pillars:
     }
 
     drawHeroWave();
+
+    // Active session heartbeat: keeps backend connection warm when tab is open
+    setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        fetch('https://mcp.pixasso.erebuzzz.tech/ping').catch(() => {});
+      }
+    }, 240000);
   </script>
 </body>
 </html>

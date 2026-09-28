@@ -1,0 +1,36 @@
+name: Keep Alive Frontend & Backend
+
+on:
+  schedule:
+    # Run every 15 minutes to prevent edge and serverless cold starts
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  keep-alive:
+    name: Ping Services
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Frontend (Showcase & Docs)
+        run: |
+          curl -f -s -S -o /dev/null -w "Frontend status: %{http_code} (%{time_total}s)\n" https://pixasso.erebuzzz.tech
+
+      - name: Ping Backend Health Check
+        run: |
+          curl -f -s -S -o /dev/null -w "Backend Health status: %{http_code} (%{time_total}s)\n" https://mcp.pixasso.erebuzzz.tech/health
+
+      - name: Ping Direct Worker Health Check
+        run: |
+          curl -f -s -S -o /dev/null -w "Direct Worker status: %{http_code} (%{time_total}s)\n" https://pixasso-mcp.kshitiz23kumar.workers.dev/health
+
+      - name: Ping MCP OAuth Handshake Endpoint
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://mcp.pixasso.erebuzzz.tech/mcp)
+          echo "MCP Endpoint status: $HTTP_CODE"
+          if [ "$HTTP_CODE" -ne 401 ] && [ "$HTTP_CODE" -ne 200 ]; then
+            echo "Unexpected status code: $HTTP_CODE"
+            exit 1
+          fi

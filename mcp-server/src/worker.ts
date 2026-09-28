@@ -206,7 +206,7 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
   }
 }
 
-export default new OAuthProvider({
+const oauthProvider = new OAuthProvider({
   apiRoute: '/mcp',
   apiHandler: PixassoMcpAgent.serve('/mcp'),
   defaultHandler: GitHubHandler,
@@ -214,3 +214,44 @@ export default new OAuthProvider({
   tokenEndpoint: '/token',
   clientRegistrationEndpoint: '/register'
 });
+
+export default {
+  fetch(request: Request, env: WorkerEnv, ctx: ExecutionContext): Promise<Response> {
+    return oauthProvider.fetch(request, env, ctx);
+  },
+
+  async scheduled(controller: ScheduledController, env: WorkerEnv, ctx: ExecutionContext): Promise<void> {
+    const timestamp = new Date().toISOString();
+    const urlsToWarm = [
+      'https://pixasso.erebuzzz.tech',
+      'https://mcp.pixasso.erebuzzz.tech/health',
+      'https://pixasso-mcp.kshitiz23kumar.workers.dev/health'
+    ];
+
+    ctx.waitUntil(
+      (async () => {
+        await Promise.allSettled(
+          urlsToWarm.map(async (url) => {
+            try {
+              await fetch(url, {
+                headers: { 'User-Agent': 'Pixasso-KeepAlive/1.1.1 (Cloudflare-Cron)' }
+              });
+            } catch (err: any) {
+              console.error(`[Keep-Alive] Ping failed for ${url}:`, err?.message || err);
+            }
+          })
+        );
+
+        try {
+          if (env.OAUTH_KV) {
+            await env.OAUTH_KV.put('__last_keep_alive__', timestamp, { expirationTtl: 86400 });
+          }
+          await (oauthProvider as any).purgeExpiredData?.(env);
+        } catch (err: any) {
+          console.error('[Keep-Alive] Maintenance error:', err?.message || err);
+        }
+      })()
+    );
+  }
+};
+

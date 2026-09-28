@@ -26,6 +26,41 @@ export type WorkerEnv = {
 
 const app = new Hono<{ Bindings: WorkerEnv }>();
 
+app.on(['GET', 'HEAD'], '/health', async (c) => {
+  const start = Date.now();
+  let kvStatus = 'operational';
+  try {
+    if (c.env.OAUTH_KV) {
+      await c.env.OAUTH_KV.get('__health_probe__');
+    }
+  } catch (err: any) {
+    kvStatus = 'degraded: ' + (err?.message || 'error');
+  }
+
+  return c.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    service: 'pixasso-remote-mcp',
+    version: '1.1.1',
+    latencyMs: Date.now() - start,
+    checks: {
+      worker: 'operational',
+      kv: kvStatus,
+      durableObject: 'operational'
+    }
+  }, 200, {
+    'Cache-Control': 'no-store, no-cache, must-revalidate',
+    'Access-Control-Allow-Origin': '*'
+  });
+});
+
+app.on(['GET', 'HEAD'], '/ping', (c) => {
+  return c.text('pong', 200, {
+    'Cache-Control': 'no-store, no-cache, must-revalidate',
+    'Access-Control-Allow-Origin': '*'
+  });
+});
+
 app.get('/', (c) => {
   const mcpUrl = new URL('/mcp', c.req.url).href;
   const html = `<!DOCTYPE html>
