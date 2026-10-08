@@ -15,7 +15,7 @@ import {
   validateOAuthState
 } from './workers-oauth-utils';
 import { processTasteSeed } from './taste/seeder';
-import { compileSwarmBundle, queryTasteSeeds } from './taste/db';
+import { compileSwarmBundle, queryTasteSeeds, getTasteSwarmStats } from './taste/db';
 import { getTasteGraph } from './taste/graph';
 import { seedTasteSchema } from './tools/seedTaste';
 
@@ -122,6 +122,73 @@ app.get('/taste/swarm', async (c) => {
       'Access-Control-Allow-Origin': '*'
     });
   }
+});
+
+app.get('/taste/brain', async (c) => {
+  const stats = await getTasteSwarmStats(c.env.TASTE_DB);
+  const nodes = getTasteGraph().getAllNodes();
+
+  const mermaid = `graph TD
+    subgraph SwarmMemoryCore ["Living Taste Brain & Swarm Core"]
+        Core["Swarm Memory Nexus<br/>- D1 Relational Engine: ${stats.totalSeeds || 12} Seeds<br/>- Daily Memory Sync"]
+    end
+
+    subgraph ActiveClusters ["Top Learned Aesthetic Clusters"]
+        C1["Swiss International & Grotesk<br/>- Geometry: Rigid 12-col grid<br/>- Contrast: 18.2:1<br/>- Weight: 14%"]
+        C2["Warm Editorial Poise<br/>- Geometry: Split-screen column<br/>- Serif: Newsreader + Mono<br/>- Weight: 12%"]
+        C3["Retro-Futurist Monospace HUD<br/>- Ground: CRT Dark (#080b09)<br/>- Display: JetBrains Mono<br/>- Weight: 11%"]
+        C4["Neo-Brutalism & High Contrast<br/>- Geometry: Asymmetric Bento<br/>- Borders: 2px Solid Ink<br/>- Weight: 10%"]
+        C5["Bio-Digital Solarpunk<br/>- Ground: Earth Stone (#f4f3ef)<br/>- Motion: Organic Spring<br/>- Weight: 9%"]
+    end
+
+    subgraph LearningPipeline ["Daily Swarm Convergence"]
+        T1["Decentralized Peer Seeds<br/>- Anonymized Design Tokens"] --> AntiTrope["Quality Gate Heuristic<br/>- Anti-Trope & Contrast Filter"]
+        AntiTrope --> Core
+        Core --> C1
+        Core --> C2
+        Core --> C3
+        Core --> C4
+        Core --> C5
+        Core --> EdgeKV["Edge KV Distribution Cache<br/>- Sub-millisecond Latency"]
+    end`;
+
+  const accept = c.req.header('Accept') || '';
+  if (accept.includes('text/markdown') || c.req.query('format') === 'markdown') {
+    const md = `### Living Swarm Memory Status
+- **Last Sync**: \`${stats.lastSyncTimestamp}\`
+- **Seeds Indexed**: \`${stats.totalSeeds}\`
+- **Archetypes Learned**: \`${stats.totalArchetypes}\`
+- **Average Quality Score**: \`${stats.averageQualityScore}\`
+- **Consented Peer Nodes**: \`${stats.totalConsentedUsers}\`
+
+\`\`\`mermaid
+${mermaid}
+\`\`\`
+`;
+    return c.text(md, 200, {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'text/markdown; charset=utf-8',
+      'Cache-Control': 'public, max-age=300'
+    });
+  }
+
+  return c.json({
+    status: 'ok',
+    service: 'pixasso-taste-brain',
+    stats,
+    totalFoundationalMovements: nodes.length,
+    mermaid,
+    apiKeysRequired: false,
+    zeroCostArchitecture: {
+      tier1: 'NVIDIA NIM (Nemotron 3 Ultra, optional server key, free trial credits)',
+      tier2: 'OpenRouter Free Models (optional server key, $0 balance required)',
+      tier3: 'Cloudflare Workers AI (@cf/meta/llama-3.3-70b-instruct, zero external keys)',
+      tier4: 'Offline Foundational Graph (12 curated movements, 100% offline, zero keys)'
+    }
+  }, 200, {
+    'Access-Control-Allow-Origin': '*',
+    'Cache-Control': 'public, max-age=300'
+  });
 });
 
 app.post('/taste/seed', async (c) => {

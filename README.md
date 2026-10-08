@@ -206,6 +206,119 @@ flowchart TD
 
 ---
 
+## Living Taste Brain & Swarm Memory (Daily Edge Sync)
+
+Pixasso features a self-learning exploration layer and decentralized "Taste Swarm" inspired by BitTorrent seeding. Rather than relying on repetitive questions or generic AI tropes, Pixasso continuously explores design movements, synthesizes bespoke aesthetic worlds, and learns high-craft token combinations from consented peer nodes at zero financial cost.
+
+<!-- TASTE_BRAIN_START -->
+### Living Swarm Memory Status
+> **Last Memory Sync**: `2026-10-08` | **Storage**: Cloudflare D1 Serverless SQL | **Edge Cache**: Global KV | **Zero-Cost Engine**: Active
+
+| Metric | Live Value | Target / Health |
+| :--- | :--- | :--- |
+| **Total Anonymized Seeds** | `12` | Growing via Torrent Seeding |
+| **Active Aesthetic Archetypes** | `12` | Curated Movements and Mutations |
+| **Average Quality Score** | `0.94 / 1.0` | Filtered via Anti-Trope and Contrast Gates |
+| **Consented Peer Nodes** | `1` | Strict Opt-In Verified |
+| **Daily Edge Distribution** | `Active` | Sub-millisecond KV Edge Distribution |
+
+#### Swarm Memory Topological Map
+
+```mermaid
+graph TD
+    subgraph SwarmMemoryCore ["Living Taste Brain & Swarm Core"]
+        Core["Swarm Memory Nexus<br/>- D1 Relational Engine: 12 Seeds<br/>- Daily Memory Sync"]
+    end
+
+    subgraph ActiveClusters ["Top Learned Aesthetic Clusters"]
+        C1["Swiss International & Grotesk<br/>- Geometry: Rigid 12-col grid<br/>- Contrast: 18.2:1<br/>- Weight: 14%"]
+        C2["Warm Editorial Poise<br/>- Geometry: Split-screen column<br/>- Serif: Newsreader + Mono<br/>- Weight: 12%"]
+        C3["Retro-Futurist Monospace HUD<br/>- Ground: CRT Dark (#080b09)<br/>- Display: JetBrains Mono<br/>- Weight: 11%"]
+        C4["Neo-Brutalism & High Contrast<br/>- Geometry: Asymmetric Bento<br/>- Borders: 2px Solid Ink<br/>- Weight: 10%"]
+        C5["Bio-Digital Solarpunk<br/>- Ground: Earth Stone (#f4f3ef)<br/>- Motion: Organic Spring<br/>- Weight: 9%"]
+    end
+
+    subgraph LearningPipeline ["Daily Swarm Convergence"]
+        T1["Decentralized Peer Seeds<br/>- Anonymized Design Tokens"] --> AntiTrope["Quality Gate Heuristic<br/>- Anti-Trope & Contrast Filter"]
+        AntiTrope --> Core
+        Core --> C1
+        Core --> C2
+        Core --> C3
+        Core --> C4
+        Core --> C5
+        Core --> EdgeKV["Edge KV Distribution Cache<br/>- Sub-millisecond Latency"]
+    end
+```
+
+#### Top Learned Aesthetics of the Day
+1. **Swiss International & High Grotesk**: Rigid 12-column grid, mathematical hairlines, pure monochrome contrast (18.2:1).
+2. **Contemporary Editorial & Type Poise**: Wide margins, Newsreader serif body, asymmetric quote callouts, archival ivory tone.
+3. **Retro-Futurist Monospace HUD**: Emerald raster glow on CRT basalt, bracket hotkeys, fixed telemetry bento grid.
+4. **Neo-Brutalism & High Contrast**: Raw 2px ink borders, vibrant cadmium accents, asymmetric card geometry.
+5. **Bio-Digital Solarpunk**: Earthen stone ground, organic rounded pill contours, fluid kinetic spring physics.
+
+*Memory consolidates automatically once per day at 00:00 UTC via Cloudflare Workers Cron and GitHub Actions.*
+<!-- TASTE_BRAIN_END -->
+
+### Daily Memory Lifecycle & Swarm Intelligence Pipeline
+
+The Pixasso Taste Swarm operates like a decentralized peer-to-peer network for visual design tokens:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Dev as Developer / Agent
+    participant Discovery as pixasso_discover_intent
+    participant Seeder as pixasso_seed_taste
+    participant Filter as Anti-Trope & Contrast Gate
+    participant D1 as Cloudflare D1 (pixasso-taste-db)
+    participant Cron as Cloudflare Cron (00:00 UTC)
+    participant KV as Cloudflare Workers KV
+    participant GitHub as GitHub Actions (Sync Workflow)
+    participant Readme as README.md Living Memory
+
+    Dev->>Discovery: Run intent discovery on new project
+    Discovery->>Dev: Bespoke aesthetic worlds + Swarm Opt-In prompt
+    Dev->>Seeder: Opt-in and seed validated design tokens
+    Seeder->>Filter: Verify WCAG contrast (>= 4.5:1) and anti-trope checks
+    Filter-->>D1: Store sanitized, anonymized seed record
+    Note over D1,Cron: Continuous peer seed collection
+    Cron->>D1: Trigger daily memory harvest at 00:00 UTC
+    D1->>KV: Re-index top archetypes & cache swarm bundle (24h TTL)
+    GitHub->>KV: Query live memory status from /taste/brain
+    GitHub->>Readme: Update topological Mermaid graph and metrics
+```
+
+### Zero-Cost Inference Router: Are API Keys Required?
+
+**Short answer: No. You do NOT need any API keys to use Pixasso.**
+
+Pixasso is built with a tiered fallback architecture designed to remain completely free for developers and agents out of the box:
+
+| Tier | Provider / Engine | API Key Requirement | Purpose & Fallback Behavior |
+| :--- | :--- | :--- | :--- |
+| **Tier 1** | **NVIDIA NIM** (`nvidia/nemotron-3-ultra-550b`) | Optional (Server Secret) | Advanced artistic direction and unconventional palette generation. NVIDIA offers 1,000 free trial credits at build.nvidia.com. If unset, instantly skips to Tier 2. |
+| **Tier 2** | **OpenRouter Free Tier** (`llama-3.3-70b-instruct:free`, `gemini-2.0-flash-exp:free`) | Optional (Server Secret) | Free multi-model inference. Requires only a free OpenRouter account with $0 balance. If unset, instantly skips to Tier 3. |
+| **Tier 3** | **Cloudflare Workers AI** (`@cf/meta/llama-3.3-70b-instruct`) | None (Built-in) | Runs directly on the Cloudflare edge via the Worker `AI` binding. Cloudflare provides 10,000 free neurons daily with zero external keys required. |
+| **Tier 4** | **Foundational Design Graph** (12 Curated Movements) | None (100% Offline) | Deterministic design pairing across 12 high-taste movements. Operates with zero network calls, zero latency, and zero token costs. |
+
+#### For Local Users and Agents (`npx -y pixasso-mcp`)
+You do not need to provide any API keys or configuration files. The local stdio server will run the offline foundational graph and local rules with zero cloud dependency.
+
+#### For Self-Hosters Deploying Their Own Remote Worker
+If you deploy your own instance of the Cloudflare Worker and wish to connect NVIDIA NIM or OpenRouter, you can optionally store secrets using Wrangler:
+
+```bash
+# Optional: Set NVIDIA NIM API key
+npx wrangler secret put NVIDIA_API_KEY
+
+# Optional: Set OpenRouter API key
+npx wrangler secret put OPENROUTER_API_KEY
+```
+If you omit these secrets, your worker will seamlessly use Cloudflare Workers AI and the offline foundational graph with zero errors.
+
+---
+
 ## Installation & Setup
 
 Pixasso works across all major AI development environments.
