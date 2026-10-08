@@ -520,6 +520,7 @@ Always provide specific, literate, and implementation-ready recommendations. Rep
 | Sound & Sensory | [sound-and-sensory-design.md](references/sound-and-sensory-design.md) |
 | Testing & QA | [interface-testing-and-qa.md](references/interface-testing-and-qa.md), [interface-test-plan.md](templates/interface-test-plan.md) |
 | Critique | [prompts/critique.md](prompts/critique.md), [design-critique-rubric.md](templates/design-critique-rubric.md) |
+| Taste & Swarm | [taste-engine-and-swarm.md](references/taste-engine-and-swarm.md) |
 
 Existing catalogs remain authoritative: UI libraries, motion, galleries, case studies, creative coding, sound, testing, art direction, anti-patterns, generative tools under `references/`.
 
@@ -539,3 +540,17 @@ Know when to be expressive and when to be restrained. Know when 3D enlightens an
 - Novelty and originality
 
 The goal is not to make every interface look spectacular. The goal is to make every interface feel intentional.
+
+---
+
+## 37. Living Taste Brain & Decentralized Swarm Intelligence
+
+Pixasso incorporates an autonomous Taste Engine and federated Swarm Intelligence layer. It breaks out of generic AI tropes and repetitive form interrogation through:
+- **Zero-Cost Multi-Provider Inference Router**: Prioritizes NVIDIA NIM (Nemotron 3 Ultra), OpenRouter free models, Cloudflare Workers AI, and 12 foundational offline design movements. Zero API keys required by end users.
+- **Bespoke Aesthetic Worlds**: Every intent discovery generates 3 distinct, high-craft aesthetic worlds tailored to the brief rather than bland templates.
+- **Decentralized Torrent-Style Swarm**: Developers and agents can optionally opt in to anonymously seed validated tokens back to the living taste graph stored in Cloudflare D1 (`pixasso-taste-db`).
+- **Strict Opt-In Privacy**: Seeding is strictly opt-in; zero private project text or proprietary code is ever transmitted.
+- **Daily Edge Consolidation**: A scheduled harvester consolidates top-rated peer seeds into Cloudflare KV (`taste:swarm:bundle`) every 24 hours.
+
+Deep documentation: [taste-engine-and-swarm.md](references/taste-engine-and-swarm.md).
+

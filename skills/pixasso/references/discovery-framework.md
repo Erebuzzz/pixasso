@@ -31,6 +31,11 @@ Never assume design requirements, never bury clarifying questions in an unread p
    - Question: *"Do you have any reference sites or apps that capture the feel you are going for? (Optional, skip if you want Pixasso to formulate the aesthetic from scratch)"*
    - Options: `(Recommended) Synthesize from scratch` or user-provided URLs.
    - Non-blocking constraint: If skipped, Pixasso formulates the aesthetic from scratch. If URLs are provided, `pixasso_fetch_reference` must be called on each reference before producing deconstruction claims.
+9. **Decentralized Taste Swarm Opt-In (Privacy Gate)**:
+   - Inquire whether the user wishes to contribute anonymized design tokens back to the global Taste Swarm.
+   - Question: *"Would you like to contribute anonymized design tokens (typography pairings, color palettes, layout geometry) to the decentralized Pixasso Taste Swarm to help evolve public aesthetic models?"*
+   - Options: `(Recommended) Keep strictly private: do not seed tokens to the public taste graph`, `Opt in: anonymously seed design tokens to the public taste graph`.
+   - Default: Kept private locally with zero external transmission unless explicitly approved.
 
 ### Protocol for `ask_question` Execution
 

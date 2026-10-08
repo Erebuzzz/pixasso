@@ -21,14 +21,15 @@ skills/pixasso/
 └── prompts/
 ```
 
-Source catalogs at the repo root (`references/`, `templates/`, `prompts/`) are editable working copies. After you change them, sync into `skills/pixasso/` before opening a PR.
+Source catalogs at the repo root (`references/`, `templates/`, `prompts/`) are editable working copies. After you change them, sync into `skills/pixasso/` before opening a PR. You can run `node scripts/sync-skill.js` to automatically mirror updates to `.agents/`, `.cursor/`, and `plugins/`.
 
 ### Keep mirrors in sync
 
-If you change skill content under `skills/pixasso/`, also update these mirrors so project-scoped agents stay consistent:
+If you change skill content under `skills/pixasso/`, run `node scripts/sync-skill.js` so project-scoped agents stay consistent:
 
 - `.cursor/skills/pixasso/`
 - `.agents/skills/pixasso/`
+- `plugins/pixasso/skills/pixasso/`
 
 Root adapters (`SKILL.md`, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.cursorrules`, `.cursor/rules/`) should stay aligned with the canonical package intent, but they are not a substitute for updating `skills/pixasso/`.
 
@@ -45,6 +46,7 @@ These files are gitignored and must not be added:
 
 - `WORKFLOW_CONTEXT.md`
 - `code_review.md`
+- `brain/`
 
 Also do not commit secrets, `.env` files, or personal credentials.
 

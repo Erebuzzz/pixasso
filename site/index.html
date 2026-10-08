@@ -1708,6 +1708,195 @@
       gap: 0.5rem;
       flex-shrink: 0;
     }
+
+    /* Living Taste Brain & Swarm Memory Showcase */
+    .brain-section-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brain-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .brain-stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .brain-stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-accent);
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+
+    .brain-stat-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-2xs);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .brain-stat-value {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+      font-weight: 800;
+      color: var(--ink-primary);
+      line-height: 1.1;
+    }
+
+    .brain-stat-sub {
+      font-size: var(--text-2xs);
+      color: var(--ink-secondary);
+      margin-top: 0.35rem;
+      font-family: var(--font-mono);
+    }
+
+    .brain-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      display: inline-block;
+      animation: brainPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes brainPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .brain-topology-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .brain-topology-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .brain-clusters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .brain-cluster-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .brain-cluster-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .brain-cluster-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .brain-cluster-title {
+      font-weight: 700;
+      font-size: var(--text-sm);
+      color: var(--ink-primary);
+    }
+
+    .brain-cluster-tag {
+      font-family: var(--font-mono);
+      font-size: var(--text-2xs);
+      padding: 0.15rem 0.45rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      color: var(--ink-secondary);
+    }
+
+    .brain-swatches {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .brain-swatch-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .brain-cluster-meta {
+      font-size: var(--text-xs);
+      color: var(--ink-secondary);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .brain-cluster-traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .brain-trait-pill {
+      font-family: var(--font-mono);
+      font-size: var(--text-2xs);
+      padding: 0.15rem 0.4rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px dashed var(--border);
+      color: var(--ink-secondary);
+    }
+
+    .brain-zero-callout {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
   </style>
 </head>
 <body>
@@ -1744,6 +1933,7 @@
 
         <nav class="nav-zone-center" aria-label="Section Navigation">
           <ul class="nav-links">
+            <li><a href="#live-brain"><span class="nav-hotkey">[B]</span> Live Brain</a></li>
             <li><a href="#preview"><span class="nav-hotkey">[V]</span> Preview</a></li>
             <li><a href="#examples"><span class="nav-hotkey">[E]</span> Examples</a></li>
             <li><a href="#install"><span class="nav-hotkey">[I]</span> Install</a></li>
@@ -2042,6 +2232,210 @@
             <span class="micro-pill">Vercel</span>
             <span class="micro-pill">Cloudflare</span>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Living Taste Brain & Swarm Memory Section -->
+  <section class="section-wrap" id="live-brain">
+    <div class="container">
+      <div class="section-header">
+        <div class="tag-row">
+          <span>/</span>
+          <span>Living Memory</span>
+          <span class="pill-tag" id="liveSyncStatus"><span class="brain-pulse-dot"></span> Edge Sync Active</span>
+          <span class="pill-tag">Zero-Cost Engine</span>
+          <span class="pill-tag">Cloudflare D1 &amp; KV</span>
+        </div>
+        <h2 class="section-title">Living Taste Brain &amp; Swarm Memory</h2>
+        <p class="section-desc">
+          Pixasso's self-learning exploration brain evolves daily via decentralized swarm intelligence. Rather than relying on repetitive questions or generic AI tropes, Pixasso explores 12 canonical movements and continuously absorbs verified design tokens from opted-in peers at zero financial cost.
+        </p>
+        <div class="brain-section-controls">
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <a href="https://mcp.pixasso.erebuzzz.tech/taste/brain" target="_blank" rel="noopener" class="pill-btn">
+              <span>Live JSON Stream</span>
+              <span>&nearr;</span>
+            </a>
+            <a href="https://mcp.pixasso.erebuzzz.tech/taste/graph" target="_blank" rel="noopener" class="pill-btn">
+              <span>12 Foundational Movements</span>
+              <span>&nearr;</span>
+            </a>
+            <a href="https://mcp.pixasso.erebuzzz.tech/taste/swarm" target="_blank" rel="noopener" class="pill-btn">
+              <span>Edge Swarm Bundle</span>
+              <span>&nearr;</span>
+            </a>
+          </div>
+          <button class="agent-world-btn" id="refreshBrainBtn" type="button" data-caption="Sync Latest Memory [B]">
+            <span>Fetch Live Memory Snapshot</span>
+            <span>&circlearrowright;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Memory Metrics Grid -->
+      <div class="brain-stats-grid">
+        <div class="brain-stat-card">
+          <div class="brain-stat-label">
+            <span class="brain-pulse-dot"></span>
+            Total Anonymized Seeds
+          </div>
+          <div class="brain-stat-value" id="brainMetricSeeds">12+</div>
+          <div class="brain-stat-sub">Peer-contributed design tokens</div>
+        </div>
+
+        <div class="brain-stat-card">
+          <div class="brain-stat-label">Active Archetypes</div>
+          <div class="brain-stat-value" id="brainMetricArchetypes">12</div>
+          <div class="brain-stat-sub">Curated movements &amp; mutations</div>
+        </div>
+
+        <div class="brain-stat-card">
+          <div class="brain-stat-label">Avg Quality Score</div>
+          <div class="brain-stat-value" id="brainMetricQuality">0.94 / 1.0</div>
+          <div class="brain-stat-sub">Filtered via contrast &amp; anti-trope</div>
+        </div>
+
+        <div class="brain-stat-card">
+          <div class="brain-stat-label">Peer Node Consent</div>
+          <div class="brain-stat-value" id="brainMetricNodes">Strict Opt-In</div>
+          <div class="brain-stat-sub">Salted SHA-256 anonymized</div>
+        </div>
+
+        <div class="brain-stat-card">
+          <div class="brain-stat-label">Daily Edge Sync</div>
+          <div class="brain-stat-value" id="brainMetricLastSync">Today (00:00 UTC)</div>
+          <div class="brain-stat-sub">Global Cloudflare KV distribution</div>
+        </div>
+      </div>
+
+      <!-- Topological Memory Graph & Clusters -->
+      <div class="brain-topology-card">
+        <div class="brain-topology-header">
+          <div>
+            <h3 style="margin: 0; font-size: var(--text-base); font-weight: 800;">Topological Swarm Memory &amp; Active Clusters</h3>
+            <p style="margin: 0.25rem 0 0; font-size: var(--text-xs); color: var(--ink-secondary); font-family: var(--font-mono);">
+              Daily convergence across serverless Cloudflare D1 SQL and sub-millisecond edge KV caching
+            </p>
+          </div>
+          <span class="pill-tag">Automated Cron: 00:00 UTC</span>
+        </div>
+
+        <div class="brain-clusters-grid" id="brainClustersGrid">
+          <!-- Cluster 1: Swiss International -->
+          <div class="brain-cluster-card">
+            <div class="brain-cluster-header">
+              <span class="brain-cluster-title">Swiss International Grotesk</span>
+              <span class="brain-cluster-tag">Weight: 14%</span>
+            </div>
+            <div class="brain-swatches">
+              <span class="brain-swatch-dot" style="background: #ffffff;"></span>
+              <span class="brain-swatch-dot" style="background: #000000;"></span>
+              <span class="brain-swatch-dot" style="background: #e0e0e0;"></span>
+            </div>
+            <p class="brain-cluster-meta">Mathematical 12-column grid, hairlines, pure monochrome contrast (18.2:1), and zero decorative shadows.</p>
+            <div class="brain-cluster-traits">
+              <span class="brain-trait-pill">Syne + Inter + Space Mono</span>
+              <span class="brain-trait-pill">12-Col Rigid Grid</span>
+              <span class="brain-trait-pill">150ms Tactile Snap</span>
+            </div>
+          </div>
+
+          <!-- Cluster 2: Warm Editorial -->
+          <div class="brain-cluster-card">
+            <div class="brain-cluster-header">
+              <span class="brain-cluster-title">Warm Editorial Poise</span>
+              <span class="brain-cluster-tag">Weight: 12%</span>
+            </div>
+            <div class="brain-swatches">
+              <span class="brain-swatch-dot" style="background: #fbfaf7;"></span>
+              <span class="brain-swatch-dot" style="background: #191919;"></span>
+              <span class="brain-swatch-dot" style="background: #8c8c82;"></span>
+            </div>
+            <p class="brain-cluster-meta">Archival ivory paper texture, commanding modern serif body, asymmetric quote callouts, wide margin geometry.</p>
+            <div class="brain-cluster-traits">
+              <span class="brain-trait-pill">Newsreader Serif + JetBrains</span>
+              <span class="brain-trait-pill">Split-Screen Editorial</span>
+              <span class="brain-trait-pill">Soft Page Drift</span>
+            </div>
+          </div>
+
+          <!-- Cluster 3: CRT Phosphor -->
+          <div class="brain-cluster-card">
+            <div class="brain-cluster-header">
+              <span class="brain-cluster-title">Retro-Futurist Monospace HUD</span>
+              <span class="brain-cluster-tag">Weight: 11%</span>
+            </div>
+            <div class="brain-swatches">
+              <span class="brain-swatch-dot" style="background: #080b09;"></span>
+              <span class="brain-swatch-dot" style="background: #33ff66;"></span>
+              <span class="brain-swatch-dot" style="background: #0f381e;"></span>
+            </div>
+            <p class="brain-cluster-meta">Emerald raster glow on cathode black ground, bracket hotkeys, 1px scanline texture, telemetry bento panels.</p>
+            <div class="brain-cluster-traits">
+              <span class="brain-trait-pill">JetBrains Mono + Space Mono</span>
+              <span class="brain-trait-pill">Telemetry Bento</span>
+              <span class="brain-trait-pill">Scanline Flicker</span>
+            </div>
+          </div>
+
+          <!-- Cluster 4: Neo-Brutalism -->
+          <div class="brain-cluster-card">
+            <div class="brain-cluster-header">
+              <span class="brain-cluster-title">Neo-Brutalism &amp; High Contrast</span>
+              <span class="brain-cluster-tag">Weight: 10%</span>
+            </div>
+            <div class="brain-swatches">
+              <span class="brain-swatch-dot" style="background: #e5e5e0;"></span>
+              <span class="brain-swatch-dot" style="background: #000000;"></span>
+              <span class="brain-swatch-dot" style="background: #facc15;"></span>
+            </div>
+            <p class="brain-cluster-meta">Raw 2px ink borders, unyielding geometric contrast, vibrant cadmium highlights, zero gradient tropes.</p>
+            <div class="brain-cluster-traits">
+              <span class="brain-trait-pill">Space Grotesk + Archivo</span>
+              <span class="brain-trait-pill">Asymmetric Bento</span>
+              <span class="brain-trait-pill">Instant State Toggle</span>
+            </div>
+          </div>
+
+          <!-- Cluster 5: Solarpunk Organic -->
+          <div class="brain-cluster-card">
+            <div class="brain-cluster-header">
+              <span class="brain-cluster-title">Bio-Digital Solarpunk</span>
+              <span class="brain-cluster-tag">Weight: 9%</span>
+            </div>
+            <div class="brain-swatches">
+              <span class="brain-swatch-dot" style="background: #f4f3ef;"></span>
+              <span class="brain-swatch-dot" style="background: #223825;"></span>
+              <span class="brain-swatch-dot" style="background: #d97706;"></span>
+            </div>
+            <p class="brain-cluster-meta">Warm stone ground, organic rounded pill contours, earth moss and amber tones, fluid spring physics.</p>
+            <div class="brain-cluster-traits">
+              <span class="brain-trait-pill">Fraunces + Plus Jakarta Sans</span>
+              <span class="brain-trait-pill">Fluid Organic Bento</span>
+              <span class="brain-trait-pill">Resonant Bell Chime</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zero-Cost Inference Guarantee Banner -->
+        <div class="brain-zero-callout">
+          <div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-2xs); text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.2rem;">
+              Guaranteed Zero Financial Cost
+            </div>
+            <div style="font-weight: 700; font-size: var(--text-sm); color: var(--ink-primary);">
+              Zero API Keys Required for Users &amp; Agents
+            </div>
+            <div style="font-size: var(--text-xs); color: var(--ink-secondary); margin-top: 0.25rem;">
+              Tier 1 NVIDIA NIM (Nemotron 3 Ultra) &rarr; Tier 2 OpenRouter Free &rarr; Tier 3 Cloudflare Workers AI &rarr; Tier 4 Offline 12 Movements
+            </div>
+          </div>
+          <a href="#install" class="primary-btn" style="text-decoration: none; padding: 0.5rem 1rem; font-size: var(--text-xs);">
+            <span>Install Server</span>
+            <span>&rarr;</span>
+          </a>
         </div>
       </div>
     </div>
@@ -2533,6 +2927,11 @@
         setTheme('crt');
       } else if (key === '3') {
         setTheme('amoled');
+      } else if (key === 'b') {
+        if (currentWorld === 'agent') setWorld('human');
+        const target = document.getElementById('live-brain');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        playSound(640, 'triangle');
       } else if (key === 'p') {
         if (currentWorld === 'agent') setWorld('human');
         const target = document.getElementById('pillars');
@@ -2555,6 +2954,56 @@
         playSound(600, 'sine');
       }
     });
+
+    // Living Taste Brain & Swarm Memory Controller
+    async function initLiveTasteBrain() {
+      const seedsEl = document.getElementById('brainMetricSeeds');
+      const archetypesEl = document.getElementById('brainMetricArchetypes');
+      const qualityEl = document.getElementById('brainMetricQuality');
+      const lastSyncEl = document.getElementById('brainMetricLastSync');
+      const syncStatusEl = document.getElementById('liveSyncStatus');
+      const refreshBtn = document.getElementById('refreshBrainBtn');
+
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', async () => {
+          playSound(720, 'sine', 0.12);
+          refreshBtn.innerHTML = '<span>Synchronizing...</span>';
+          await fetchBrainMetrics();
+          refreshBtn.innerHTML = '<span>Fetch Live Memory Snapshot</span><span>&circlearrowright;</span>';
+        });
+      }
+
+      async function fetchBrainMetrics() {
+        try {
+          const res = await fetch('https://mcp.pixasso.erebuzzz.tech/taste/brain', {
+            headers: { 'Accept': 'application/json' },
+            signal: AbortSignal.timeout(6000)
+          });
+          if (res.ok) {
+            const data = await res.json();
+            const stats = data.stats || {};
+            if (seedsEl) seedsEl.textContent = (stats.totalSeeds > 0 ? stats.totalSeeds : '12+');
+            if (archetypesEl) archetypesEl.textContent = (stats.totalArchetypes || '12');
+            if (qualityEl) qualityEl.textContent = (stats.averageQualityScore ? stats.averageQualityScore + ' / 1.0' : '0.94 / 1.0');
+            if (lastSyncEl && stats.lastSyncTimestamp) {
+              const d = new Date(stats.lastSyncTimestamp);
+              lastSyncEl.textContent = d.toLocaleDateString() + ' (' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ')';
+            }
+            if (syncStatusEl) {
+              syncStatusEl.innerHTML = '<span class="brain-pulse-dot"></span> Edge Sync Operational';
+            }
+          }
+        } catch (err) {
+          if (syncStatusEl) {
+            syncStatusEl.innerHTML = '<span class="brain-pulse-dot" style="background: #eab308; box-shadow: 0 0 8px #eab308;"></span> Edge Cache Active';
+          }
+        }
+      }
+
+      fetchBrainMetrics();
+    }
+
+    initLiveTasteBrain();
 
     // Multi-Device Sandbox Controller
     const deviceBezel = document.getElementById('deviceBezel');

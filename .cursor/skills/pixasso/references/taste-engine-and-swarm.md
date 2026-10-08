@@ -129,3 +129,57 @@ Every submitted seed is evaluated through algorithmic heuristics:
 
 ### Autonomous Harvester Cron
 A Cloudflare Worker cron trigger runs every 5 minutes to synchronize foundational movements, calculate top-rated seeds, and edge-cache a compiled swarm bundle (`taste:swarm:bundle`) in Cloudflare KV for sub-millisecond retrieval.
+
+---
+
+## 6. Daily Living Memory Lifecycle & Synchronization
+
+The Pixasso Taste Swarm does not remain static; it evolves continuously through a daily synchronization loop:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Node as Client Node / Agent
+    participant Seed as pixasso_seed_taste
+    participant D1 as Cloudflare D1 (pixasso-taste-db)
+    participant Worker as Cloudflare Cron (00:00 UTC)
+    participant KV as Workers KV Cache
+    participant GHA as GitHub Actions (Daily Sync)
+    participant Readme as README.md Living Memory
+
+    Node->>Seed: Submit sanitized design tokens (with opt-in consent)
+    Seed->>D1: Evaluate contrast, anti-trope score, and persist
+    Worker->>D1: Consolidate top archetypes daily at 00:00 UTC
+    Worker->>KV: Update taste:swarm:bundle (24h TTL)
+    GHA->>Worker: Query live memory snapshot from /taste/brain
+    GHA->>Readme: Update topological Mermaid graph and metrics
+```
+
+### Live Memory Endpoints
+- `GET https://mcp.pixasso.erebuzzz.tech/taste/brain`: Live JSON payload containing seed counts, active archetypes, average quality scores, and topological Mermaid map.
+- `GET https://mcp.pixasso.erebuzzz.tech/taste/brain?format=markdown`: Formatted markdown snapshot ready for documentation embeds.
+- `GET https://mcp.pixasso.erebuzzz.tech/taste/swarm`: Aggregated swarm bundle cached at the edge.
+- `GET https://mcp.pixasso.erebuzzz.tech/taste/graph`: 12 foundational design movements.
+
+---
+
+## 7. Zero-Cost Guarantees & API Key Architecture
+
+### Are API Keys Required?
+**No. End users and coding agents do NOT need any API keys.**
+
+Pixasso operates on a tiered fallback system designed to remain 100% free out of the box:
+
+1. **Tier 1 (NVIDIA NIM - Nemotron 3 Ultra 550B)**: Advanced artistic direction. NVIDIA offers 1,000 free trial credits. If no key is configured on the host server, the router instantly falls through to Tier 2 without error.
+2. **Tier 2 (OpenRouter Free Tier)**: Free multi-model routing (`llama-3.3-70b-instruct:free`, `gemini-2.0-flash-exp:free`). Requires only an OpenRouter account with $0 balance. If unset, falls through to Tier 3.
+3. **Tier 3 (Cloudflare Workers AI)**: Native edge inference using Cloudflare's `@cf/meta/llama-3.3-70b-instruct`. Cloudflare provides 10,000 free neurons daily with zero external keys required.
+4. **Tier 4 (Foundational Offline Graph)**: Deterministic pairing across 12 high-craft design movements. Operates with zero network calls, zero latency, and zero token costs.
+
+### Optional Configuration for Self-Hosters
+If deploying your own private instance of the Cloudflare Worker, keys can optionally be stored via Wrangler secrets:
+```bash
+npx wrangler secret put NVIDIA_API_KEY
+npx wrangler secret put OPENROUTER_API_KEY
+```
+If omitted, the worker operates completely on Cloudflare Workers AI and the offline foundational graph with zero errors.
+

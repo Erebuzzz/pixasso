@@ -78,9 +78,18 @@ Color or shape styling in Mermaid is optional; clarity of labels matters more th
 
 ---
 
+## Local Project Brain vs Collective Swarm Memory
+
+Pixasso maintains two complementary brain structures:
+1. **Local Project Brain** (`design-brain.md`): Specific to the active workspace. Illustrates the active Design Genome, typography hierarchy, and Task DAG dependencies for human review.
+2. **Collective Swarm Memory** (`https://mcp.pixasso.erebuzzz.tech/taste/brain`): Decentralized living memory maintained at the Cloudflare edge (D1 + KV). Aggregates anonymized design tokens contributed by opted-in peers, consolidating once per day at 00:00 UTC.
+
+---
+
 ## Related
 
 - [design-genome.md](design-genome.md)
 - [task-graph.md](task-graph.md)
 - [agent-orchestration.md](agent-orchestration.md)
 - [discovery-framework.md](discovery-framework.md)
+- [taste-engine-and-swarm.md](taste-engine-and-swarm.md)
