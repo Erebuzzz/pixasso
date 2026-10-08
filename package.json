@@ -27,7 +27,8 @@
     "worker:dev": "npm run dev:worker --prefix mcp-server",
     "worker:deploy": "npm run deploy:worker --prefix mcp-server",
     "worker:build": "npm run build:worker --prefix mcp-server",
-    "worker:secret": "wrangler secret put --config mcp-server/wrangler.jsonc"
+    "worker:secret": "wrangler secret put --config mcp-server/wrangler.jsonc",
+    "keys:ingest": "node scripts/ingest-keys.js"
   },
   "keywords": [
     "pixasso",
