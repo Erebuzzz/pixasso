@@ -28,7 +28,7 @@ import { PIXASSO_PROMPTS, renderPrompt } from './prompts/index';
 const server = new Server(
   {
     name: 'pixasso-mcp',
-    version: '1.1.1'
+    version: '1.2.0'
   },
   {
     capabilities: {

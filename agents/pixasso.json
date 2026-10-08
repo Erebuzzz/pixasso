@@ -10,8 +10,10 @@
     "pixasso_generate_genome",
     "pixasso_generate_brain",
     "pixasso_audit_design",
-    "pixasso_generate_test_plan"
+    "pixasso_generate_test_plan",
+    "pixasso_explore_taste",
+    "pixasso_seed_taste"
   ],
   "model": "inherit",
-  "version": "1.1.1"
+  "version": "1.2.0"
 }

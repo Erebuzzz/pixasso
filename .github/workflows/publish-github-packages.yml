@@ -10,6 +10,8 @@ on:
     paths:
       - 'mcp-server/**'
       - '.github/workflows/publish-github-packages.yml'
+    tags:
+      - 'v*'
 
 permissions:
   contents: read
