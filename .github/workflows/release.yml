@@ -1,0 +1,44 @@
+name: GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v1.2.0)'
+        required: true
+        default: 'v1.2.0'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create or Update GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          if [ -f RELEASE_NOTES.md ]; then
+            gh release create "$TAG_NAME" \
+              --title "$TAG_NAME: Self-Learning Taste Engine & Decentralized Swarm Intelligence" \
+              --notes-file RELEASE_NOTES.md || \
+            gh release edit "$TAG_NAME" \
+              --title "$TAG_NAME: Self-Learning Taste Engine & Decentralized Swarm Intelligence" \
+              --notes-file RELEASE_NOTES.md
+          else
+            gh release create "$TAG_NAME" \
+              --title "$TAG_NAME" \
+              --generate-notes || \
+            gh release edit "$TAG_NAME" \
+              --title "$TAG_NAME"
+          fi
