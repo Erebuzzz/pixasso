@@ -6,14 +6,19 @@ import { handleGenerateGenome, generateGenomeSchema } from '../src/tools/generat
 import { handleGenerateBrain, generateBrainSchema } from '../src/tools/generateBrain';
 import { handleAuditDesign, auditDesignSchema } from '../src/tools/auditDesign';
 import { handleGenerateTestPlan, generateTestPlanSchema } from '../src/tools/generateTestPlan';
+import { handleExploreTaste, exploreTasteSchema } from '../src/tools/exploreTaste';
+import { handleSeedTaste, seedTasteSchema } from '../src/tools/seedTaste';
+import { computeSeedHash, evaluateTasteSeedQuality } from '../src/taste/seeder';
+import { getLocalConsent } from '../src/taste/consent';
+import { insertTasteSeed, queryTasteSeeds, D1DatabaseLike } from '../src/taste/db';
 
 async function runAllToolsCoverageTest() {
-  console.log('=== RUNNING COMPREHENSIVE 7/7 TOOL COVERAGE TEST SUITE ===\n');
+  console.log('=== RUNNING COMPREHENSIVE 9/9 TOOL COVERAGE TEST SUITE ===\n');
 
   // Tool 1: pixasso_discover_intent
   console.log('1. Testing pixasso_discover_intent...');
   {
-    const res = handleDiscoverIntent({
+    const res = await handleDiscoverIntent({
       projectArchetype: 'editorial_landing_page',
       description: 'Design-forward architectural monograph and specimen archive.',
       targetAudience: 'Architects and graphic designers',
@@ -29,7 +34,7 @@ async function runAllToolsCoverageTest() {
     // Error case: invalid archetype
     let caughtError = false;
     try {
-      handleDiscoverIntent({
+      await handleDiscoverIntent({
         projectArchetype: 'invalid_type' as any,
         description: 'Test'
       });
@@ -391,7 +396,142 @@ async function runAllToolsCoverageTest() {
     console.log('   -> pixasso_generate_test_plan passed (multi-viewport matrix + DOM overflow script + validation)');
   }
 
-  console.log('\n=== ALL 7 PIXASSO TOOLS VERIFIED WITH 100% COVERAGE & ERROR HANDLING ===');
+  // Tool 8: pixasso_explore_taste
+  console.log('8. Testing pixasso_explore_taste...');
+  {
+    const exploreRes = await handleExploreTaste({});
+    if (exploreRes.totalFound === 0 || !Array.isArray(exploreRes.curatedMovements)) {
+      throw new Error('Tool 8 failed: expected foundational taste movements in response');
+    }
+    if (!exploreRes.recommendedPairing || !exploreRes.recommendedPairing.typography) {
+      throw new Error('Tool 8 failed: missing recommended typography pairing');
+    }
+
+    // Filter by specific movement
+    const swissRes = await handleExploreTaste({ movement: 'Swiss International' });
+    if (swissRes.curatedMovements.length === 0) {
+      throw new Error('Tool 8 failed: expected to find Swiss International movement');
+    }
+
+    // Filter by query keyword
+    const crtRes = await handleExploreTaste({ query: 'phosphor' });
+    if (crtRes.curatedMovements.length === 0) {
+      throw new Error('Tool 8 failed: expected phosphor search to return CRT movement');
+    }
+
+    console.log('   -> pixasso_explore_taste passed (movement exploration + keyword filter + pairing recommendations)');
+  }
+
+  // Tool 9: pixasso_seed_taste
+  console.log('9. Testing pixasso_seed_taste...');
+  {
+    const sampleSeedInput = {
+      archetype: 'Editorial Monograph',
+      movement: 'Swiss International Style',
+      typographyTokens: {
+        displayFont: 'Syne',
+        bodyFont: 'Inter',
+        modularScaleRatio: 1.333,
+        tracking: '-0.03em'
+      },
+      paletteTokens: {
+        primary: '#000000',
+        secondary: '#555555',
+        surface: '#ffffff',
+        accent: '#ff3300',
+        muted: '#888888',
+        border: 'rgba(0,0,0,0.1)'
+      },
+      layoutTokens: {
+        geometryType: '12-Column Asymmetric Grid',
+        gridColumns: 12,
+        bentoLayout: false
+      },
+      motionTokens: {
+        physics: 'Instant snap with linear feel',
+        durationMs: 150,
+        easing: 'cubic-bezier(0.16, 1, 0.3, 1)'
+      },
+      uisfxTokens: {
+        frequencies: [880],
+        oscillator: 'sine',
+        gain: 0.05,
+        style: 'Minimal tactile chirp'
+      }
+    };
+
+    // 1. Without consent: must skip external seeding
+    const skippedRes = await handleSeedTaste({
+      ...sampleSeedInput,
+      consentGiven: false
+    });
+    if (skippedRes.status !== 'skipped_no_consent') {
+      throw new Error('Tool 9 failed: expected skipped_no_consent when consent is false');
+    }
+
+    // 2. With consent: must compute hash and seed
+    const seededRes = await handleSeedTaste({
+      ...sampleSeedInput,
+      consentGiven: true
+    });
+    if (seededRes.status !== 'seeded' || !seededRes.seedId || !seededRes.seedHash) {
+      throw new Error('Tool 9 failed: expected seed confirmation with hash and ID');
+    }
+    if (typeof seededRes.qualityScore !== 'number' || seededRes.qualityScore <= 0) {
+      throw new Error('Tool 9 failed: invalid quality score');
+    }
+
+    // 3. Test quality heuristic & contrast calculation
+    const qualityEval = evaluateTasteSeedQuality(sampleSeedInput);
+    if (qualityEval.qualityScore < 0.5) {
+      throw new Error('Tool 9 failed: quality evaluation scored high-contrast pairing too low');
+    }
+
+    // 4. Test deterministic hash calculation
+    const hash1 = computeSeedHash(sampleSeedInput);
+    const hash2 = computeSeedHash(sampleSeedInput);
+    if (hash1 !== hash2) {
+      throw new Error('Tool 9 failed: seed hash must be deterministic');
+    }
+
+    // 5. Test mock Cloudflare D1 integration
+    const mockStore: any[] = [];
+    const mockD1: D1DatabaseLike = {
+      prepare: (sql: string) => {
+        let boundValues: any[] = [];
+        return {
+          bind: (...args: any[]) => {
+            boundValues = args;
+            return mockD1.prepare(sql);
+          },
+          run: async () => {
+            mockStore.push(boundValues);
+            return { success: true };
+          },
+          first: async () => null,
+          all: async () => ({ results: [], success: true })
+        };
+      }
+    };
+
+    const d1SeededRes = await handleSeedTaste({
+      ...sampleSeedInput,
+      consentGiven: true
+    }, mockD1);
+    if (!d1SeededRes.savedToCloudflareD1) {
+      throw new Error('Tool 9 failed: expected mock D1 insertion to succeed');
+    }
+
+    // Error case: missing required tokens returns error status
+    const errorRes = await handleSeedTaste({ archetype: 'Incomplete' } as any);
+    if (errorRes.status !== 'error') {
+      throw new Error('Tool 9 failed: expected error status for incomplete input');
+    }
+
+    console.log('   -> pixasso_seed_taste passed (consent gating + token hashing + quality heuristics + D1 storage)');
+  }
+
+  console.log('\n=== ALL 9 PIXASSO TOOLS VERIFIED WITH 100% COVERAGE & ERROR HANDLING ===');
 }
 
 runAllToolsCoverageTest().catch((err) => {

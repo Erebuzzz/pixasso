@@ -14,6 +14,10 @@ import {
   validateCSRFToken,
   validateOAuthState
 } from './workers-oauth-utils';
+import { processTasteSeed } from './taste/seeder';
+import { compileSwarmBundle, queryTasteSeeds } from './taste/db';
+import { getTasteGraph } from './taste/graph';
+import { seedTasteSchema } from './tools/seedTaste';
 
 export type WorkerEnv = {
   GITHUB_CLIENT_ID: string;
@@ -22,6 +26,10 @@ export type WorkerEnv = {
   OAUTH_KV: KVNamespace;
   OAUTH_PROVIDER: OAuthHelpers;
   PIXASSO_MCP_OBJECT: DurableObjectNamespace;
+  TASTE_DB?: D1Database;
+  AI?: any;
+  NVIDIA_API_KEY?: string;
+  OPENROUTER_API_KEY?: string;
 };
 
 const app = new Hono<{ Bindings: WorkerEnv }>();
@@ -37,6 +45,16 @@ app.on(['GET', 'HEAD'], '/health', async (c) => {
     kvStatus = 'degraded: ' + (err?.message || 'error');
   }
 
+  let d1Status = 'not_configured';
+  try {
+    if (c.env.TASTE_DB) {
+      await c.env.TASTE_DB.prepare('SELECT 1').first();
+      d1Status = 'operational';
+    }
+  } catch (err: any) {
+    d1Status = 'degraded: ' + (err?.message || 'error');
+  }
+
   return c.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
@@ -46,6 +64,7 @@ app.on(['GET', 'HEAD'], '/health', async (c) => {
     checks: {
       worker: 'operational',
       kv: kvStatus,
+      d1: d1Status,
       durableObject: 'operational'
     }
   }, 200, {
@@ -58,6 +77,96 @@ app.on(['GET', 'HEAD'], '/ping', (c) => {
   return c.text('pong', 200, {
     'Cache-Control': 'no-store, no-cache, must-revalidate',
     'Access-Control-Allow-Origin': '*'
+  });
+});
+
+app.get('/taste/graph', (c) => {
+  const nodes = getTasteGraph().getAllNodes();
+  return c.json({
+    status: 'ok',
+    totalNodes: nodes.length,
+    movements: nodes
+  }, 200, {
+    'Access-Control-Allow-Origin': '*',
+    'Cache-Control': 'public, max-age=3600'
+  });
+});
+
+app.get('/taste/swarm', async (c) => {
+  try {
+    if (c.env.OAUTH_KV) {
+      const cached = await c.env.OAUTH_KV.get('taste:swarm:bundle');
+      if (cached) {
+        return c.json(JSON.parse(cached), 200, {
+          'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'public, max-age=300'
+        });
+      }
+    }
+
+    if (c.env.TASTE_DB) {
+      const bundle = await compileSwarmBundle(c.env.TASTE_DB, 30);
+      return c.json(bundle, 200, {
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'public, max-age=300'
+      });
+    }
+
+    return c.json({
+      timestamp: new Date().toISOString(),
+      count: 0,
+      seeds: []
+    }, 200, { 'Access-Control-Allow-Origin': '*' });
+  } catch (err: any) {
+    return c.json({ error: err?.message || 'Failed to fetch swarm bundle' }, 500, {
+      'Access-Control-Allow-Origin': '*'
+    });
+  }
+});
+
+app.post('/taste/seed', async (c) => {
+  try {
+    const body = await c.req.json();
+    const parsed = seedTasteSchema.parse(body);
+
+    if (parsed.consentGiven !== true) {
+      return c.json({
+        status: 'skipped_no_consent',
+        message: 'Consent was not granted for public swarm seeding. Design tokens remain private and local.'
+      }, 403, { 'Access-Control-Allow-Origin': '*' });
+    }
+
+    const result = await processTasteSeed({
+      archetype: parsed.archetype,
+      movement: parsed.movement,
+      typographyTokens: parsed.typographyTokens,
+      paletteTokens: parsed.paletteTokens,
+      layoutTokens: parsed.layoutTokens,
+      motionTokens: parsed.motionTokens,
+      uisfxTokens: parsed.uisfxTokens
+    }, c.env.TASTE_DB);
+
+    return c.json({
+      status: 'seeded',
+      seedId: result.seed.id,
+      seedHash: result.seed.seedHash,
+      qualityScore: result.seed.qualityScore,
+      noveltyScore: result.seed.noveltyScore,
+      savedToCloudflareD1: result.savedToD1
+    }, 200, { 'Access-Control-Allow-Origin': '*' });
+  } catch (err: any) {
+    return c.json({
+      status: 'error',
+      message: err?.message || 'Invalid taste seed payload'
+    }, 400, { 'Access-Control-Allow-Origin': '*' });
+  }
+});
+
+app.options('/taste/*', (c) => {
+  return c.body(null, 204, {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
   });
 });
 

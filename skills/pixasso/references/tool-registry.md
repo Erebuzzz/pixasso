@@ -56,6 +56,24 @@ tools:
 | `deploy` | Preview deployments |
 | `security` | Dependency or secret scans |
 | `research` | Live site deconstruction, web search |
+| `taste-explore` | Querying foundational movements and living taste graph |
+| `taste-seed` | Anonymously contributing validated design tokens to taste swarm |
+
+---
+
+## Native Pixasso MCP Tools
+
+Pixasso exposes 9 official Model Context Protocol tools declared with full schema validation and directory hints:
+
+1. `pixasso_discover_intent`: Adaptive inquiry synthesis across the 16 pillars and bespoke aesthetic worlds.
+2. `pixasso_search_references`: Search across 31 curated design & architecture catalogs.
+3. `pixasso_fetch_reference`: Deconstruct live sites via streaming HTMLRewriter or Mozilla Readability.
+4. `pixasso_generate_genome`: Compile and validate tokens into `design-genome.yaml`.
+5. `pixasso_generate_brain`: Build Mermaid decision graph and Task DAG.
+6. `pixasso_audit_design`: Audit markup and styling against AI tropes and accessibility standards.
+7. `pixasso_generate_test_plan`: Multi-viewport QA verification matrix and DOM overflow script.
+8. `pixasso_explore_taste`: Query foundational aesthetic movements and community-seeded taste graph.
+9. `pixasso_seed_taste`: Consent-verified tool for anonymously seeding high-craft design tokens to Cloudflare D1.
 
 ---
 

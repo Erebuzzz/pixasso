@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
   <link rel="alternate icon" href="favicon.ico"/>
   <link rel="llms-txt" type="text/plain" href="llms.txt"/>
-  <meta name="agent-api" content="llms.txt" data-protocol="mcp-2024-11-05" data-tools="7" data-catalogs="31"/>
+  <meta name="agent-api" content="llms.txt" data-protocol="mcp-2024-11-05" data-tools="9" data-catalogs="31"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
@@ -2303,7 +2303,7 @@
           </div>
           <div class="telemetry-box">
             <span class="telemetry-label">TOOLS</span>
-            <span class="telemetry-val">7 ACTIVE</span>
+            <span class="telemetry-val">9 ACTIVE</span>
           </div>
           <div class="telemetry-box">
             <span class="telemetry-label">RESOURCES</span>
@@ -2341,7 +2341,7 @@
       <!-- Workstation Navigation Tabs -->
       <div class="agent-deck-tabs" role="tablist">
         <button class="agent-tab-btn active" data-agent-tab="tester" type="button" role="tab" aria-selected="true">Live Payload Tester</button>
-        <button class="agent-tab-btn" data-agent-tab="tools" type="button" role="tab" aria-selected="false">Tool Schemas (7)</button>
+        <button class="agent-tab-btn" data-agent-tab="tools" type="button" role="tab" aria-selected="false">Tool Schemas (9)</button>
         <button class="agent-tab-btn" data-agent-tab="prompts" type="button" role="tab" aria-selected="false">System Prompts (3)</button>
         <button class="agent-tab-btn" data-agent-tab="llmstxt" type="button" role="tab" aria-selected="false">Machine Manifests (/llms.txt)</button>
       </div>
@@ -2358,6 +2358,8 @@
             <option value="pixasso_generate_brain">pixasso_generate_brain</option>
             <option value="pixasso_audit_design">pixasso_audit_design</option>
             <option value="pixasso_generate_test_plan">pixasso_generate_test_plan</option>
+            <option value="pixasso_explore_taste">pixasso_explore_taste</option>
+            <option value="pixasso_seed_taste">pixasso_seed_taste</option>
           </select>
           <div class="agent-presets">
             <button class="agent-preset-btn" data-preset="discover_app" type="button">Preset: SaaS App</button>
@@ -2406,6 +2408,8 @@
             <option value="pixasso_generate_brain">pixasso_generate_brain</option>
             <option value="pixasso_audit_design">pixasso_audit_design</option>
             <option value="pixasso_generate_test_plan">pixasso_generate_test_plan</option>
+            <option value="pixasso_explore_taste">pixasso_explore_taste</option>
+            <option value="pixasso_seed_taste">pixasso_seed_taste</option>
           </select>
           <button class="copy-btn" id="copyToolSchemaBtn" type="button">Copy Schema</button>
           <button class="copy-btn" id="sendToTesterBtn" type="button">Load in Tester &rarr;</button>
@@ -2608,7 +2612,7 @@
         linkUrl: 'https://mcp.pixasso.erebuzzz.tech'
       },
       agentprompt: {
-        cmd: 'Please configure the Pixasso MCP server for this project and editor. Use either:\n- Hosted Remote: URL "https://mcp.pixasso.erebuzzz.tech/mcp"\n- Local Stdio: Command "npx" with args ["-y", "pixasso-mcp"]\nAdd it to the active editor MCP configuration (.vscode/mcp.json, ~/.cursor/mcp.json, or cline_mcp_settings.json) and verify all 7 design tools are loaded.',
+        cmd: 'Please configure the Pixasso MCP server for this project and editor. Use either:\n- Hosted Remote: URL "https://mcp.pixasso.erebuzzz.tech/mcp"\n- Local Stdio: Command "npx" with args ["-y", "pixasso-mcp"]\nAdd it to the active editor MCP configuration (.vscode/mcp.json, ~/.cursor/mcp.json, or cline_mcp_settings.json) and verify all 9 design tools are loaded.',
         desc: 'Send this instruction to any AI coding assistant (Cursor, Copilot, Windsurf, Claude, Cline, Roo Code, Antigravity) to install Pixasso automatically.',
         linkText: 'README Setup ↗',
         linkUrl: 'https://github.com/Erebuzzz/pixasso#readme'
@@ -3157,6 +3161,75 @@
           idempotentHint: true,
           openWorldHint: false
         }
+      },
+      pixasso_explore_taste: {
+        description: 'Explore the living Design Taste Graph and query community-seeded aesthetic directions without generic tropes.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            query: { type: 'string', description: 'Keyword or aesthetic concept to explore.' },
+            movement: { type: 'string', description: 'Specific movement filter.' },
+            archetype: { type: 'string', description: 'Filter by frontend archetype.' },
+            includeSwarm: { type: 'boolean', description: 'Include community-seeded taste tokens.' },
+            limit: { type: 'number', description: 'Maximum candidates to return.' }
+          }
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
+        }
+      },
+      pixasso_seed_taste: {
+        description: 'Anonymously seed high-craft design tokens (typography, palette, layout geometry) to the decentralized Pixasso Taste Swarm.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            archetype: { type: 'string', description: 'Frontend archetype.' },
+            movement: { type: 'string', description: 'Aesthetic movement name.' },
+            typographyTokens: {
+              type: 'object',
+              properties: {
+                displayFont: { type: 'string' },
+                bodyFont: { type: 'string' },
+                accentFont: { type: 'string' },
+                modularScaleRatio: { type: 'number' },
+                tracking: { type: 'string' }
+              },
+              required: ['displayFont', 'bodyFont']
+            },
+            paletteTokens: {
+              type: 'object',
+              properties: {
+                primary: { type: 'string' },
+                secondary: { type: 'string' },
+                surface: { type: 'string' },
+                accent: { type: 'string' },
+                muted: { type: 'string' },
+                border: { type: 'string' }
+              },
+              required: ['primary', 'secondary', 'surface', 'accent', 'muted', 'border']
+            },
+            layoutTokens: {
+              type: 'object',
+              properties: {
+                geometryType: { type: 'string' },
+                gridColumns: { type: 'number' },
+                bentoLayout: { type: 'boolean' }
+              },
+              required: ['geometryType']
+            },
+            consentGiven: { type: 'boolean', description: 'User consent to contribute tokens to public taste swarm.' }
+          },
+          required: ['archetype', 'movement', 'typographyTokens', 'paletteTokens', 'layoutTokens']
+        },
+        annotations: {
+          readOnlyHint: false,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: true
+        }
       }
     };
 
@@ -3485,6 +3558,48 @@
               'Web Audio context latency < 15ms'
             ],
             overflowDetectionScript: '(() => { const doc = document.documentElement; return { scrollW: doc.scrollWidth, clientW: doc.clientWidth, overflow: doc.scrollWidth > doc.clientWidth }; })();'
+          };
+
+        case 'pixasso_explore_taste':
+          return {
+            status: 'TASTE_GRAPH_EXPLORED',
+            query: args.query || null,
+            movementFilter: args.movement || null,
+            totalFound: 12,
+            recommendedPairing: {
+              name: 'Swiss International Typographic',
+              movement: 'International Typographic Style',
+              groundTone: '#ffffff stark white with #000000 solid ink',
+              typography: {
+                display: 'Syne',
+                body: 'Inter',
+                modularScaleRatio: 1.414,
+                tracking: '-0.03em'
+              },
+              palette: {
+                primary: '#000000',
+                surface: '#ffffff',
+                accent: '#e11d48',
+                border: '#e5e5e5'
+              },
+              layoutGeometry: 'Rigid 12-column modular grid with asymmetric column spans',
+              motionSignature: 'Snappy 150ms linear transitions with instant tactile feedback'
+            },
+            swarmSeedsAvailable: 28,
+            source: 'curated-graph-and-d1-swarm'
+          };
+
+        case 'pixasso_seed_taste':
+          return {
+            status: args.consentGiven === false ? 'skipped_no_consent' : 'seeded',
+            message: args.consentGiven === false
+              ? 'Consent not granted. Tokens remain local to your session.'
+              : 'Design tokens successfully evaluated and seeded to the Pixasso Taste Swarm.',
+            seedId: 'seed-7f41a9bc',
+            seedHash: '38a9bc41d2f782c9e48911',
+            qualityScore: 0.92,
+            noveltyScore: 0.85,
+            savedToCloudflareD1: args.consentGiven !== false
           };
 
         default:

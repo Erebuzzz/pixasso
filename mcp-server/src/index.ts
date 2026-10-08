@@ -20,6 +20,8 @@ import { generateGenomeSchema, handleGenerateGenome } from './tools/generateGeno
 import { generateBrainSchema, handleGenerateBrain } from './tools/generateBrain';
 import { auditDesignSchema, handleAuditDesign } from './tools/auditDesign';
 import { generateTestPlanSchema, handleGenerateTestPlan } from './tools/generateTestPlan';
+import { exploreTasteSchema, handleExploreTaste } from './tools/exploreTaste';
+import { seedTasteSchema, handleSeedTaste } from './tools/seedTaste';
 import { listAllResources, readResourceByUri } from './resources/index';
 import { PIXASSO_PROMPTS, renderPrompt } from './prompts/index';
 
@@ -281,6 +283,97 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           idempotentHint: true,
           openWorldHint: false
         }
+      },
+      {
+        name: 'pixasso_explore_taste',
+        description: 'Explore the living Design Taste Graph and query community-seeded aesthetic directions without generic tropes.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            query: { type: 'string', description: 'Keyword or aesthetic concept to explore.' },
+            movement: { type: 'string', description: 'Specific movement filter.' },
+            archetype: { type: 'string', description: 'Filter by frontend archetype.' },
+            includeSwarm: { type: 'boolean', description: 'Whether to include community-seeded taste tokens.' },
+            limit: { type: 'number', description: 'Maximum number of taste candidates to return.' }
+          }
+        },
+        annotations: {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false
+        }
+      },
+      {
+        name: 'pixasso_seed_taste',
+        description: 'Anonymously seed high-craft design tokens (typography, palette, layout geometry) to the decentralized Pixasso Taste Swarm.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            archetype: { type: 'string', description: 'Frontend archetype.' },
+            movement: { type: 'string', description: 'Aesthetic movement name.' },
+            typographyTokens: {
+              type: 'object',
+              properties: {
+                displayFont: { type: 'string' },
+                bodyFont: { type: 'string' },
+                accentFont: { type: 'string' },
+                modularScaleRatio: { type: 'number' },
+                tracking: { type: 'string' }
+              },
+              required: ['displayFont', 'bodyFont']
+            },
+            paletteTokens: {
+              type: 'object',
+              properties: {
+                primary: { type: 'string' },
+                secondary: { type: 'string' },
+                surface: { type: 'string' },
+                accent: { type: 'string' },
+                muted: { type: 'string' },
+                border: { type: 'string' }
+              },
+              required: ['primary', 'secondary', 'surface', 'accent', 'muted', 'border']
+            },
+            layoutTokens: {
+              type: 'object',
+              properties: {
+                geometryType: { type: 'string' },
+                gridColumns: { type: 'number' },
+                bentoLayout: { type: 'boolean' },
+                aspectRatio: { type: 'string' }
+              },
+              required: ['geometryType']
+            },
+            motionTokens: {
+              type: 'object',
+              properties: {
+                physics: { type: 'string' },
+                durationMs: { type: 'number' },
+                easing: { type: 'string' }
+              },
+              required: ['physics', 'durationMs', 'easing']
+            },
+            uisfxTokens: {
+              type: 'object',
+              properties: {
+                frequencies: { type: 'array', items: { type: 'number' } },
+                oscillator: { type: 'string' },
+                gain: { type: 'number' },
+                style: { type: 'string' }
+              },
+              required: ['frequencies', 'oscillator', 'gain', 'style']
+            },
+            consentGiven: { type: 'boolean', description: 'User consent to contribute tokens to the public taste swarm.' }
+          },
+          required: ['archetype', 'movement', 'typographyTokens', 'paletteTokens', 'layoutTokens']
+        },
+        annotations: {
+          readOnlyHint: false,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: true
+        }
       }
     ]
   };
@@ -294,7 +387,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (name) {
       case 'pixasso_discover_intent': {
         const parsed = discoverIntentSchema.parse(args);
-        const result = handleDiscoverIntent(parsed);
+        const result = await handleDiscoverIntent(parsed);
         return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
       }
       case 'pixasso_search_references': {
@@ -325,6 +418,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case 'pixasso_generate_test_plan': {
         const parsed = generateTestPlanSchema.parse(args);
         const result = handleGenerateTestPlan(parsed);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+      case 'pixasso_explore_taste': {
+        const parsed = exploreTasteSchema.parse(args);
+        const result = await handleExploreTaste(parsed);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+      case 'pixasso_seed_taste': {
+        const parsed = seedTasteSchema.parse(args);
+        const result = await handleSeedTaste(parsed);
         return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
       }
       default:

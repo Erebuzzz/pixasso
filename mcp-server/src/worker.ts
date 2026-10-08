@@ -13,6 +13,9 @@ import { generateGenomeSchema, handleGenerateGenome } from './tools/generateGeno
 import { generateBrainSchema, handleGenerateBrain } from './tools/generateBrain';
 import { auditDesignSchema, handleAuditDesign } from './tools/auditDesign';
 import { generateTestPlanSchema, handleGenerateTestPlan } from './tools/generateTestPlan';
+import { exploreTasteSchema, handleExploreTaste } from './tools/exploreTaste';
+import { seedTasteSchema, handleSeedTaste } from './tools/seedTaste';
+import { runTasteHarvester } from './taste/harvester';
 import { listAllResources, readResourceByUri } from './resources/index';
 import { PIXASSO_PROMPTS, renderPrompt } from './prompts/index';
 
@@ -43,7 +46,11 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
       discoverIntentSchema.shape,
       async (args) => {
         await checkRate();
-        const res = handleDiscoverIntent(args as any);
+        const res = await handleDiscoverIntent(args as any, {
+          NVIDIA_API_KEY: this.env.NVIDIA_API_KEY,
+          OPENROUTER_API_KEY: this.env.OPENROUTER_API_KEY,
+          AI: this.env.AI
+        });
         return {
           content: [{ type: 'text', text: JSON.stringify(res, null, 2) }]
         };
@@ -140,6 +147,36 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
       }
     );
     t7.annotations = readOnlyHints;
+
+    // 8. pixasso_explore_taste
+    const t8 = this.server.tool(
+      'pixasso_explore_taste',
+      'Explore the living Design Taste Graph and query community-seeded aesthetic directions without generic tropes.',
+      exploreTasteSchema.shape,
+      async (args) => {
+        await checkRate();
+        const res = await handleExploreTaste(args as any, this.env.TASTE_DB);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(res, null, 2) }]
+        };
+      }
+    );
+    t8.annotations = readOnlyHints;
+
+    // 9. pixasso_seed_taste
+    const t9 = this.server.tool(
+      'pixasso_seed_taste',
+      'Anonymously seed high-craft design tokens (typography, palette, layout geometry) to the decentralized Pixasso Taste Swarm.',
+      seedTasteSchema.shape,
+      async (args) => {
+        await checkRate();
+        const res = await handleSeedTaste(args as any, this.env.TASTE_DB);
+        return {
+          content: [{ type: 'text', text: JSON.stringify(res, null, 2) }]
+        };
+      }
+    );
+    t9.annotations = openWorldHints;
 
     // Dynamic resource templates for references and templates
     this.server.resource(
@@ -247,8 +284,9 @@ export default {
             await env.OAUTH_KV.put('__last_keep_alive__', timestamp, { expirationTtl: 86400 });
           }
           await (oauthProvider as any).purgeExpiredData?.(env);
+          await runTasteHarvester(env.TASTE_DB, env.OAUTH_KV);
         } catch (err: any) {
-          console.error('[Keep-Alive] Maintenance error:', err?.message || err);
+          console.error('[Keep-Alive] Maintenance or Harvester error:', err?.message || err);
         }
       })()
     );

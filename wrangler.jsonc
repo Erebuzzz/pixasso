@@ -25,6 +25,14 @@
       "id": "7c38634bfc7f4e4badf3e97df89d7d65"
     }
   ],
+  "d1_databases": [
+    {
+      "binding": "TASTE_DB",
+      "database_name": "pixasso-taste-db",
+      "database_id": "b8681c11-6873-44f2-a253-bc8217ebc68c",
+      "migrations_dir": "mcp-server/migrations"
+    }
+  ],
   "workers_dev": true,
   "triggers": {
     "crons": ["*/5 * * * *"]

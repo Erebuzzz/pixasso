@@ -456,7 +456,7 @@ Choose one of the two options:
 2. Option B (Local Stdio):
    Configure MCP server "pixasso" with command "npx" and args ["-y", "pixasso-mcp"]
 
-Add the configuration to the appropriate MCP settings file for this editor (such as .vscode/mcp.json, ~/.cursor/mcp.json, claude_desktop_config.json, or cline_mcp_settings.json) and verify that the 7 Pixasso design tools are active.
+Add the configuration to the appropriate MCP settings file for this editor (such as .vscode/mcp.json, ~/.cursor/mcp.json, claude_desktop_config.json, or cline_mcp_settings.json) and verify that all 9 Pixasso design and architecture tools are active.
 ```
 
 ---
@@ -479,13 +479,15 @@ Every tool conforms to the official Model Context Protocol specification and dec
 
 | Tool Name | Purpose | Parameters | Annotations / Hints |
 | :--- | :--- | :--- | :--- |
-| `pixasso_discover_intent` | Generates adaptive discovery questions across 16 pillars and brand identity | `projectArchetype`, `description`, `targetAudience`, `hasBrandIdentity`, `referenceUrls` | readOnly, idempotent |
+| `pixasso_discover_intent` | Generates adaptive discovery questions across 16 pillars and brand identity, powered by the Taste Inference Engine | `projectArchetype`, `description`, `targetAudience`, `hasBrandIdentity`, `referenceUrls` | readOnly, idempotent |
 | `pixasso_search_references` | Searches 31 curated catalogs (20 references, 11 templates) | `query`, `category`, `tag` | readOnly, idempotent |
 | `pixasso_fetch_reference` | Fetches live HTML, extracts title/headings/readable text, and flags client SPAs | `url`, `focus` | readOnly, openWorld |
 | `pixasso_generate_genome` | Compiles tokens into validated `design-genome.yaml` with reference verification hard gate | `projectName`, `themeMode`, `groundTone`, `typography`, `colorTokens`, `dimensionality`, `motionFeel`, `references` | readOnly, idempotent |
 | `pixasso_generate_brain` | Generates Graphify-style Mermaid decision map and Task DAG | `projectName`, `decisions`, `tasks` | readOnly, idempotent |
 | `pixasso_audit_design` | Audits code against generic AI clichés, accessibility guidelines, and 16 pillars | `componentMarkup`, `contextDescription` | readOnly, idempotent |
 | `pixasso_generate_test_plan` | Produces automated multi-viewport testing matrix (390px, 768px, 1024px, 1440px) | `projectName`, `testUrl`, `testedViewports` | readOnly, idempotent |
+| `pixasso_explore_taste` | Explores the living Design Taste Graph across 12 movements and community-seeded directions | `query`, `movement`, `archetype`, `includeSwarm`, `limit` | readOnly, idempotent |
+| `pixasso_seed_taste` | Anonymously seeds sanitized high-craft design tokens to the decentralized Taste Swarm with strict opt-in consent | `archetype`, `movement`, `typographyTokens`, `paletteTokens`, `layoutTokens`, `motionTokens`, `uisfxTokens`, `consentGiven` | openWorld, idempotent |
 
 
 ### Resources

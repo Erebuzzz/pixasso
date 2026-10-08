@@ -16,8 +16,8 @@ Live Showcase & Specifications: [https://pixasso.erebuzzz.tech](https://pixasso.
 
 ```mermaid
 flowchart TD
-    User["Developer / AI Agent Prompt"] --> Client["MCP Client (Claude / Cursor / Antigravity)"]
-    Client --> Server["pixasso-mcp Stdio Server"]
+    User["Developer / AI Agent Prompt"] --> Client["MCP Client (Claude / Cursor / VS Code / Antigravity)"]
+    Client --> Server["pixasso-mcp Server (Stdio / Remote HTTP)"]
 
     subgraph Tools ["Exposed Tools (JSON-RPC)"]
         T1["pixasso_discover_intent"]
@@ -27,17 +27,28 @@ flowchart TD
         T5["pixasso_generate_brain"]
         T6["pixasso_audit_design"]
         T7["pixasso_generate_test_plan"]
+        T8["pixasso_explore_taste"]
+        T9["pixasso_seed_taste"]
     end
 
     Server --> Tools
 
-    T1 --> P1["Deterministic Inquiry Picker<br/>(16 Architecture Pillars & Brand Gate)"]
+    subgraph TasteBrain ["Taste Exploration Engine & Decentralized Swarm"]
+        Router["TasteInferenceRouter<br/>(NVIDIA Nemotron 3 Ultra / Workers AI)"]
+        D1["Cloudflare D1 SQL<br/>(pixasso-taste-db)"]
+        KV["Cloudflare KV Edge Cache<br/>(taste:swarm:bundle)"]
+    end
+
+    T1 --> Router
     T2 --> P2["31 Deep Reference Catalogs<br/>(Typography, Shaders, Layouts)"]
     T3 --> P3["Live DOM & Content Extraction<br/>(Linkedom, Readability, SPA Detection)"]
     T4 --> P4["Design Genome Specification<br/>(YAML Tokens, Verified References)"]
     T5 --> P5["Design Brain DAG<br/>(Mermaid Decision Graph)"]
     T6 --> P6["Objective Critique Engine<br/>(5-Pillar Scorecard)"]
     T7 --> P7["Automated Interface QA<br/>(390px, 768px, 1024px, 1440px)"]
+    T8 --> D1
+    T8 --> KV
+    T9 --> D1
 ```
 
 ---
@@ -174,7 +185,7 @@ Choose one of the two options:
 2. Option B (Local Stdio):
    Configure MCP server "pixasso" with command "npx" and args ["-y", "pixasso-mcp"]
 
-Add the configuration to the appropriate MCP settings file for this editor (such as .vscode/mcp.json, ~/.cursor/mcp.json, claude_desktop_config.json, or cline_mcp_settings.json) and verify that the 7 Pixasso design tools are active.
+Add the configuration to the appropriate MCP settings file for this editor (such as .vscode/mcp.json, ~/.cursor/mcp.json, claude_desktop_config.json, or cline_mcp_settings.json) and verify that all 9 Pixasso design and architecture tools are active.
 ```
 
 ---
@@ -185,18 +196,22 @@ Every tool conforms to the official Model Context Protocol specification and dec
 
 | Tool | Purpose | Key Inputs | Hints |
 | :--- | :--- | :--- | :--- |
-| `pixasso_discover_intent` | Deterministic template-question picker across 16 pillars and brand genesis. Generates targeted interactive popup questions for host `ask_question`. | `projectArchetype`, `description`, `targetAudience`, `hasBrandIdentity`, `referenceUrls` | readOnly, idempotent |
+| `pixasso_discover_intent` | Adaptive inquiry synthesizer across 16 pillars and brand genesis, powered by the Taste Inference Engine. Synthesizes 3 bespoke aesthetic worlds with compulsory popup questions. | `projectArchetype`, `description`, `targetAudience`, `hasBrandIdentity`, `referenceUrls` | readOnly, idempotent |
 | `pixasso_search_references` | Search across 31 curated design & architecture catalogs. | `query`, `category`, `tag` | readOnly, idempotent |
 | `pixasso_fetch_reference` | Fetches live HTML, extracts title/headings/readable text, detects client SPAs, and caches verified fetches. | `url`, `focus` | readOnly, openWorld |
 | `pixasso_generate_genome` | Compiles tokens, color ramps, typography, and libraries into `design-genome.yaml`. Enforces programmatic hard gate on verified references. | `projectName`, `themeMode`, `groundTone`, `typography`, `colorTokens`, `references` | readOnly, idempotent |
 | `pixasso_generate_brain` | Synthesizes a visual Graphify Mermaid decision graph and Task DAG. | `projectName`, `decisions`, `tasks` | readOnly, idempotent |
 | `pixasso_audit_design` | Evaluates markup and styling against AI design anti-patterns. | `componentMarkup`, `contextDescription` | readOnly, idempotent |
 | `pixasso_generate_test_plan` | Produces multi-viewport QA plans (390px, 768px, 1024px, 1440px). | `projectName`, `testUrl`, `testedViewports` | readOnly, idempotent |
+| `pixasso_explore_taste` | Explores the living Design Taste Graph across 12 movements and community-seeded directions without generic AI tropes. | `query`, `movement`, `archetype`, `includeSwarm`, `limit` | readOnly, idempotent |
+| `pixasso_seed_taste` | Anonymously seeds sanitized high-craft design tokens to the decentralized Taste Swarm with strict opt-in consent. | `archetype`, `movement`, `typographyTokens`, `paletteTokens`, `layoutTokens`, `motionTokens`, `uisfxTokens`, `consentGiven` | openWorld, idempotent |
 
 
 ### Tool Scope & Design Integrity Hard Gates
 
-- **`pixasso_discover_intent` (Deterministic Question Picker)**: This tool is purposefully deterministic. It evaluates the project archetype, brand status, and whether reference URLs were supplied, outputting structured popup questions without relying on non-deterministic LLM prompting within the tool. The returned `compulsoryPopupQuestions` are intended to be presented directly to the user via the host agent interactive modal (`ask_question`).
+- **`pixasso_discover_intent` (Taste Inference & Adaptive Question Picker)**: Formulates 3 bespoke aesthetic worlds tailored directly to your project brief using free multi-provider LLM routing (NVIDIA Nemotron 3 Ultra, OpenRouter free models, Workers AI, or 12 foundational movements). The returned `compulsoryPopupQuestions` include brand gates, domain decisions, and the decentralized taste swarm consent choice for presentation via `ask_question`.
+- **`pixasso_explore_taste` (Living Taste Graph)**: Queries curated movements and community seeds. Returns typography pairings, WCAG-evaluated palettes, layout geometries, and micro-interaction audio cues.
+- **`pixasso_seed_taste` (Consent-Gated Swarm Seeding)**: Allows client nodes to anonymously seed sanitized design tokens back to Cloudflare D1. Zero code or private text is ever transmitted.
 - **`pixasso_fetch_reference` (Real Content Deconstruction)**: Autonomous models often hallucinate visual traits from domain names alone. `pixasso_fetch_reference` inspects live pages, extracting DOM headings, metadata, visible links, and readable text via Mozilla Readability. If the page is an empty client SPA shell (under 200 characters of text), it flags `renderedContentDetected: false` so agents do not fabricate visual descriptions.
 - **Reference Gate on `pixasso_generate_genome`**: Any reference URL supplied to `pixasso_generate_genome` must first be verified through `pixasso_fetch_reference` in the active session. If an unfetched URL is passed, the tool rejects the call with an informative error. Furthermore, unrendered SPA shells cannot claim `epistemicStatus: 'known'` without screenshot verification.
 
