@@ -34,6 +34,12 @@ jobs:
       - name: Publish to npm with provenance
         run: |
           cd mcp-server
-          npm publish --provenance --access public
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          CURRENT_VERSION=$(npm view pixasso-mcp version 2>/dev/null || echo "")
+          if [ "$CURRENT_VERSION" = "$PKG_VERSION" ]; then
+            echo "Version $PKG_VERSION is already published to npm. Skipping publish."
+          else
+            npm publish --provenance --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
