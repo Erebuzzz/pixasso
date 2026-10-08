@@ -62,7 +62,7 @@ async function runTests() {
     const toolsRes = await sendRequest('tools/list');
     const toolNames = toolsRes.result.tools.map(t => t.name);
     console.log('Tools found (' + toolNames.length + '):', toolNames.join(', '));
-    if (toolNames.length !== 7) throw new Error('Expected 7 tools, got ' + toolNames.length);
+    if (toolNames.length !== 9) throw new Error('Expected 9 tools, got ' + toolNames.length);
 
     for (const tool of toolsRes.result.tools) {
       if (!tool.annotations) throw new Error('Tool ' + tool.name + ' missing annotations');
@@ -72,10 +72,10 @@ async function runTests() {
         throw new Error('Tool ' + tool.name + ' has invalid or missing hints in annotations');
       }
     }
-    console.log('All 7 tools verified with 4 boolean hints (readOnlyHint, destructiveHint, idempotentHint, openWorldHint).');
+    console.log('All 9 tools verified with 4 boolean hints (readOnlyHint, destructiveHint, idempotentHint, openWorldHint).');
 
-    // 3. Call all 7 tools via JSON-RPC protocol
-    console.log('3. Testing tools/call for all 7 tools...');
+    // 3. Call all 9 tools via JSON-RPC protocol
+    console.log('3. Testing tools/call for all 9 tools...');
 
     // 3.1 pixasso_discover_intent
     console.log('   - Calling pixasso_discover_intent...');
@@ -179,7 +179,55 @@ async function runTests() {
     } finally {
       mockHttp.close();
     }
-    console.log('   -> All 7 tools called and verified over stdio JSON-RPC protocol.');
+
+    // 3.8 pixasso_explore_taste
+    console.log('   - Calling pixasso_explore_taste...');
+    const tasteRes = await sendRequest('tools/call', {
+      name: 'pixasso_explore_taste',
+      arguments: {
+        movement: 'Swiss International',
+        includeSwarm: false
+      }
+    });
+    const tasteData = JSON.parse(tasteRes.result.content[0].text);
+    if (!tasteData.curatedMovements || tasteData.curatedMovements.length === 0) {
+      throw new Error('pixasso_explore_taste missing curatedMovements');
+    }
+
+    // 3.9 pixasso_seed_taste
+    console.log('   - Calling pixasso_seed_taste...');
+    const seedRes = await sendRequest('tools/call', {
+      name: 'pixasso_seed_taste',
+      arguments: {
+        archetype: 'Portfolio',
+        movement: 'Swiss International',
+        typographyTokens: {
+          displayFont: 'Syne',
+          bodyFont: 'Inter',
+          modularScaleRatio: 1.25,
+          tracking: '-0.02em'
+        },
+        paletteTokens: {
+          primary: '#111111',
+          secondary: '#333333',
+          surface: '#ffffff',
+          accent: '#eb2f06',
+          muted: '#888888',
+          border: '#e5e5e5'
+        },
+        layoutTokens: {
+          geometryType: 'Bento Grid',
+          gridColumns: 12
+        },
+        consentGiven: true
+      }
+    });
+    const seedData = JSON.parse(seedRes.result.content[0].text);
+    if (seedData.status !== 'seeded') {
+      throw new Error('pixasso_seed_taste unexpected status: ' + seedData.status + ' (' + (seedData.message || '') + ')');
+    }
+
+    console.log('   -> All 9 tools called and verified over stdio JSON-RPC protocol.');
 
     // 4. List resources
     console.log('4. Testing resources/list...');
