@@ -59,7 +59,7 @@ app.on(['GET', 'HEAD'], '/health', async (c) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     service: 'pixasso-remote-mcp',
-    version: '1.2.0',
+    version: '1.2.1',
     latencyMs: Date.now() - start,
     checks: {
       worker: 'operational',

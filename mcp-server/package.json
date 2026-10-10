@@ -1,6 +1,6 @@
 {
   "name": "pixasso-mcp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "mcpName": "io.github.Erebuzzz/pixasso",
   "description": "Model Context Protocol server for Pixasso: the end-to-end frontend engineering and design orchestrator.",
   "main": "build/index.js",
@@ -23,13 +23,18 @@
   },
   "dependencies": {
     "@cloudflare/workers-oauth-provider": "^0.10.3",
-    "@modelcontextprotocol/sdk": "^1.6.1",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@mozilla/readability": "^0.6.0",
     "agents": "^0.17.1",
     "hono": "^4.13.8",
     "linkedom": "^0.18.13",
     "octokit": "^5.0.5",
     "zod": "^3.24.2"
+  },
+  "overrides": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "sharp": "^0.35.5",
+    "undici": "^7.30.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260923.1",

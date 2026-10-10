@@ -22,7 +22,7 @@ import { PIXASSO_PROMPTS, renderPrompt } from './prompts/index';
 export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProps> {
   server = new McpServer({
     name: 'pixasso-mcp',
-    version: '1.2.0'
+    version: '1.2.1'
   });
 
   async init() {
@@ -271,7 +271,7 @@ export default {
           urlsToWarm.map(async (url) => {
             try {
               await fetch(url, {
-                headers: { 'User-Agent': 'Pixasso-KeepAlive/1.2.0 (Cloudflare-Cron)' }
+                headers: { 'User-Agent': 'Pixasso-KeepAlive/1.2.1 (Cloudflare-Cron)' }
               });
             } catch (err: any) {
               console.error(`[Keep-Alive] Ping failed for ${url}:`, err?.message || err);
