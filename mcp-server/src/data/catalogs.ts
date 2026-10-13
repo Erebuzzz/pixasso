@@ -202,6 +202,46 @@ export const REFERENCE_CATALOGS: CatalogItem[] = [
     description: 'Figma Model Context Protocol integration, DESIGN.md specs, Rams 348-rule UI audit, and agent design skills.',
     tags: ['figma', 'mcp', 'design-md', 'rams-audit', 'neuform', 'ui-ux-pro-max', 'impeccable'],
     filename: 'figma-mcp-and-agentic-ecosystem.md'
+  },
+  {
+    id: 'creative-3d-and-blender-mcp',
+    name: 'Creative 3D & Blender MCP',
+    category: 'reference',
+    description: 'Blender MCP server integration, Babylon.js, COBE interactive globe, LiquidGL shader, and Theatre.js motion.',
+    tags: ['3d', 'blender', 'mcp', 'babylon', 'cobe', 'liquidgl', 'theatre-js', 'shaders'],
+    filename: 'creative-3d-and-blender-mcp.md'
+  },
+  {
+    id: 'advanced-ui-components-and-telemetry',
+    name: 'Advanced UI Components & Telemetry',
+    category: 'reference',
+    description: 'KokonutUI, BklitUI animated telemetry, Inspira UI (Vue/Nuxt), Fancy Components, NumberFlow, and Remediate widget.',
+    tags: ['components', 'kokonutui', 'bklit', 'telemetry', 'inspira', 'fancy', 'number-flow', 'dotmatrix'],
+    filename: 'advanced-ui-components-and-telemetry.md'
+  },
+  {
+    id: 'anti-slop-writing-and-human-craft',
+    name: 'Anti-Slop Writing & Human Craft',
+    category: 'reference',
+    description: 'Human-sounding copy rules, eliminating robotic AI filler, tactile button physics, and visual design pairings.',
+    tags: ['anti-slop', 'writing', 'copy', 'craft', 'microcopy', 'tactile', 'superdesign', 'ascii'],
+    filename: 'anti-slop-writing-and-human-craft.md'
+  },
+  {
+    id: 'typography-and-font-foundries',
+    name: 'Typography & Font Foundries',
+    category: 'reference',
+    description: 'Fontshare, FreeFaces, futuristic typefaces (Planet Kosmos, AQUIRE), Book of Shapes, and icon museums.',
+    tags: ['typography', 'fonts', 'fontshare', 'freefaces', 'futuristic', 'shapes', 'svg', 'heroicons'],
+    filename: 'typography-and-font-foundries.md'
+  },
+  {
+    id: 'web-craft-and-ergonomics',
+    name: 'Web Craft, Ergonomics & Utilities',
+    category: 'reference',
+    description: 'Concentric corner radii calculation, eased CSS gradients, OKLCH perceptual colors, and Web Audio API synthesizer.',
+    tags: ['web-craft', 'corner-radii', 'gradients', 'oklch', 'audio', 'uisfx', 'easing', 'interfaces-dev'],
+    filename: 'web-craft-and-ergonomics.md'
   }
 ];
 

@@ -139,6 +139,36 @@ Never ship visually untouched generic component-library defaults. Always tailor 
 - **When to Use**: Boutique agency sites, creative portfolios, and brand landing pages seeking non-standard interaction affordances.
 - **Implementation Note**: Ensure that expressive animations degrade gracefully on mobile screens and do not interfere with screen reader navigation.
 
+### KokonutUI
+- **URL**: https://kokonutui.com/
+- **Classification**: Modern Production Component Kit
+- **Core Strengths**: Ready-to-use, polished Tailwind components including bento layouts, profile cards, and micro-interactions.
+- **When to Use**: Rapid assembly of production-ready interfaces requiring high visual polish.
+
+### Inspira UI (Vue & Nuxt)
+- **URL**: https://github.com/unovue/inspira-ui
+- **Classification**: Animated Component Kit for Vue 3 & Nuxt 3
+- **Core Strengths**: The open-source Vue equivalent of Aceternity UI and Magic UI with animated beams, aurora backgrounds, and text reveals.
+- **When to Use**: High-impact marketing pages and applications built on Vue or Nuxt.
+
+### Bklit UI
+- **URL**: https://bklit.com/ | https://github.com/bklit/bklit-ui
+- **Classification**: Animated Telemetry and Chart Dashboard Suite
+- **Core Strengths**: Fully animated charts, sparklines, telemetry panels, and dark mode financial dashboards.
+- **When to Use**: Real-time telemetry, crypto exchanges, and high-density SaaS dashboards.
+
+### Fancy Components
+- **URL**: https://www.fancycomponents.dev/ | https://github.com/danielpetho/fancy
+- **Classification**: Physics-Driven Interactive Components
+- **Core Strengths**: Gravity cards, magnetic dock icons, fluid cursor ripples, and perspective tilts.
+- **When to Use**: Hero sections and interactive showcases where tactile physics elevate engagement.
+
+### NumberFlow
+- **URL**: https://number-flow.barvian.me/ | https://github.com/barvian/number-flow
+- **Classification**: Layout-Stable Animated Numeric Counters
+- **Core Strengths**: Optical zero-layout-shift digit transitions with continuous spring physics and native Intl formatting.
+- **When to Use**: Pricing calculators, financial metrics, and live counters.
+
 ---
 
 ## 3. Component Architecture Checklist

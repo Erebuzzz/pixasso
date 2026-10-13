@@ -104,6 +104,24 @@ export function handleAuditDesign(input: AuditDesignInput) {
       });
     }
 
+    if (/\b(supercharge|unleash your|delve into|seamlessly integrate|game-changer|testament to)\b/i.test(componentMarkup)) {
+      issues.push({
+        severity: 'suggestion',
+        rule: 'Copy Craft: AI Buzzword Inflation',
+        explanation: 'Robotic marketing buzzwords detected. These dilute authority and signal automated generation.',
+        remedy: 'Use direct, specific action language describing concrete outcomes rather than generic hyperbolic hype.'
+      });
+    }
+
+    if (/linear-gradient\(.*to-(b|r|l|t).*transparent\)/i.test(componentMarkup) && !/hsl|rgba/i.test(componentMarkup)) {
+      issues.push({
+        severity: 'suggestion',
+        rule: 'Visual Craft: Linear Gradient Banding',
+        explanation: 'Fading directly to transparent in standard linear gradients produces harsh optical banding seams.',
+        remedy: 'Use multi-stop eased gradients (e.g. via larsenwork.com/easing-gradients) to ensure logarithmic optical smoothing.'
+      });
+    }
+
     const score = Math.max(20, 100 - (issues.filter(i => i.severity === 'critical').length * 25) - (issues.filter(i => i.severity === 'warning').length * 10));
 
     return {
