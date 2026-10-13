@@ -502,7 +502,10 @@ export default function App() {
 			</footer>
 
 			{/* Main tldraw Infinite Whiteboard */}
-			<Tldraw onMount={handleMount} />
+			<Tldraw
+				onMount={handleMount}
+				licenseKey={import.meta.env.VITE_TLDRAW_LICENSE_KEY || undefined}
+			/>
 		</div>
 	)
 }
