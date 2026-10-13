@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Pixasso: Swiss Editorial Monograph</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <link rel="alternate icon" href="../../favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Syne', sans-serif;
+      --font-serif: 'Newsreader', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --bg: #fbfaf7;
+      --surface: #ffffff;
+      --border: rgba(25, 25, 25, 0.12);
+      --hairline: rgba(25, 25, 25, 0.08);
+      --ink-primary: #191919;
+      --ink-secondary: #575752;
+      --ink-muted: #8c8c82;
+      --accent: #15803d;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0c0d10;
+      --surface: #14161c;
+      --border: rgba(255, 255, 255, 0.12);
+      --hairline: rgba(255, 255, 255, 0.06);
+      --ink-primary: #f8fafc;
+      --ink-secondary: #94a3b8;
+      --ink-muted: #64748b;
+      --accent: #4ade80;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink-primary);
+      font-family: var(--font-serif);
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Swiss 12-Column Hairline Grid Overlay */
+    .swiss-grid-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      pointer-events: none;
+      z-index: 100;
+      padding: 0 2rem;
+      gap: 1.5rem;
+    }
+
+    .grid-col-line {
+      border-right: 1px solid var(--hairline);
+      height: 100%;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Editorial Masthead */
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid var(--ink-primary);
+      padding-bottom: 1.5rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .issue-stamp {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-muted);
+    }
+
+    .publication-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .mode-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink-primary);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Hero Editorial Spread */
+    .editorial-spread {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 4rem;
+    }
+
+    @media (max-width: 900px) {
+      .editorial-spread {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .editorial-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4.25rem);
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .editorial-lead {
+      font-size: 1.25rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+
+    /* Botanical Floral with Optical Blur Card */
+    .visual-frame {
+      position: relative;
+      height: 480px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at 70% 30%, #e0e7ff 0%, #fae8ff 50%, #fef3c7 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+    }
+
+    .blur-glass-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: rgba(255, 255, 255, 0.15);
+      z-index: 1;
+    }
+
+    .botanical-art {
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      width: 70%;
+      height: 70%;
+      background: linear-gradient(135deg, #10b981 0%, #065f46 100%);
+      border-radius: 50% 20% / 10% 40%;
+      filter: blur(8px);
+      opacity: 0.65;
+      animation: floatArt 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatArt {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(15deg) scale(1.1); }
+    }
+
+    .portrait-card {
+      position: relative;
+      z-index: 2;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .portrait-meta {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .portrait-quote {
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--ink-primary);
+    }
+
+    /* 3-Column Swiss Article Blocks */
+    .article-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      border-top: 1px solid var(--hairline);
+      padding-top: 2.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .article-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .col-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .col-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .col-text {
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="swiss-grid-overlay" id="gridOverlay">
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+    <div class="grid-col-line"></div>
+  </div>
+
+  <div class="container">
+    <header class="masthead">
+      <div class="issue-stamp">Vol. 24 / Issue 08 · Basel & Zurich</div>
+      <div class="publication-title">DIE MONOGRAFIE</div>
+      <div style="display: flex; gap: 0.5rem;">
+        <button class="mode-toggle-btn" id="gridToggleBtn" type="button">Grid: ON</button>
+        <button class="mode-toggle-btn" id="themeToggleBtn" type="button">Dark Mode</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="editorial-spread">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem;">
+            Aesthetic Matrix 03 : Typographic Poise
+          </div>
+          <h1 class="editorial-headline">Form follows cognitive restraint.</h1>
+          <p class="editorial-lead">
+            When visual elements adhere to a mathematical 12-column Swiss grid, the interface achieves quiet authority without superficial decoration.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-muted);">
+            Display: Syne Grotesk 700 / Body: Newsreader Variable Serif / Micro: JetBrains Mono
+          </div>
+        </div>
+
+        <div class="visual-frame">
+          <div class="botanical-art"></div>
+          <div class="blur-glass-overlay"></div>
+          <div class="portrait-card">
+            <div class="portrait-meta">Specimen Note 42</div>
+            <div class="portrait-quote">"True elegance in interface craft is defined by what is ruthlessly excluded."</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-columns">
+        <div>
+          <div class="col-num">[01]</div>
+          <h2 class="col-title">Proximity and Spatial Rhythm</h2>
+          <p class="col-text">
+            Margins governed by a strict 8px scale establish visual pacing. Elements related in function maintain tighter bounds, guiding eye movement with zero friction.
+          </p>
+        </div>
+        <div>
+          <div class="col-num">[02]</div>
+          <h2 class="col-title">Botanical Layering & Glass Blur</h2>
+          <p class="col-text">
+            Blending organic photography with heavy optical gaussian blur creates a tactile ground, elevating sharp foreground typography to magazine cover prestige.
+          </p>
+        </div>
+        <div>
+          <div class="col-num">[03]</div>
+          <h2 class="col-title">Optical Alignment Rules</h2>
+          <p class="col-text">
+            Centering relies on perceived visual mass rather than raw geometric bounding boxes. Asymmetry provides dynamic tension while hairlines anchor layout boundaries.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const gridBtn = document.getElementById('gridToggleBtn');
+    const overlay = document.getElementById('gridOverlay');
+    gridBtn.addEventListener('click', () => {
+      const isVisible = overlay.style.display !== 'none';
+      overlay.style.display = isVisible ? 'none' : 'grid';
+      gridBtn.textContent = isVisible ? 'Grid: OFF' : 'Grid: ON';
+    });
+
+    const themeBtn = document.getElementById('themeToggleBtn');
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'paper' ? 'dark' : 'paper';
+      document.documentElement.setAttribute('data-theme', next);
+      themeBtn.textContent = next === 'paper' ? 'Dark Mode' : 'Paper Mode';
+    });
+  </script>
+</body>
+</html>

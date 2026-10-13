@@ -593,7 +593,7 @@ Every tool conforms to the official Model Context Protocol specification and dec
 | Tool Name | Purpose | Parameters | Annotations / Hints |
 | :--- | :--- | :--- | :--- |
 | `pixasso_discover_intent` | Generates adaptive discovery questions across 16 pillars and brand identity, powered by the Taste Inference Engine | `projectArchetype`, `description`, `targetAudience`, `hasBrandIdentity`, `referenceUrls` | readOnly, idempotent |
-| `pixasso_search_references` | Searches 31 curated catalogs (20 references, 11 templates) | `query`, `category`, `tag` | readOnly, idempotent |
+| `pixasso_search_references` | Searches 40 curated catalogs (29 references, 11 templates) | `query`, `category`, `tag` | readOnly, idempotent |
 | `pixasso_fetch_reference` | Fetches live HTML, extracts title/headings/readable text, and flags client SPAs | `url`, `focus` | readOnly, openWorld |
 | `pixasso_generate_genome` | Compiles tokens into validated `design-genome.yaml` with reference verification hard gate | `projectName`, `themeMode`, `groundTone`, `typography`, `colorTokens`, `dimensionality`, `motionFeel`, `references` | readOnly, idempotent |
 | `pixasso_generate_brain` | Generates Graphify-style Mermaid decision map and Task DAG | `projectName`, `decisions`, `tasks` | readOnly, idempotent |
@@ -605,12 +605,21 @@ Every tool conforms to the official Model Context Protocol specification and dec
 
 ### Resources
 
-Access 31 curated knowledge resources directly through `pixasso://` URIs (20 references and 11 templates):
+Access 40 curated knowledge resources directly through `pixasso://` URIs (29 references and 11 templates):
 - `pixasso://references/frontend-architecture-pillars`
 - `pixasso://references/typography-system`
 - `pixasso://references/sound-and-sensory-design`
 - `pixasso://references/interface-testing-and-qa`
 - `pixasso://references/anti-patterns-and-critique`
+- `pixasso://references/color-theory-and-harmony`
+- `pixasso://references/design-basics-and-visual-hierarchy`
+- `pixasso://references/component-and-section-archetypes`
+- `pixasso://references/figma-mcp-and-agentic-ecosystem`
+- `pixasso://references/creative-3d-and-blender-mcp`
+- `pixasso://references/advanced-ui-components-and-telemetry`
+- `pixasso://references/anti-slop-writing-and-human-craft`
+- `pixasso://references/typography-and-font-foundries`
+- `pixasso://references/web-craft-and-ergonomics`
 - `pixasso://templates/design-genome`
 - `pixasso://templates/task-graph`
 - `pixasso://templates/interface-test-plan`
@@ -634,6 +643,10 @@ Explore standalone, fully-functional examples in `examples/`:
 - **[CRT Phosphor Terminal](examples/crt-terminal/index.html)**: Retro computing interface with scanlines, cathode vignette, bracket hotkeys, and simulated serial telemetry.
 - **[Harmonic Wave Synthesizer](examples/generative-wave/index.html)**: Interactive mathematical wave canvas running in `requestAnimationFrame` with live audio oscillators.
 - **[3D Spatial Visualization Suite](examples/3d-suite/index.html)**: Interactive Three.js studio inspired by `viettranx/3dviz-pro-max`, featuring kinetic geometric sculptures, 15k GPU particle galaxy, and 5-layer exploded hardware assembly with camera presets and real-time shader controls.
+- **[Edge Telemetry & Cluster Ops](examples/telemetry-dashboard/index.html)**: High-density real-time telemetry dashboard with BklitUI animated sparklines, procedural dot-matrix loader, and NumberFlow layout-stable counters.
+- **[COBE Spatial Sphere & Liquid Glass](examples/spatial-3d-canvas/index.html)**: Interactive 5kB WebGL dot-matrix globe with drag physics, Apple visionOS LiquidGL optical glass refraction, and procedural Thinking Orb synthesis.
+- **[Die Monografie (Swiss Typographic Spread)](examples/swiss-editorial/index.html)**: Strict 12-column mathematical Swiss grid with toggleable hairlines, botanical florals under optical glass blur, and editorial typography.
+- **[Asymmetric Bento Grid & Tactile UISFX](examples/bento-interactive/index.html)**: Bentogrids.com 60/40 geometry, live concentric corner radii calculator, magnetic button physics, and Web Audio API micro-interactions.
 
 ---
 

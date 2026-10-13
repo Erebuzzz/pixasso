@@ -7,7 +7,8 @@ Intent Discovery -> Design Genome -> Decision Graph -> Capability Graph -> Task 
 
 - Web Showcase: https://pixasso.erebuzzz.tech
 - Official npm Package: https://www.npmjs.com/package/pixasso-mcp (v1.2.1)
-- Remote MCP Endpoint: https://mcp.pixasso.erebuzzz.tech/mcp (Streamable HTTP with GitHub OAuth)
+- Remote MCP Endpoint: https://mcp.pixasso.erebuzzz.tech/mcp (Streamable HTTP with GitHub OAuth, 200 calls/day allowance)
+- Privacy Policy: https://github.com/Erebuzzz/pixasso/blob/main/PRIVACY.md
 - MCP Registry Identifier: io.github.Erebuzzz/pixasso
 - Skills.sh Registry: https://www.skills.sh/erebuzzz/pixasso/pixasso
 - Cursor Plugin Directory: https://cursor.directory/plugins/pixasso
@@ -17,17 +18,24 @@ Intent Discovery -> Design Genome -> Decision Graph -> Capability Graph -> Task 
 
 ## Quickstart & Installation
 
-### 1. skills.sh (Universal for Cursor, Claude Desktop, Antigravity, Codex)
+### 1. Hosted Remote Endpoint (Zero Local Runtime)
+Connect any remote-compatible MCP client directly to:
+```text
+https://mcp.pixasso.erebuzzz.tech/mcp
+```
+Secured with GitHub OAuth, 200 tool calls/day quota per user.
+
+### 2. skills.sh (Universal for Cursor, Claude Desktop, Antigravity, Codex)
 ```bash
 npx skills add Erebuzzz/pixasso
 ```
 
-### 2. npm CLI / npx (Zero Install MCP Execution)
+### 3. npm CLI / npx (Zero Install MCP Execution)
 ```bash
 npx -y pixasso-mcp
 ```
 
-### 3. Cursor IDE (`~/.cursor/mcp.json` or `.cursor/mcp.json`)
+### 4. Cursor IDE (`~/.cursor/mcp.json` or `.cursor/mcp.json`)
 ```json
 {
   "mcpServers": {
@@ -39,7 +47,7 @@ npx -y pixasso-mcp
 }
 ```
 
-### 4. VS Code (`.vscode/mcp.json` or Cline / Roo Code settings)
+### 5. VS Code (`.vscode/mcp.json` or Cline / Roo Code settings)
 ```json
 {
   "mcpServers": {
@@ -54,7 +62,7 @@ npx -y pixasso-mcp
 }
 ```
 
-### 5. Claude Desktop (`claude_desktop_config.json`)
+### 6. Claude Desktop (`claude_desktop_config.json`)
 ```json
 {
   "mcpServers": {
@@ -66,12 +74,12 @@ npx -y pixasso-mcp
 }
 ```
 
-### 6. Claude Code CLI
+### 7. Claude Code CLI
 ```bash
 claude mcp add pixasso npx -y pixasso-mcp
 ```
 
-### 7. Google Antigravity (`~/.gemini/antigravity/mcp_config.json`)
+### 8. Google Antigravity (`~/.gemini/antigravity/mcp_config.json`)
 ```json
 {
   "mcpServers": {
@@ -83,7 +91,7 @@ claude mcp add pixasso npx -y pixasso-mcp
 }
 ```
 
-### 8. Unified Local Clone Installer
+### 9. Unified Local Clone Installer
 ```bash
 git clone https://github.com/Erebuzzz/pixasso.git
 cd pixasso
@@ -91,7 +99,7 @@ npm install
 node scripts/install.js
 ```
 
-### 9. Prompt for AI Assistant (Install in Any IDE)
+### 10. Prompt for AI Assistant (Install in Any IDE)
 Send this prompt to your AI coding assistant:
 "Please configure the Pixasso MCP server for this project. Use either Hosted Remote (URL: https://mcp.pixasso.erebuzzz.tech/mcp) or Local Stdio (command: npx, args: ['-y', 'pixasso-mcp']) in the active editor's MCP configuration, and verify that the 7 Pixasso design tools are available."
 
@@ -120,22 +128,36 @@ Send this prompt to your AI coding assistant:
 
 ## MCP Server Tools Reference (JSON-RPC 2.0)
 
+All tools declare the four official MCP directory hints: `readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`.
+
 ### 1. `pixasso_discover_intent`
-Initiates adaptive intent discovery for a frontend project across the 16 pillars and generates tailored popup questions.
+Initiates adaptive intent discovery across the 16 pillars and generates tailored popup questions for `ask_question`.
+- Hints: `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`, `openWorldHint: false`
 - Parameters:
   - `projectArchetype` (string, enum: `full_web_app`, `editorial_landing_page`, `creative_3d_canvas`, `design_system`, `general`)
   - `description` (string, required): Initial brief or problem description
   - `targetAudience` (string, optional): Target persona or demographic
+  - `hasBrandIdentity` (boolean, optional): Whether existing brand guidelines exist or need to be synthesized from scratch
+  - `referenceUrls` (array of strings, optional): Reference URLs capturing desired feel
 
 ### 2. `pixasso_search_references`
-Queries all 31 curated knowledge resources (20 reference catalogs and 11 templates) across the 16 frontend pillars.
+Queries all 40 curated knowledge resources (29 reference catalogs and 11 templates) across the 16 frontend pillars.
+- Hints: `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`, `openWorldHint: false`
 - Parameters:
   - `query` (string, required): Search keywords
   - `category` (string, enum: `all`, `reference`, `template`)
   - `tag` (string, optional): Tag filter (`typography`, `motion`, `a11y`, `3d`, `components`)
 
-### 3. `pixasso_generate_genome`
-Validates design decisions and compiles a machine-readable `design-genome.yaml` specification.
+### 3. `pixasso_fetch_reference`
+Fetches live website HTML server-side, extracts headings (h1-h4), links, metadata, and body text via Readability, and detects client-rendered SPAs (Framer, Webflow, React shells).
+- Hints: `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: false`, `openWorldHint: true`
+- Parameters:
+  - `url` (string, required): Target HTTP/HTTPS URL
+  - `focus` (string, enum: `full`, `layout`, `typography`, `color`, `motion`)
+
+### 4. `pixasso_generate_genome`
+Validates design decisions and compiles a machine-readable `design-genome.yaml` specification with reference verification hard gate.
+- Hints: `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`, `openWorldHint: false`
 - Parameters:
   - `projectName` (string, required)
   - `themeMode` (string, enum: `paper`, `crt_mono`, `amoled_black`, `custom`)
@@ -144,42 +166,80 @@ Validates design decisions and compiles a machine-readable `design-genome.yaml` 
   - `colorTokens` (object, required: `primary`, `accent`, `border`)
   - `dimensionality` (string, enum: `2d_planar`, `2.5d_parallax`, `3d_webgl`)
   - `motionFeel` (string, optional)
+  - `references` (array of objects, optional, verified references from `pixasso_fetch_reference`)
 
-### 4. `pixasso_generate_brain`
+### 5. `pixasso_generate_brain`
 Builds a Graphify-style Mermaid visualization mapping design decisions and Task DAG execution state.
+- Hints: `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`, `openWorldHint: false`
 - Parameters:
   - `projectName` (string, required)
   - `decisions` (array of objects with `category`, `choice`, `rationale`)
   - `tasks` (array of objects with `id`, `title`, `role`, `status`, `dependencies`)
 
-### 5. `pixasso_audit_design`
+### 6. `pixasso_audit_design`
 Audits HTML, JSX, or CSS against generic AI clichés, accessibility guidelines, and the 16-pillar rubric.
+- Hints: `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`, `openWorldHint: false`
 - Parameters:
   - `componentMarkup` (string, required): Markup or CSS to evaluate
   - `contextDescription` (string, optional): Contextual design intent
 
-### 6. `pixasso_generate_test_plan`
+### 7. `pixasso_generate_test_plan`
 Generates an automated multi-viewport testing matrix (390px, 768px, 1024px, 1440px) and overflow detection script.
+- Hints: `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`, `openWorldHint: false`
 - Parameters:
   - `projectName` (string, required)
   - `testUrl` (string, optional)
   - `testedViewports` (array of numbers, optional: defaults to `[390, 768, 1024, 1440]`)
 
+
 ---
 
 ## Curated Knowledge Resources (`pixasso://`)
+40 curated knowledge resources (29 references and 11 templates) available via `pixasso://`:
 
-- `pixasso://references/frontend-architecture-pillars`: 16-pillar frontend engineering guide
-- `pixasso://references/discovery-framework`: Adaptive discovery questions matrix
-- `pixasso://references/design-genome`: Epistemic states and token schemas
-- `pixasso://references/design-brain`: Mermaid Graphify visualization templates
-- `pixasso://references/typography-system`: Typography mathematics and Typeface.fyi pairings
-- `pixasso://references/sound-and-sensory-design`: Web Audio API UISFX engine
-- `pixasso://references/interface-testing-and-qa`: Automated multi-viewport and overflow QA
-- `pixasso://references/anti-patterns-and-critique`: Generic AI design cliché elimination
-- `pixasso://templates/design-genome`: Design Genome YAML schema
-- `pixasso://templates/task-graph`: Task Graph YAML schema
-- `pixasso://templates/interface-test-plan`: Interface QA verification checklist
+### References (`pixasso://references/{id}`)
+- `frontend-architecture-pillars`: 16 foundational engineering pillars
+- `discovery-framework`: Adaptive intent discovery question matrix
+- `design-genome`: Epistemic states, tokens, and constraint persistence
+- `design-brain`: Mermaid decision graphs and live Task DAG maps
+- `typography-system`: Typography mathematics and modular scales
+- `typography-discovery`: Deep hierarchy and readability inquiry
+- `ui-component-libraries`: Curated UI components and registries
+- `creative-coding-and-webgl`: ThreeUI, Spline 3D, and optical shaders
+- `motion-and-animation`: Motion.dev, GSAP, spring physics, and easing
+- `sound-and-sensory-design`: Web Audio API tactile audio synthesizer
+- `interface-testing-and-qa`: Multi-viewport testing and overflow sweeps
+- `inspiration-galleries`: 30+ visual, gaming HUD, and component galleries
+- `anti-patterns-and-critique`: Impeccable AI Slop Catalog (65+ tropes)
+- `art-direction-and-dimensions`: 2D vs 2.5D vs 3D spatial criteria
+- `agent-orchestration`: Subagent delegation and tool coordination
+- `task-graph`: Dependency-aware DAG execution pipelines
+- `tool-registry`: Tool and MCP server capability mapping
+- `contradiction-resolution`: Resolving conflicting design goals
+- `generative-assets-and-tools`: Procedural SVGs and diffusion art prompts
+- `live-case-studies`: Digital craft benchmark deconstructions
+- `color-theory-and-harmony`: Geometric harmonies, 60-30-10, halation prevention
+- `design-basics-and-visual-hierarchy`: Gestalt perception laws and 6 craft rules
+- `component-and-section-archetypes`: Supahero.io heroes, bento geometry, navbars, footers
+- `figma-mcp-and-agentic-ecosystem`: Figma MCP server, DESIGN.md specs, Rams 348-rule audit
+- `creative-3d-and-blender-mcp`: Blender MCP server, Babylon.js, COBE globe, LiquidGL, Theatre.js
+- `advanced-ui-components-and-telemetry`: KokonutUI, BklitUI telemetry, NumberFlow, Dotmatrix
+- `anti-slop-writing-and-human-craft`: Human copy rules, tactile button physics, visual combinations
+- `typography-and-font-foundries`: Fontshare, FreeFaces, futuristic fonts, Book of Shapes
+- `web-craft-and-ergonomics`: Concentric radii math, eased gradients, OKLCH, tactile audio
+
+### Templates (`pixasso://templates/{id}`)
+- `component-implementation-spec`: Production component specification
+- `interface-test-plan`: Multi-viewport testing matrix
+- `design-brain`: Mermaid decision map template
+- `design-brief`: Structured intake document
+- `design-critique-rubric`: 5-pillar craft scorecard
+- `design-genome`: YAML schema for design tokens
+- `design-mode-spec`: Aesthetic mode definition
+- `project-state`: Project phase tracking schema
+- `task-graph`: Task Graph YAML DAG schema
+- `typography-spec`: Typography specification schema
+- `agent-task`: Specialist subagent task packet
 
 ---
 

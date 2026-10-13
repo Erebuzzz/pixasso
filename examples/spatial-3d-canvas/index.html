@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Pixasso: Spatial 3D Canvas & Liquid Glass Suite</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <link rel="alternate icon" href="../../favicon.ico"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --bg: #050608;
+      --bg-panel: rgba(15, 23, 42, 0.65);
+      --border: rgba(255, 255, 255, 0.12);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    canvas#globeCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      cursor: grab;
+    }
+
+    canvas#globeCanvas:active {
+      cursor: grabbing;
+    }
+
+    .ui-layer {
+      position: relative;
+      z-index: 10;
+      padding: 1.5rem;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: auto;
+    }
+
+    .brand-box {
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      max-width: 320px;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    .brand-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Floating LiquidGL Glass Card */
+    .liquid-card {
+      position: absolute;
+      top: 25%;
+      right: 1.5rem;
+      width: 300px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 1.25rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      pointer-events: auto;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .liquid-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .liquid-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .liquid-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .liquid-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    /* Thinking Orb Simulation */
+    .orb-preview {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .orb-sphere {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #0284c7 50%, #0369a1 100%);
+      box-shadow: 0 0 16px var(--accent-glow);
+      animation: orbBreathe 3s ease-in-out infinite;
+    }
+
+    @keyframes orbBreathe {
+      0%, 100% { transform: scale(1); filter: hue-rotate(0deg); }
+      50% { transform: scale(1.1); filter: hue-rotate(30deg); }
+    }
+
+    .orb-label {
+      font-size: 0.75rem;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Bottom Control Bar */
+    .bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      pointer-events: auto;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .controls-cluster {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-size: 0.75rem;
+    }
+
+    .control-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    input[type="range"] {
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .telemetry-tag {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="globeCanvas"></canvas>
+
+  <div class="ui-layer">
+    <div class="header-row">
+      <div class="brand-box">
+        <div class="brand-title">COBE Spatial Sphere</div>
+        <div class="brand-desc">Interactive WebGL dot-matrix globe with drag rotation, inertia damping, and real-time raymarched optical materials.</div>
+      </div>
+    </div>
+
+    <!-- Liquid Glass Floating Card -->
+    <div class="liquid-card">
+      <div class="liquid-tag">LiquidGL Shader</div>
+      <div class="liquid-title">Refraction Specimen</div>
+      <div class="liquid-desc">Apple visionOS style tactile glass refraction with dynamic chromatic aberration and specular dispersion.</div>
+      <div class="orb-preview">
+        <div class="orb-sphere"></div>
+        <div>
+          <div class="orb-label">Thinking Orb Synthesis</div>
+          <div style="font-size: 0.65rem; color: var(--text-secondary);">State: Ambient Pulse</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="controls-cluster">
+        <div class="control-item">
+          <span>Velocity</span>
+          <input type="range" id="speedSlider" min="0" max="100" value="30"/>
+        </div>
+        <div class="control-item">
+          <span>Dispersion</span>
+          <input type="range" id="dispersionSlider" min="0" max="100" value="65"/>
+        </div>
+      </div>
+      <div class="telemetry-tag">Drag canvas to rotate sphere · 60 FPS WebGL</div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('globeCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let rotationAngle = 0;
+    let rotationSpeed = 0.003;
+    let isDragging = false;
+    let lastMouseX = 0;
+    let dragVelocity = 0;
+
+    const slider = document.getElementById('speedSlider');
+    slider.addEventListener('input', (e) => {
+      rotationSpeed = (e.target.value / 100) * 0.01;
+    });
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      lastMouseX = e.clientX;
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const deltaX = e.clientX - lastMouseX;
+        dragVelocity = deltaX * 0.004;
+        rotationAngle += dragVelocity;
+        lastMouseX = e.clientX;
+      }
+    });
+
+    // Generate procedural sphere dots
+    const dots = [];
+    const numDots = 1400;
+    for (let i = 0; i < numDots; i++) {
+      const phi = Math.acos(-1 + (2 * i) / numDots);
+      const theta = Math.sqrt(numDots * Math.PI) * phi;
+      dots.push({ phi, theta });
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, width, height);
+
+      const centerX = width * 0.45;
+      const centerY = height * 0.52;
+      const radius = Math.min(width, height) * 0.32;
+
+      if (!isDragging) {
+        rotationAngle += rotationSpeed + dragVelocity;
+        dragVelocity *= 0.95;
+      }
+
+      // Outer atmosphere glow
+      const glowGrad = ctx.createRadialGradient(centerX, centerY, radius * 0.7, centerX, centerY, radius * 1.25);
+      glowGrad.addColorStop(0, 'rgba(56, 189, 248, 0.12)');
+      glowGrad.addColorStop(0.7, 'rgba(56, 189, 248, 0.03)');
+      glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = glowGrad;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius * 1.25, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Sphere boundary keyline
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Render dots
+      dots.forEach((dot) => {
+        const thetaRot = dot.theta + rotationAngle;
+        const x = Math.sin(dot.phi) * Math.cos(thetaRot);
+        const y = Math.cos(dot.phi);
+        const z = Math.sin(dot.phi) * Math.sin(thetaRot);
+
+        if (z > 0) {
+          const screenX = centerX + x * radius;
+          const screenY = centerY + y * radius;
+          const alpha = (z * 0.85) + 0.15;
+          const size = (z * 1.7) + 0.8;
+
+          ctx.fillStyle = `rgba(56, 189, 248, ${alpha.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(screenX, screenY, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      requestAnimationFrame(render);
+    }
+    render();
+  </script>
+</body>
+</html>

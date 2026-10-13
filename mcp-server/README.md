@@ -6,7 +6,7 @@ Model Context Protocol (MCP) server for Pixasso: the complete end-to-end fronten
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-green.svg)](https://nodejs.org/)
 
-Pixasso bridges visionary art direction with robust frontend architecture across 16 foundational engineering pillars. It gives LLMs, coding assistants, and autonomous agents the ability to dynamically discover user intent, validate design tokens, compile Graphify-style architecture decision graphs, critique layouts against AI tropes, search 31 reference catalogs, and generate automated multi-viewport testing matrices.
+Pixasso bridges visionary art direction with robust frontend architecture across 16 foundational engineering pillars. It gives LLMs, coding assistants, and autonomous agents the ability to dynamically discover user intent, validate design tokens, compile Graphify-style architecture decision graphs, critique layouts against AI tropes, search 40 reference catalogs, and generate automated multi-viewport testing matrices.
 
 Live Showcase & Specifications: [https://pixasso.erebuzzz.tech](https://pixasso.erebuzzz.tech) or [https://pixasso-two.vercel.app](https://pixasso-two.vercel.app)
 
@@ -40,7 +40,7 @@ flowchart TD
     end
 
     T1 --> Router
-    T2 --> P2["31 Deep Reference Catalogs<br/>(Typography, Shaders, Layouts)"]
+    T2 --> P2["40 Deep Reference Catalogs<br/>(Typography, Shaders, Layouts)"]
     T3 --> P3["Live DOM & Content Extraction<br/>(Linkedom, Readability, SPA Detection)"]
     T4 --> P4["Design Genome Specification<br/>(YAML Tokens, Verified References)"]
     T5 --> P5["Design Brain DAG<br/>(Mermaid Decision Graph)"]
@@ -197,7 +197,7 @@ Every tool conforms to the official Model Context Protocol specification and dec
 | Tool | Purpose | Key Inputs | Hints |
 | :--- | :--- | :--- | :--- |
 | `pixasso_discover_intent` | Adaptive inquiry synthesizer across 16 pillars and brand genesis, powered by the Taste Inference Engine. Synthesizes 3 bespoke aesthetic worlds with compulsory popup questions. | `projectArchetype`, `description`, `targetAudience`, `hasBrandIdentity`, `referenceUrls` | readOnly, idempotent |
-| `pixasso_search_references` | Search across 31 curated design & architecture catalogs. | `query`, `category`, `tag` | readOnly, idempotent |
+| `pixasso_search_references` | Search across 40 curated design & architecture catalogs. | `query`, `category`, `tag` | readOnly, idempotent |
 | `pixasso_fetch_reference` | Fetches live HTML, extracts title/headings/readable text, detects client SPAs, and caches verified fetches. | `url`, `focus` | readOnly, openWorld |
 | `pixasso_generate_genome` | Compiles tokens, color ramps, typography, and libraries into `design-genome.yaml`. Enforces programmatic hard gate on verified references. | `projectName`, `themeMode`, `groundTone`, `typography`, `colorTokens`, `references` | readOnly, idempotent |
 | `pixasso_generate_brain` | Synthesizes a visual Graphify Mermaid decision graph and Task DAG. | `projectName`, `decisions`, `tasks` | readOnly, idempotent |
@@ -336,8 +336,8 @@ If you omit these secrets, your worker will seamlessly use Cloudflare Workers AI
 ## Resources & Prompts
 
 ### Resources (`pixasso://`)
-- `pixasso://references/{catalogName}`: Direct read access to all 31 reference catalogs including typography systems, motion choreography, sound design, and shader parameters.
-- `pixasso://templates/{templateName}`: Access to production blueprints including `design-genome.yaml`, `interface-test-plan.md`, and `code-review.md`.
+- `pixasso://references/{catalogName}`: Direct read access to all 29 reference catalogs including typography systems, motion choreography, sound design, and shader parameters.
+- `pixasso://templates/{templateName}`: Access to all 11 production blueprints including `design-genome.yaml`, `interface-test-plan.md`, and `component-implementation-spec.md`.
 
 ### Prompts (`mcp://prompts/`)
 - `intent-discovery`: Prompt for launching adaptive user interviews without form fatigue.

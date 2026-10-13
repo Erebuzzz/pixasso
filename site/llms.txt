@@ -141,7 +141,7 @@ Initiates adaptive intent discovery across the 16 pillars and generates tailored
   - `referenceUrls` (array of strings, optional): Reference URLs capturing desired feel
 
 ### 2. `pixasso_search_references`
-Queries all 31 curated knowledge resources (20 reference catalogs and 11 templates) across the 16 frontend pillars.
+Queries all 40 curated knowledge resources (29 reference catalogs and 11 templates) across the 16 frontend pillars.
 - Hints: `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`, `openWorldHint: false`
 - Parameters:
   - `query` (string, required): Search keywords
@@ -195,18 +195,51 @@ Generates an automated multi-viewport testing matrix (390px, 768px, 1024px, 1440
 ---
 
 ## Curated Knowledge Resources (`pixasso://`)
+40 curated knowledge resources (29 references and 11 templates) available via `pixasso://`:
 
-- `pixasso://references/frontend-architecture-pillars`: 16-pillar frontend engineering guide
-- `pixasso://references/discovery-framework`: Adaptive discovery questions matrix
-- `pixasso://references/design-genome`: Epistemic states and token schemas
-- `pixasso://references/design-brain`: Mermaid Graphify visualization templates
-- `pixasso://references/typography-system`: Typography mathematics and Typeface.fyi pairings
-- `pixasso://references/sound-and-sensory-design`: Web Audio API UISFX engine
-- `pixasso://references/interface-testing-and-qa`: Automated multi-viewport and overflow QA
-- `pixasso://references/anti-patterns-and-critique`: Generic AI design cliché elimination
-- `pixasso://templates/design-genome`: Design Genome YAML schema
-- `pixasso://templates/task-graph`: Task Graph YAML schema
-- `pixasso://templates/interface-test-plan`: Interface QA verification checklist
+### References (`pixasso://references/{id}`)
+- `frontend-architecture-pillars`: 16 foundational engineering pillars
+- `discovery-framework`: Adaptive intent discovery question matrix
+- `design-genome`: Epistemic states, tokens, and constraint persistence
+- `design-brain`: Mermaid decision graphs and live Task DAG maps
+- `typography-system`: Typography mathematics and modular scales
+- `typography-discovery`: Deep hierarchy and readability inquiry
+- `ui-component-libraries`: Curated UI components and registries
+- `creative-coding-and-webgl`: ThreeUI, Spline 3D, and optical shaders
+- `motion-and-animation`: Motion.dev, GSAP, spring physics, and easing
+- `sound-and-sensory-design`: Web Audio API tactile audio synthesizer
+- `interface-testing-and-qa`: Multi-viewport testing and overflow sweeps
+- `inspiration-galleries`: 30+ visual, gaming HUD, and component galleries
+- `anti-patterns-and-critique`: Impeccable AI Slop Catalog (65+ tropes)
+- `art-direction-and-dimensions`: 2D vs 2.5D vs 3D spatial criteria
+- `agent-orchestration`: Subagent delegation and tool coordination
+- `task-graph`: Dependency-aware DAG execution pipelines
+- `tool-registry`: Tool and MCP server capability mapping
+- `contradiction-resolution`: Resolving conflicting design goals
+- `generative-assets-and-tools`: Procedural SVGs and diffusion art prompts
+- `live-case-studies`: Digital craft benchmark deconstructions
+- `color-theory-and-harmony`: Geometric harmonies, 60-30-10, halation prevention
+- `design-basics-and-visual-hierarchy`: Gestalt perception laws and 6 craft rules
+- `component-and-section-archetypes`: Supahero.io heroes, bento geometry, navbars, footers
+- `figma-mcp-and-agentic-ecosystem`: Figma MCP server, DESIGN.md specs, Rams 348-rule audit
+- `creative-3d-and-blender-mcp`: Blender MCP server, Babylon.js, COBE globe, LiquidGL, Theatre.js
+- `advanced-ui-components-and-telemetry`: KokonutUI, BklitUI telemetry, NumberFlow, Dotmatrix
+- `anti-slop-writing-and-human-craft`: Human copy rules, tactile button physics, visual combinations
+- `typography-and-font-foundries`: Fontshare, FreeFaces, futuristic fonts, Book of Shapes
+- `web-craft-and-ergonomics`: Concentric radii math, eased gradients, OKLCH, tactile audio
+
+### Templates (`pixasso://templates/{id}`)
+- `component-implementation-spec`: Production component specification
+- `interface-test-plan`: Multi-viewport testing matrix
+- `design-brain`: Mermaid decision map template
+- `design-brief`: Structured intake document
+- `design-critique-rubric`: 5-pillar craft scorecard
+- `design-genome`: YAML schema for design tokens
+- `design-mode-spec`: Aesthetic mode definition
+- `project-state`: Project phase tracking schema
+- `task-graph`: Task Graph YAML DAG schema
+- `typography-spec`: Typography specification schema
+- `agent-task`: Specialist subagent task packet
 
 ---
 

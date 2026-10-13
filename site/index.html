@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
   <link rel="alternate icon" href="favicon.ico"/>
   <link rel="llms-txt" type="text/plain" href="llms.txt"/>
-  <meta name="agent-api" content="llms.txt" data-protocol="mcp-2024-11-05" data-tools="9" data-catalogs="31"/>
+  <meta name="agent-api" content="llms.txt" data-protocol="mcp-2024-11-05" data-tools="9" data-catalogs="40"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
@@ -2465,6 +2465,10 @@
             <span class="toolbar-label">[ Specimen: ]</span>
             <div class="btn-group">
               <button class="sandbox-btn active" data-src="../examples/3d-suite/index.html" data-name="3D WebGL Suite" type="button">3D Spatial Suite</button>
+              <button class="sandbox-btn" data-src="../examples/telemetry-dashboard/index.html" data-name="Telemetry Ops Dashboard" type="button">Telemetry Ops</button>
+              <button class="sandbox-btn" data-src="../examples/spatial-3d-canvas/index.html" data-name="COBE Spatial Canvas" type="button">COBE & LiquidGL</button>
+              <button class="sandbox-btn" data-src="../examples/swiss-editorial/index.html" data-name="Swiss Monograph" type="button">Swiss Monograph</button>
+              <button class="sandbox-btn" data-src="../examples/bento-interactive/index.html" data-name="Bento & Physics" type="button">Bento & Physics</button>
               <button class="sandbox-btn" data-src="../examples/production-app/index.html" data-name="Production App Suite" type="button">Edge Ops Dashboard</button>
               <button class="sandbox-btn" data-src="../examples/paper-editorial/index.html" data-name="Paper Editorial" type="button">Paper Editorial</button>
               <button class="sandbox-btn" data-src="../examples/crt-terminal/index.html" data-name="CRT Phosphor Console" type="button">CRT Terminal</button>
@@ -2596,6 +2600,50 @@
             Interactive Three.js visualization inspired by viettranx/3dviz-pro-max. Features kinetic polyhedron sculpture, gravitational particle galaxy, and 5-layer exploded hardware assembly with real-time shader, lighting, and camera presets.
           </p>
         </a>
+
+        <a href="../examples/telemetry-dashboard/index.html" target="_blank" class="example-card">
+          <div class="example-caption">
+            <span>[ Example 06 ]</span>
+            <span>Telemetry Dashboard</span>
+          </div>
+          <h3 class="example-title">Edge Telemetry & Cluster Ops</h3>
+          <p class="example-desc">
+            BklitUI animated SVG throughput timeline, procedural dot-matrix loader tick, and NumberFlow layout-stable numeric counters with zero cumulative layout shift.
+          </p>
+        </a>
+
+        <a href="../examples/spatial-3d-canvas/index.html" target="_blank" class="example-card">
+          <div class="example-caption">
+            <span>[ Example 07 ]</span>
+            <span>Spatial 3D Canvas</span>
+          </div>
+          <h3 class="example-title">COBE Sphere & Liquid Glass Refraction</h3>
+          <p class="example-desc">
+            Lightweight interactive 5kB WebGL dot-matrix globe with drag physics, paired with visionOS-style Apple LiquidGL optical refraction and procedural Thinking Orb synthesis.
+          </p>
+        </a>
+
+        <a href="../examples/swiss-editorial/index.html" target="_blank" class="example-card">
+          <div class="example-caption">
+            <span>[ Example 08 ]</span>
+            <span>Swiss Editorial</span>
+          </div>
+          <h3 class="example-title">Die Monografie (Swiss Typographic Spread)</h3>
+          <p class="example-desc">
+            Strict 12-column mathematical Swiss grid with toggleable hairlines, botanical florals under optical glass blur, Newsreader serif body, and high-fashion display typography.
+          </p>
+        </a>
+
+        <a href="../examples/bento-interactive/index.html" target="_blank" class="example-card">
+          <div class="example-caption">
+            <span>[ Example 09 ]</span>
+            <span>Bento & Physics</span>
+          </div>
+          <h3 class="example-title">Asymmetric Bento Grid & Tactile UISFX</h3>
+          <p class="example-desc">
+            Bentogrids.com 60/40 dominant feature weighting, live concentric corner radii calculator (R_inner = R_outer - padding), magnetic button physics, and Web Audio API synthesized audio clicks.
+          </p>
+        </a>
       </div>
     </div>
   </section>
@@ -2701,7 +2749,7 @@
           </div>
           <div class="telemetry-box">
             <span class="telemetry-label">RESOURCES</span>
-            <span class="telemetry-val">31 CURATED</span>
+            <span class="telemetry-val">40 CURATED</span>
           </div>
         </div>
 
@@ -3425,7 +3473,7 @@
         }
       },
       pixasso_search_references: {
-        description: 'Search across all 20 Pixasso design reference catalogs, 11 templates, and the 16 frontend pillars (31 total resources).',
+        description: 'Search across all 29 Pixasso design reference catalogs, 11 templates, and the 16 frontend pillars (40 total resources).',
         inputSchema: {
           type: 'object',
           properties: {
@@ -3887,7 +3935,7 @@
           return {
             status: 'SEARCH_COMPLETE',
             query: args.query,
-            totalCatalogsIndexed: 31,
+            totalCatalogsIndexed: 40,
             matches: [
               {
                 id: 'frontend-architecture-pillars',
