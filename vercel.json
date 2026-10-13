@@ -3,6 +3,19 @@
   "cleanUrls": true,
   "buildCommand": "node scripts/prepare-site.js",
   "outputDirectory": "site",
+  "redirects": [
+    {
+      "source": "/examples/taste-canvas",
+      "destination": "/examples/taste-canvas/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/examples/assets/(.*)",
+      "destination": "/examples/taste-canvas/assets/$1"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

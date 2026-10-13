@@ -460,7 +460,7 @@ export default function App() {
 						}}
 					>
 						<span>Exit to Website</span>
-						<span>&nearr;</span>
+						<span>↗</span>
 					</a>
 				</div>
 			</header>

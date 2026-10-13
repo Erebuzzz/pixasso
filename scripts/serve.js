@@ -11,7 +11,10 @@ const MIME_TYPES = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.svg': 'image/svg+xml',
-  '.ico': 'image/x-icon'
+  '.ico': 'image/x-icon',
+  '.woff2': 'font/woff2',
+  '.woff': 'font/woff',
+  '.ttf': 'font/ttf'
 };
 
 const server = http.createServer((req, res) => {
@@ -22,8 +25,21 @@ const server = http.createServer((req, res) => {
   if (!fs.existsSync(fullPath) && reqPath.startsWith('/site/examples/')) {
     fullPath = path.join(__dirname, '..', reqPath.replace('/site/examples/', '/examples/'));
   }
+  if (!fs.existsSync(fullPath) && reqPath.startsWith('/examples/assets/')) {
+    fullPath = path.join(__dirname, '..', reqPath.replace('/examples/assets/', '/examples/taste-canvas/assets/'));
+  }
+  if (!fs.existsSync(fullPath) && reqPath.startsWith('/site/examples/assets/')) {
+    fullPath = path.join(__dirname, '..', reqPath.replace('/site/examples/assets/', '/examples/taste-canvas/assets/'));
+  }
+
   let targetFile = fullPath;
   if (fs.existsSync(targetFile) && fs.statSync(targetFile).isDirectory()) {
+    if (!req.url.split('?')[0].endsWith('/')) {
+      const query = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+      res.writeHead(301, { Location: reqPath + '/' + query });
+      res.end();
+      return;
+    }
     targetFile = path.join(targetFile, 'index.html');
   }
 

@@ -6,6 +6,11 @@
 		<link rel="alternate icon" href="../../favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 		<title>Pixasso: Living Taste Brain &amp; Swarm Memory Canvas</title>
+		<script>
+			if (!location.pathname.endsWith('/') && !location.pathname.endsWith('.html')) {
+				location.replace(location.pathname + '/' + location.search + location.hash);
+			}
+		</script>
 	</head>
 	<body>
 		<div id="root"></div>
