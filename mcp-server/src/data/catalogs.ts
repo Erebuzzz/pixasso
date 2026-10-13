@@ -170,6 +170,38 @@ export const REFERENCE_CATALOGS: CatalogItem[] = [
     description: 'In-depth architectural deconstructions of industry-leading digital craft benchmarks.',
     tags: ['case-studies', 'deconstruction', 'stripe', 'rge', 'noerd'],
     filename: 'live-case-studies.md'
+  },
+  {
+    id: 'color-theory-and-harmony',
+    name: 'Color Theory & Harmony Systems',
+    category: 'reference',
+    description: 'Geometric harmonies, 60-30-10 rule, optical halation prevention, and semantic CSS token scales.',
+    tags: ['color', 'harmony', 'palette', 'tokens', 'contrast', 'wcag', 'realtimecolors'],
+    filename: 'color-theory-and-harmony.md'
+  },
+  {
+    id: 'design-basics-and-visual-hierarchy',
+    name: 'Design Basics & Visual Hierarchy',
+    category: 'reference',
+    description: 'Gestalt perception laws, optical vs mathematical alignment, whitespace discipline, and UX laws.',
+    tags: ['design-basics', 'gestalt', 'hierarchy', 'alignment', 'whitespace', 'ux-laws', 'designership'],
+    filename: 'design-basics-and-visual-hierarchy.md'
+  },
+  {
+    id: 'component-and-section-archetypes',
+    name: 'Component & Section Archetypes',
+    category: 'reference',
+    description: 'Landing hero architectures, 12-column bento grids, navigation systems, footers, and micro-interactions.',
+    tags: ['archetypes', 'hero', 'bento', 'navigation', 'footer', 'mobbin', 'bentogrids', 'designspells'],
+    filename: 'component-and-section-archetypes.md'
+  },
+  {
+    id: 'figma-mcp-and-agentic-ecosystem',
+    name: 'Figma MCP & Agentic Ecosystem',
+    category: 'reference',
+    description: 'Figma Model Context Protocol integration, DESIGN.md specs, Rams 348-rule UI audit, and agent design skills.',
+    tags: ['figma', 'mcp', 'design-md', 'rams-audit', 'neuform', 'ui-ux-pro-max', 'impeccable'],
+    filename: 'figma-mcp-and-agentic-ecosystem.md'
   }
 ];
 

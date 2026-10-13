@@ -12,7 +12,7 @@ Motion libraries are not interchangeable. Select the appropriate runtime based o
 - **URL**: https://motion.dev/
 - **Classification**: Animation Library, Gesture and Layout Primitives
 - **Ecosystem**: React, Vue, Vanilla JavaScript
-- **Core Strengths**: Layout projections (`layout`, `layoutId`), spring physics, gesture recognition (hover, tap, pan, drag), declarative variants.
+- **Core Strengths**: Layout projections (`layout`, `layoutId`), spring physics, gesture recognition (hover, tap, pan, drag), declarative variants, high-performance hybrid CSS/JS mini engine (`motion/mini`).
 - **When to Use**: Primary animation driver for modern React and web application interfaces, fluid state transitions, and shared-element morphs.
 - **Guardrail**: Keep layout animations restrained to avoid triggering expensive composite repaints on deeply nested DOM trees.
 
@@ -48,56 +48,59 @@ Motion libraries are not interchangeable. Select the appropriate runtime based o
 - **When to Use**: Interactive 3D product visualizers, spatial storytelling, canvas backgrounds, and WebGL experiences.
 - **Guardrail**: Ensure canvas memory is released on component unmount and framerates are capped (or set to `demand` rendering mode) when idle.
 
-### Vanta.js
-- **URL**: https://github.com/tengbao/vanta
-- **Classification**: Animated 3D Background Effects
-- **Ecosystem**: Three.js, p5.js wrappers
-- **Core Strengths**: Ready-to-use 3D backgrounds (waves, clouds, birds, halo, cells, net).
-- **When to Use**: Fast visual exploration or lightweight animated background canvases for hero sections.
-- **Guardrail**: Heavy GPU overhead if left running continuously. Always pause when scrolled out of viewport.
+### Motion-Primitives (ibelick)
+- **URL**: https://motion-primitives.com/ | https://github.com/ibelick/motion-primitives
+- **Classification**: Open Source UI Motion Primitives
+- **Ecosystem**: React, Motion.dev, Tailwind CSS
+- **Core Strengths**: Morphing dialogs, expanding toolbars, spring popovers, magnetic buttons, text loops, cursor trails, animated carousels.
+- **When to Use**: High-craft micro-interactions and accessible interactive primitives that need immediate drop-in integration.
 
-### Liquid Glass JS
-- **URL**: https://github.com/dashersw/liquid-glass-js
-- **Classification**: Glass Distortion and Refraction Shader
-- **Ecosystem**: WebGL, Canvas
-- **Core Strengths**: Real-time optical refraction, chromatic aberration, and tactile lens distortion over underlying DOM/canvas elements.
-- **When to Use**: Futuristic, experimental, or tactile surface interfaces where glass refraction provides authentic optical depth.
-- **Guardrail**: Provide a static frosted CSS backdrop-filter fallback for low-power mobile GPUs.
+### Originkit
+- **URL**: https://www.originkit.dev/
+- **Classification**: Animated Component Library
+- **Ecosystem**: React, Tailwind CSS, Motion
+- **Core Strengths**: Clean, modern animated components and interactive blocks designed for production landing pages and applications.
+- **When to Use**: Ready-to-use animated cards, headers, interactive menus, and feature sections.
 
-### ShaderGradient
-- **URL**: https://github.com/ruucm/shadergradient
-- **Classification**: Fluid 3D Shader Canvas
-- **Ecosystem**: Three.js, React, Framer
-- **Core Strengths**: Dynamic multi-color fluid meshes with customizable wireframe, lighting, and wave parameters.
-- **When to Use**: Dynamic hero backgrounds, ambient atmospheric lighting, and interactive visual branding.
-- **Guardrail**: Restrict pixel ratio scaling to maximum 1.5x on high-DPI displays to prevent mobile GPU thermal throttling.
+### Aceternity UI
+- **URL**: https://ui.aceternity.com/
+- **Classification**: High-Impact Motion Component Kit
+- **Ecosystem**: React, Next.js, Tailwind CSS, Motion.dev
+- **Core Strengths**: Background beams, spotlight cards, text reveals, floating docks, infinite moving cards, 3D card perspectives, sparkline overlays.
+- **When to Use**: Hero sections and interactive bento showcases requiring visual dynamism.
+- **Guardrail**: Do not stack multiple complex canvas effects in a single viewport. Choose one hero effect and keep secondary sections calm.
 
-### Liquid Logo
-- **URL**: https://github.com/collidingScopes/liquid-logo
-- **Classification**: Particle and Vector Distortion
-- **Ecosystem**: Canvas, SVG
-- **Core Strengths**: Interactive vector dispersion, magnetic cursor disturbance, fluid reconstitution.
-- **When to Use**: Memorable brand hero marks, interactive identity headers, and creative agency homepages.
+### React Bits
+- **URL**: https://www.reactbits.dev/
+- **Classification**: Modular Animated UI Components & Micro-interactions
+- **Ecosystem**: React, Tailwind CSS
+- **Core Strengths**: Lightweight animated UI patterns, text scramble animations, subtle border gradients, and lightweight canvas effects.
+- **When to Use**: Quick polish, button hover enhancements, and typographic delight.
 
-### OpenMotion
-- **URL**: https://openmotion.design/
-- **Classification**: Open Motion Design Standards and Easing Specs
-- **Core Strengths**: Standardized motion tokens, easing curves, duration scales, and multi-platform specifications.
-- **When to Use**: Defining cross-platform motion design tokens between design tools (Figma) and codebases.
+### 21st.dev
+- **URL**: https://21st.dev/
+- **Classification**: Community Design Registry for Modern Components
+- **Ecosystem**: React, Next.js, Tailwind CSS, Motion
+- **Core Strengths**: Curated community components, novel interactive widgets, bento layouts, and experimental UI mechanics.
+- **When to Use**: Discovering state-of-the-art component implementations and visual patterns.
 
-### Transitions.dev
-- **URL**: https://transitions.dev/
-- **Classification**: Component Transition Playground & Motion Snippet Engine
-- **Core Strengths**: Interactive catalog of component layout transitions (dialog morphs, list-to-detail expansions, tab slider pills, floating panel docks).
-- **When to Use**: Sourcing tested layout transitions and extracting exact animation parameters (durations, spring tension/damping, clip-path formulas).
-- **Agent Workflow**: Inspect the transition recipe or copy the conceptual prompt to guide component state machine animations.
+### Libraries.dev Shader Effects
+- **Classification**: High-Performance React Shader Effects
+- **Ecosystem**: WebGL, Canvas, React
+- **Core Strengths**:
+  - **Beam**: Glowing animated laser paths along container borders.
+  - **Orb**: Interactive 3D ambient sphere reacting to pointer movement.
+  - **Gooey**: Fluid SVG filter merge animations for tabs and badges.
+  - **Metal**: Metallic sheen and iridescent reflection surfaces.
+  - **Image Distortion**: WebGL fragment shader ripples for photography.
+- **When to Use**: Tactile 2.5D surfaces, ambient brand accents, and luxury visual presentation.
 
-### SceneAI.art
-- **URL**: https://sceneai.art/
-- **Classification**: Motion Design Prompt Engine & Kinetic Ideation
-- **Core Strengths**: Curated kinetic scenes, video motion prompt formulas, camera choreography, dynamic lighting curves.
-- **When to Use**: Generating prompts for video sequences (Google Flow, Runway, Luma), ideating kinetic logo treatments, or defining 3D scene camera choreography.
-- **Agent Workflow**: Extract or adapt the prompt structure directly to generate coherent motion concepts without starting from a blank page.
+### Loading.dev
+- **URL**: https://loading.dev/
+- **Classification**: Procedural Loading & Spinner Architecture
+- **Ecosystem**: SVG, CSS, Canvas
+- **Core Strengths**: Lightweight procedural SVG loaders, animated progress bars, skeleton wave patterns, and micro-animations.
+- **When to Use**: Designing deterministic, zero-layout-shift asynchronous loading states.
 
 ---
 
@@ -107,11 +110,13 @@ Motion libraries are not interchangeable. Select the appropriate runtime based o
 | :--- | :--- | :--- | :--- |
 | Application UI / Gestures | Motion (`motion.dev`) | React Spring | DOM (CSS transform / opacity) |
 | Complex Scroll Timelines | GSAP + ScrollTrigger | Motion (`useScroll`) | DOM / Canvas |
+| Accessible Motion Primitives | Motion-Primitives (ibelick) | Originkit | DOM (Motion / Tailwind) |
+| High-Impact Motion Blocks | Aceternity UI | React Bits / 21st.dev | DOM / Canvas |
+| Shader Effects (Beam, Orb) | Libraries.dev | ShaderGradient | WebGL Canvas |
 | Smooth Page Scrolling | Lenis | Native CSS scroll | Window Scroll Engine |
 | Natural Physics & Interruptions | React Spring | Motion (spring curves) | DOM |
 | 3D Product & Spatial Scenes | React Three Fiber | Vanilla Three.js | WebGL / WebGPU Canvas |
-| Ambient Shader Fluid Meshes | ShaderGradient | Custom GLSL / Canvas 2D | WebGL Canvas |
-| Micro-interactions & Quick Tweaks | React Bits / Pure CSS | Motion | CSS Transitions |
+| Procedural Loaders & Spinners | Loading.dev | Pure CSS Keyframes | SVG / DOM |
 
 ---
 

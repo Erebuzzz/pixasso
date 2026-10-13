@@ -59,6 +59,51 @@ export function handleAuditDesign(input: AuditDesignInput) {
       });
     }
 
+    if (/radial-gradient/i.test(componentMarkup) && /from-purple|from-indigo|from-blue|rgba\(139,\s*92,\s*246/i.test(componentMarkup)) {
+      issues.push({
+        severity: 'warning',
+        rule: 'Anti-Pattern: Radial Halo Spotlight',
+        explanation: 'Atmospheric blurry radial gradient blob behind headings is a tired AI landing page cliché.',
+        remedy: 'Use crisp surface contrast, subtle 1px border keylines, or disciplined typography without artificial halos.'
+      });
+    }
+
+    if (/<p[^>]*class="[^"]*tracking-(tighter|tight)[^"]*(text-xs|text-sm|text-base)/i.test(componentMarkup)) {
+      issues.push({
+        severity: 'warning',
+        rule: 'Typography: Crushed Tracking on Body Text',
+        explanation: 'Applying negative tracking to body copy causes optical character collisions and impairs legibility.',
+        remedy: 'Negative tracking belongs exclusively on display headings (32px+). Keep body copy tracking neutral or slightly open.'
+      });
+    }
+
+    if (/[✨]/i.test(componentMarkup) || /sparkles?/i.test(componentMarkup) && /badge|pill|hero/i.test(componentMarkup)) {
+      issues.push({
+        severity: 'suggestion',
+        rule: 'Anti-Pattern: Sparkle Emoji Cliché',
+        explanation: 'Sprinkling sparkle emojis or icons on feature badges creates visual clutter without communicating functional value.',
+        remedy: 'Use clear, domain-specific terminology (e.g. "Automated", "Preview", "Real-time") rather than decorative sparkle crutches.'
+      });
+    }
+
+    if (/(text-blue-600|#0000ff)\b/i.test(componentMarkup) && /(bg-black|#000000)\b/i.test(componentMarkup)) {
+      issues.push({
+        severity: 'warning',
+        rule: 'Visual Craft: Chromatic Halation (Blue on Black)',
+        explanation: 'Saturated pure blue on black backgrounds causes optical lens refraction and severe visual vibration.',
+        remedy: 'Desaturate blue to cornflower or periwinkle (#60a5fa, #818cf8) or lift background ground to dark slate (#0f172a).'
+      });
+    }
+
+    if (/<button[^>]*>\s*(Click here|Submit|Get Started)\s*<\/button>/i.test(componentMarkup)) {
+      issues.push({
+        severity: 'suggestion',
+        rule: 'Micro-Copy: Generic CTA Label',
+        explanation: 'Generic button labels like "Click here" or "Get Started" lack clear action verbs.',
+        remedy: 'Replace with descriptive action verbs indicating the exact outcome, such as "Create Workspace", "Deploy Project", or "View Pricing".'
+      });
+    }
+
     const score = Math.max(20, 100 - (issues.filter(i => i.severity === 'critical').length * 25) - (issues.filter(i => i.severity === 'warning').length * 10));
 
     return {

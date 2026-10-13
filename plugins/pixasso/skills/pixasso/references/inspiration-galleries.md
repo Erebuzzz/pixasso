@@ -4,100 +4,153 @@ Inspiration galleries serve as broad observational environments for studying con
 
 ---
 
-## 1. Curated Inspiration Galleries
+## 1. UI Design Inspiration Galleries
 
 ### Godly
 - **URL**: https://godly.design/
 - **Focus**: High-craft web experiences, creative agency portfolios, luxury brands, experimental interactive designs.
 - **What to Study**: Boundary-pushing typography scales, non-standard layout grids, sophisticated color palettes, and cinematic pacing.
-- **Deconstruction Lens**: Observe how the top 10 percent of projects balance visual experimentation with clear call-to-action discoverability.
 
-### Collect UI
-- **URL**: https://collectui.com/
-- **Focus**: Daily UI challenges, component-level micro-patterns, isolated screen designs.
-- **What to Study**: Individual component compositions (profile cards, checkout steps, search inputs, activity feeds).
-- **Deconstruction Lens**: Check usability realism. Many daily concepts look visually pleasing but lack error states, keyboard focus indicators, or variable text length handling.
+### Dark.design
+- **URL**: https://dark.design/
+- **Focus**: Handpicked gallery of the best dark mode digital interfaces.
+- **What to Study**: Nuanced dark surface elevations, contrast balancing, subtle border lighting, and legible typography on deep slate grounds.
 
-### Refero Styles
-- **URL**: https://styles.refero.design/
-- **Focus**: Real-world product UI patterns, SaaS application flows, authenticated screens, and style-level pattern browsing across live products.
-- **What to Study**: Functional typography, multi-column navigation systems, complex data tables, settings drawers, onboarding flows, and recurring visual motifs (surface, density, chrome) extracted from production software.
-- **Deconstruction Lens**: Analyze how high-growth production software solves density and information hierarchy problems without sacrificing aesthetic polish. Prefer patterns that survive real content length, empty states, and dense data over marketing-only screenshots.
-
-### Vivid Sites
-- **URL**: https://www.vividsites.app/
-- **Focus**: Curated visual showcases, creative branding, modern web layouts.
-- **What to Study**: Cohesion between brand identity and interface layout, surface textures, and graphic design integration into digital layouts.
-- **Deconstruction Lens**: Identify how color contrast is preserved while utilizing saturated brand backgrounds.
-
-### Minifolio
-- **URL**: https://minifolio.in/
-- **Focus**: Minimalist developer, designer, and creative technologist portfolios.
-- **What to Study**: Radical restraint, mono-spaced typographic hierarchy, extreme whitespace efficiency, fast load times, and semantic cleanliness.
-- **Deconstruction Lens**: Notice how minimal sites achieve distinction through typographic scale, asymmetrical balance, and zero decorative clutter.
-
-### Rare UI
-- **URL**: https://rareui.com/
-- **Focus**: Uncommon interface layouts, avant-garde web experiments, boutique agency sites.
-- **What to Study**: Unconventional navigation paradigms (radial menus, infinite canvas panning, diagonal layout splitters).
-- **Deconstruction Lens**: Distinguish between experimental art pieces and functional tools. Borrow layout boldness while restoring clear user mental models.
-
-### Nicely Done Club
-- **URL**: https://nicelydone.club/apps
-- **Focus**: Web application patterns, UX flows, mobile screens, real-world SaaS interactions.
-- **What to Study**: Complete user journeys (sign-up, invitation modals, billing views, empty states, search filtering).
-- **Deconstruction Lens**: Trace the exact cognitive load at each stage of a multi-step user interaction.
-
-### Motion Sites
-- **URL**: https://motionsites.ai/
-- **Focus**: Web motion design, interactive scroll animations, 3D WebGL experiences.
-- **What to Study**: Choreography, scroll-bound transformations, cursor feedback loops, and video-interface integration.
-- **Deconstruction Lens**: Analyze whether the motion accelerates information comprehension or merely prolongs page reading.
-
-### Sourcey
-- **URL**: https://sourcey.com/
-- **Focus**: Design resources, tools, and UI inspiration.
-- **What to Study**: Reusable design patterns, design system architectures, and technical integration benchmarks.
-- **Deconstruction Lens**: Evaluate whether patterns can be implemented cleanly using modern CSS and lightweight component primitives.
-
-### Curated.design
-- **URL**: https://curated.design/
-- **Focus**: High-craft web design inspiration, editorial digital publications, agency showcases.
-- **What to Study**: Impeccable typography pairings, layout pacing, innovative hero treatments, and spatial balance.
-- **Deconstruction Lens**: Notice how elite designs establish luxury and prestige through disciplined margins and refined typographic scale rather than sensory overload.
+### Httpster
+- **URL**: https://httpster.net/
+- **Focus**: Curated showcase of creative, unconventional, and typography-rich websites from studios worldwide.
+- **What to Study**: Eclectic layouts, editorial pacing, experimental scrolling interactions, and bold art direction.
 
 ### Recent.design
 - **URL**: https://recent.design/
 - **Focus**: Daily curated stream of freshly launched web designs and experimental digital products.
 - **What to Study**: Emerging layout patterns, cutting-edge micro-interactions, responsive navigation shifts, and contemporary color combinations.
-- **Deconstruction Lens**: Distinguish between enduring design innovations and fleeting gimmicks. Adopt structural breakthroughs while discarding noisy tropes.
 
-### VibeUI
-- **URL**: https://vibeui.online/
-- **Focus**: Scenario-based design references categorized by emotional vibe, product category, and operational context.
-- **What to Study**: Contextual aesthetics (e.g., retro-technical, warm editorial, brutalist utilitarian, playful consumer, serene luxury).
-- **Deconstruction Lens**: Use when aligning design feel with user intent. Study how spacing density and palette shift across differing emotional goals.
+### Nicely Done Club
+- **URL**: https://nicelydone.club/apps
+- **Focus**: Web application patterns, UX flows, mobile screens, real-world SaaS interactions.
+- **What to Study**: Complete user journeys (sign-up, invitation modals, billing views, empty states, search filtering).
 
-### DesignPrompts.dev
-- **URL**: https://www.designprompts.dev/
-- **Focus**: Structured design prompts, 2D website aesthetics, and prompt formulas for visual exploration.
-- **What to Study**: Formal art-direction vocabularies, layout descriptor keywords, lighting instructions, and composition parameters.
-- **Deconstruction Lens**: Translate design prompts into actionable CSS variables, typography tokens, and layout grid configurations.
+### Minimal Gallery
+- **URL**: https://minimal.gallery/
+- **Focus**: Curated directory of minimal, refined, and distraction-free websites.
+- **What to Study**: Radical restraint, mono-spaced typographic hierarchy, extreme whitespace efficiency, fast load times, and semantic cleanliness.
 
-### Framer Portfolio Templates Showcase
-- **Creatie**: https://www.framer.com/marketplace/templates/creatie/ (Creative portfolio benchmark with bold typography and crisp grid framing).
-- **UXfolio**: https://www.framer.com/marketplace/templates/uxfolio/ (Case-study-first UX architecture with deep process storytelling and structured problem-solution sections).
-- **Foldex**: https://www.framer.com/marketplace/templates/foldex/ (Tactile folding card mechanics, dimensional page sectioning, and smooth component reveals).
-- **Aurorix**: https://www.framer.com/marketplace/templates/aurorix/ (Atmospheric luminosity, refined dark-mode surfaces, subtle rim lighting, and elegant typography rhythm).
-- **Deconstruction Lens**: Analyze how top portfolio templates organize the narrative arc from hero introduction to case study deep dives and contact capture.
+### Designspiration
+- **URL**: https://www.designspiration.com/
+- **Focus**: Visual inspiration, color-based design exploration, multi-disciplinary art direction.
+- **What to Study**: Cross-pollination between architecture, print graphic design, photography, and digital UI layouts.
+
+### UI.live
+- **URL**: https://ui.live/
+- **Focus**: Live interactive previews of modern frontend interfaces and UI components.
+- **What to Study**: Real-time rendering performance, component ergonomics, and CSS layout execution.
+
+### Screens Design
+- **URL**: https://screensdesign.com/
+- **Focus**: Screen-by-screen breakdowns of production applications across mobile and desktop.
+- **What to Study**: High-density dashboard screens, complex navigation trees, and enterprise workflow layouts.
+
+### Hyperiux
+- **URL**: https://www.hyperiux.com/
+- **Focus**: Next-generation spatial UI concepts, dynamic canvas experiences, and boundary-pushing web interactions.
+- **What to Study**: Fluid cursor feedback loops, particle physics, and futuristic interface aesthetics.
 
 ---
 
-## 2. Deconstruction Framework: The 8-Point Lens
+## 2. UX Inspiration and Interactive Patterns
+
+### Loading.dev
+- **URL**: https://loading.dev/
+- **Focus**: Asynchronous state design, procedural SVG loaders, animated progress bars, and waiting state architecture.
+- **What to Study**: Deterministic loading indicators, skeleton wave progressions, and perceived performance optimization.
+
+### Vault by Hyperiux
+- **URL**: https://vault.hyperiux.com/
+- **Focus**: Curated archive of advanced interaction experiments, experimental components, and kinetic UI prototypes.
+- **What to Study**: Novel gesture physics, drag-to-scrub interfaces, and innovative form inputs.
+
+### UIarc
+- **URL**: https://uiarc.dev/
+- **Focus**: Interactive algorithmic layouts, generative UI widgets, and dynamic visual controls.
+- **What to Study**: Algorithmic layout adaptation, procedural container sizing, and clean component state machines.
+
+### UI Spectrum
+- **URL**: https://ui.spectrumhq.in/
+- **Focus**: Design system patterns, component token mapping, and accessibility-first design architectures.
+- **What to Study**: Cohesive color systems, tokenized spacing, and accessible interactive states.
+
+### Coded Visuals
+- **URL**: https://codedvisuals.com/
+- **Focus**: Creative coding techniques, canvas micro-interactions, and WebGL shader shaders translated into practical UI accents.
+- **What to Study**: Lightweight ambient canvas backgrounds that do not degrade CPU/GPU performance.
+
+---
+
+## 3. Section and Component Archetype Galleries
+
+### Supahero.io
+- **URL**: https://supahero.io/
+- **Focus**: Curated collection of top-performing hero sections from industry-leading tech companies.
+- **What to Study**: Split hero architecture, product UI previews, typography-heavy editorial headlines, and conversion-focused CTA clusters.
+
+### BentoGrids.com
+- **URL**: https://bentogrids.com/
+- **Focus**: Master directory of 12-column bento grid compositions and modular dashboard cards.
+- **What to Study**: 60/40 dominant feature weighting, mixed aspect ratio cards, dynamic content nesting, and responsive collapsing behavior.
+
+### Navbar.gallery
+- **URL**: https://navbar.gallery/
+- **Focus**: Specialized showcase of navigation bars, floating headers, and mobile navigation menus.
+- **What to Study**: Floating island pill navigation, architectural full-width headers, split brand navigation, and bottom mobile docks.
+
+### Footer.design
+- **URL**: https://footer.design/
+- **Focus**: Exhaustive gallery of website footers and closure layouts.
+- **What to Study**: Multi-column architectural directories, inverted contrast ground footers, newsletter conversion blocks, and localized switcher rows.
+
+### 404s.design
+- **URL**: https://404s.design/
+- **Focus**: Creative 404 error pages, zero-data states, and emotional recovery screens.
+- **What to Study**: Friendly brand illustrations, contextual search inputs, direct escape shortcuts, and micro-games that diffuse user frustration.
+
+### DesignSpells
+- **URL**: https://designspells.com/
+- **Focus**: Micro-interactions, delightful design details, tactile animations, and subtle software craft.
+- **What to Study**: Keypress physics, satisfying toggle releases, contextual password gauges, and playful completion animations.
+
+### A1.gallery
+- **URL**: https://a1.gallery/
+- **Focus**: AI-first web applications, generative canvas interfaces, and autonomous agent user experiences.
+- **What to Study**: Real-time streaming text treatments, prompt bars, multi-modal output canvases, and agent tool execution status indicators.
+
+### SectionMaster & Unsection
+- **URLs**: https://sectionmaster.com/ | https://unsection.com/
+- **Focus**: Structural section transitions, vertical pacing, visual density alternation, and container seam styling.
+- **What to Study**: Alternating tension and relief between high-density data tables and low-density editorial quotes.
+
+---
+
+## 4. Learning Resources and Masterclasses
+
+### Kole Jain Resources
+- **URL**: https://www.kolejain.com/resources
+- **Focus**: Design-engineering resources, curated Figma kits, typography guidelines, and visual development tools.
+
+### Foundation Design Courses & Masterclasses
+- **YouTube Masterclasses**:
+  - Creative Basics & Color Harmony: https://youtu.be/EcbgbKtOELY
+  - Visual Hierarchy & Layout Geometry: https://youtu.be/GGg61sdEjeI
+- **SixArm UI/UX Design Guide**: https://github.com/SixArm/ui-ux-design-guide
+- **userinterface.wiki**: Living encyclopedia of UX laws, motion standards, and typography math.
+
+---
+
+## 5. Deconstruction Framework: The 8-Point Lens
 
 Whenever inspecting a reference website or interface screenshot, decompose it across eight formal dimensions:
 
-1. **Information Architecture & Density**:
+1. **Information Architecture and Density**:
    - How many focal points compete for user attention in the viewport?
    - Is information organized linearly, hierarchically, or through modular bento structures?
 
@@ -106,21 +159,21 @@ Whenever inspecting a reference website or interface screenshot, decompose it ac
    - What are the exact proportions (scale ratio, tracking values, line height multipliers)?
    - Is monospace or serif used to introduce editorial personality or technical precision?
 
-3. **Layout & Spatial Rhythm**:
+3. **Layout and Spatial Rhythm**:
    - What grid is being used (12-column, 16-column, golden ratio, asymmetric split)?
    - What is the baseline spacing token (4px, 8px, 12px)?
    - How does the layout breathe (generous negative space versus dense informational utility)?
 
-4. **Surface & Texture Treatment**:
+4. **Surface and Texture Treatment**:
    - Is the surface flat, tactile, metallic, glass, or paper-inspired?
    - How are borders treated (1px subtle border, sharp contrast, double-line, or borderless)?
    - What role do shadows and elevation play (ambient diffused shadows, hard brutalist offset, or zero elevation)?
 
-5. **Interaction Feedback & Affordances**:
+5. **Interaction Feedback and Affordances**:
    - How does the user discover that an element is interactive?
    - What visual changes occur on hover, focus, active press, and disabled states?
 
-6. **Motion & Choreography**:
+6. **Motion and Choreography**:
    - What triggers movement (time, scroll position, cursor proximity, state change)?
    - What is the duration, curve, and sequencing offset?
    - Is motion communicative or decorative?
@@ -136,7 +189,7 @@ Whenever inspecting a reference website or interface screenshot, decompose it ac
 
 ---
 
-## 3. Synthesis over Imitation
+## 6. Synthesis Over Imitation
 
 ```
 [Inspiration Source A]       [Inspiration Source B]       [Product Constraints & Goals]
