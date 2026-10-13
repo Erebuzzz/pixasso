@@ -241,9 +241,35 @@
       color: var(--ink-primary);
     }
 
-    .nav-hotkey {
+    .nav-hotkey, .keycap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.25rem;
+      height: 1.25rem;
+      padding: 0 0.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      line-height: 1;
       color: var(--hotkey-color);
-      font-weight: 600;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-bottom: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      letter-spacing: 0;
+      margin-right: 0.35rem;
+      vertical-align: middle;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: all 0.15s ease;
+    }
+
+    .nav-links a:hover .nav-hotkey,
+    .nav-pillar-badge:hover .nav-hotkey {
+      color: var(--ink-primary);
+      border-color: var(--border-accent);
+      background: var(--bg-elevated);
+      transform: translateY(-1px);
     }
 
     .nav-zone-right {
@@ -1897,6 +1923,131 @@
       gap: 1rem;
       flex-wrap: wrap;
     }
+
+    /* Minimal Custom Badges and Whiteboard Frame */
+    .tag-icon-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius-circle);
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent-glow);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .fig-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      font-size: var(--text-2xs);
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .dot-sep {
+      color: var(--ink-muted);
+      margin: 0 0.35rem;
+    }
+
+    .badge-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: var(--radius-circle);
+      background: currentColor;
+      margin: 0 0.35rem;
+      vertical-align: middle;
+      opacity: 0.7;
+    }
+
+    .badge-3d {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      font-size: var(--text-2xs);
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .example-num {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.12rem 0.5rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      font-size: var(--text-2xs);
+      font-weight: 700;
+      color: var(--ink-secondary);
+      letter-spacing: 0.04em;
+    }
+
+    .brain-canvas-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin: 1.5rem 0;
+      overflow: hidden;
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brain-canvas-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .brain-canvas-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .brain-canvas-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .brain-canvas-sub {
+      font-size: var(--text-2xs);
+      color: var(--ink-secondary);
+      font-family: var(--font-mono);
+    }
+
+    .brain-canvas-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brain-canvas-viewport {
+      width: 100%;
+      height: 600px;
+      position: relative;
+      background: #090d0b;
+    }
+
+    .brain-canvas-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -1925,36 +2076,36 @@
             </div>
             <span class="brand-text">Pixasso</span>
           </a>
-          <a href="#pillars" class="nav-pillar-badge" data-caption="Explore 16 Pillars [P]" aria-label="16 Pillars">
-            <span class="nav-hotkey">[P]</span>
+          <a href="#pillars" class="nav-pillar-badge" data-caption="Explore 16 Pillars &bull; Key P" aria-label="16 Pillars">
+            <span class="nav-hotkey">P</span>
             <span>16 Pillars</span>
           </a>
         </div>
 
         <nav class="nav-zone-center" aria-label="Section Navigation">
           <ul class="nav-links">
-            <li><a href="#live-brain"><span class="nav-hotkey">[B]</span> Live Brain</a></li>
-            <li><a href="#preview"><span class="nav-hotkey">[V]</span> Preview</a></li>
-            <li><a href="#examples"><span class="nav-hotkey">[E]</span> Examples</a></li>
-            <li><a href="#install"><span class="nav-hotkey">[I]</span> Install</a></li>
+            <li><a href="#live-brain"><span class="nav-hotkey">B</span> Live Brain</a></li>
+            <li><a href="#preview"><span class="nav-hotkey">V</span> Preview</a></li>
+            <li><a href="#examples"><span class="nav-hotkey">E</span> Examples</a></li>
+            <li><a href="#install"><span class="nav-hotkey">I</span> Install</a></li>
           </ul>
         </nav>
 
         <div class="nav-zone-right">
           <!-- SVG Platform Links Cluster with Hover Annotation Captions -->
           <div class="icon-nav-group">
-            <a href="https://cursor.directory/plugins/pixasso" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="Cursor Directory [C]" aria-label="Cursor Plugin Directory">
+            <a href="https://cursor.directory/plugins/pixasso" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="Cursor Directory &bull; Key C" aria-label="Cursor Plugin Directory">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 2l9 5.2v10.4L12 22.8 3 17.6V7.2L12 2z"/>
                 <path d="M12 2v10.4m0 0l9-5.2m-9 5.2l-9-5.2"/>
               </svg>
             </a>
-            <a href="https://www.npmjs.com/package/pixasso-mcp" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="npm Registry [N]" aria-label="npm Package">
+            <a href="https://www.npmjs.com/package/pixasso-mcp" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="npm Package &bull; Key N" aria-label="npm Package">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M2 5v14h20V5H2zm16 11h-3v-6h-2v6H7V8h11v8z"/>
               </svg>
             </a>
-            <a href="https://github.com/Erebuzzz/pixasso" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="GitHub Repository [G]" aria-label="GitHub Repository">
+            <a href="https://github.com/Erebuzzz/pixasso" target="_blank" rel="noopener" class="nav-icon-btn" data-caption="GitHub Repository &bull; Key G" aria-label="GitHub Repository">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
               </svg>
@@ -1963,13 +2114,13 @@
 
           <!-- Segmented Theme Switcher -->
           <div class="theme-segmented" role="group" aria-label="Color theme">
-            <button class="theme-tab-btn active" id="btnPaper" type="button" data-caption="Paper Theme [1]">Paper</button>
-            <button class="theme-tab-btn" id="btnCRT" type="button" data-caption="CRT Terminal [2]">CRT</button>
-            <button class="theme-tab-btn" id="btnAmoled" type="button" data-caption="AMOLED Pitch Black [3]">OLED</button>
+            <button class="theme-tab-btn active" id="btnPaper" type="button" data-caption="Paper Theme &bull; Key 1">Paper</button>
+            <button class="theme-tab-btn" id="btnCRT" type="button" data-caption="CRT Terminal &bull; Key 2">CRT</button>
+            <button class="theme-tab-btn" id="btnAmoled" type="button" data-caption="AMOLED Pure Black &bull; Key 3">OLED</button>
           </div>
 
           <!-- Audio toggle with caption -->
-          <button class="nav-icon-btn" id="btnSound" type="button" data-caption="Audio SFX: On [U]" aria-label="Toggle sound feedback">
+          <button class="nav-icon-btn" id="btnSound" type="button" data-caption="Audio Feedback &bull; Key U" aria-label="Toggle sound feedback">
             <svg id="navAudioIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
               <path class="audio-wave-1" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -1978,10 +2129,10 @@
           </button>
 
           <!-- Agent World Focus Rack Toggle -->
-          <button class="pill-btn agent-world-btn" id="btnAgentMode" type="button" data-caption="Shift Focus to Agent World [A]" aria-label="Shift focus to Agent World">
+          <button class="pill-btn agent-world-btn" id="btnAgentMode" type="button" data-caption="Agent Workstation &bull; Key A" aria-label="Shift focus to Agent World">
             <span class="agent-pulse-dot" aria-hidden="true"></span>
             <span>Agent World</span>
-            <span class="nav-hotkey">[A]</span>
+            <span class="nav-hotkey">A</span>
           </button>
         </div>
       </div>
@@ -1992,7 +2143,7 @@
     <div class="container hero-grid">
       <div>
         <div class="tag-row">
-          <span>/</span>
+          <span class="tag-icon-dot"></span>
           <span>End-to-End Frontend Craft</span>
           <a href="https://www.npmjs.com/package/pixasso-mcp" target="_blank" class="pill-tag" title="npm registry package">npm: pixasso-mcp v1.2.1</a>
           <a href="https://cursor.directory/plugins/pixasso" target="_blank" class="pill-tag" title="Cursor Plugin Directory">Cursor Directory &nearr;</a>
@@ -2010,11 +2161,11 @@
           </a>
           <a href="#pillars" class="secondary-btn">
             <span>Explore 16 Pillars</span>
-            <span>[P]</span>
+            <span class="nav-hotkey">P</span>
           </a>
           <a href="../examples/3d-suite/index.html" target="_blank" class="secondary-btn">
             <span>Launch 3D Suite</span>
-            <span>[3D]</span>
+            <span class="badge-3d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> 3D</span>
           </a>
         </div>
       </div>
@@ -2022,7 +2173,7 @@
       <!-- Generative Wave Canvas (Stripe.dev style) -->
       <div class="wave-card">
         <div class="wave-header">
-          <span>[ Fig. 1 ]</span>
+          <span class="fig-badge">Fig. 1</span>
           <span style="font-weight:600;">Mathematical Wave Synthesizer</span>
           <span id="canvasFps">60 FPS</span>
         </div>
@@ -2056,7 +2207,7 @@
     <div class="container">
       <div class="section-header">
         <div class="tag-row">
-          <span>/</span>
+          <span class="tag-icon-dot"></span>
           <span>Comprehensive Taxonomy</span>
         </div>
         <h2 class="section-title">The 16 Pillars of Modern Frontend</h2>
@@ -2242,7 +2393,7 @@
     <div class="container">
       <div class="section-header">
         <div class="tag-row">
-          <span>/</span>
+          <span class="tag-icon-dot"></span>
           <span>Living Memory</span>
           <span class="pill-tag" id="liveSyncStatus"><span class="brain-pulse-dot"></span> Edge Sync Active</span>
           <span class="pill-tag">Zero-Cost Engine</span>
@@ -2254,8 +2405,9 @@
         </p>
         <div class="brain-section-controls">
           <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-            <a href="https://mcp.pixasso.erebuzzz.tech/taste/brain" target="_blank" rel="noopener" class="pill-btn">
-              <span>Live JSON Stream</span>
+            <a href="../examples/taste-canvas/index.html" target="_blank" rel="noopener" class="pill-btn primary" style="background: var(--ink-primary); color: var(--bg); text-decoration: none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <span>Launch Whiteboard Fullscreen</span>
               <span>&nearr;</span>
             </a>
             <a href="https://mcp.pixasso.erebuzzz.tech/taste/graph" target="_blank" rel="noopener" class="pill-btn">
@@ -2266,9 +2418,12 @@
               <span>Edge Swarm Bundle</span>
               <span>&nearr;</span>
             </a>
+            <a href="https://mcp.pixasso.erebuzzz.tech/taste/brain" target="_blank" rel="noopener" class="pill-btn" style="color: var(--ink-muted);">
+              <span>JSON Stream &nearr;</span>
+            </a>
           </div>
-          <button class="agent-world-btn" id="refreshBrainBtn" type="button" data-caption="Sync Latest Memory [B]">
-            <span>Fetch Live Memory Snapshot</span>
+          <button class="agent-world-btn" id="refreshBrainBtn" type="button" data-caption="Sync Living Memory &bull; Key B">
+            <span>Sync Living Memory</span>
             <span>&circlearrowright;</span>
           </button>
         </div>
@@ -2307,6 +2462,29 @@
           <div class="brain-stat-label">Daily Edge Sync</div>
           <div class="brain-stat-value" id="brainMetricLastSync">Today (00:00 UTC)</div>
           <div class="brain-stat-sub">Global Cloudflare KV distribution</div>
+        </div>
+      </div>
+
+      <!-- Interactive tldraw Living Taste Brain Whiteboard Viewport -->
+      <div class="brain-canvas-card">
+        <div class="brain-canvas-toolbar">
+          <div class="brain-canvas-toolbar-left">
+            <span class="brain-pulse-dot"></span>
+            <span class="brain-canvas-title">Interactive Taste Brain Whiteboard</span>
+            <span class="brain-canvas-sub">tldraw Infinite Canvas &bull; 12 Topological Movements &bull; Live Swarm Seeds</span>
+          </div>
+          <div class="brain-canvas-toolbar-right">
+            <button type="button" class="pill-tag" id="reloadCanvasBtn" style="cursor: pointer; background: var(--bg-surface);">
+              <span>Reload Canvas</span>
+            </button>
+            <a href="../examples/taste-canvas/index.html" target="_blank" rel="noopener" class="pill-tag" style="text-decoration: none; color: var(--ink-primary); background: var(--bg-surface);">
+              <span>Open Fullscreen</span>
+              <span>&nearr;</span>
+            </a>
+          </div>
+        </div>
+        <div class="brain-canvas-viewport">
+          <iframe src="../examples/taste-canvas/index.html" class="brain-canvas-iframe" id="brainCanvasIframe" title="Pixasso Living Taste Brain Whiteboard" loading="lazy"></iframe>
         </div>
       </div>
 
@@ -2446,14 +2624,14 @@
     <div class="container">
       <div class="section-header">
         <div class="tag-row">
-          <span>/</span>
+          <span class="tag-icon-dot"></span>
           <span>Interactive Sandbox</span>
           <span class="pill-tag">Automated QA</span>
           <span class="pill-tag">Live Specimen</span>
         </div>
         <h2 class="section-title">Multi-Device Sandbox & Live Specimen Preview</h2>
         <p class="section-desc">
-          Test Pixasso craft across realistic viewport boundaries. Switch between production applications, editorial typography, retro consoles, and 3D WebGL scenes with interactive device sizing.
+          Test Pixasso craft across realistic viewport boundaries. Switch between production applications, editorial typography, retro consoles, 3D WebGL scenes, and tldraw whiteboards with interactive device sizing.
         </p>
       </div>
 
@@ -2462,9 +2640,10 @@
         <!-- Control Header -->
         <div class="sandbox-toolbar">
           <div class="sandbox-specimens">
-            <span class="toolbar-label">[ Specimen: ]</span>
+            <span class="toolbar-label">Specimen</span>
             <div class="btn-group">
               <button class="sandbox-btn active" data-src="../examples/3d-suite/index.html" data-name="3D WebGL Suite" type="button">3D Spatial Suite</button>
+              <button class="sandbox-btn" data-src="../examples/taste-canvas/index.html" data-name="Living Taste Canvas" type="button">Taste Canvas</button>
               <button class="sandbox-btn" data-src="../examples/telemetry-dashboard/index.html" data-name="Telemetry Ops Dashboard" type="button">Telemetry Ops</button>
               <button class="sandbox-btn" data-src="../examples/spatial-3d-canvas/index.html" data-name="COBE Spatial Canvas" type="button">COBE & LiquidGL</button>
               <button class="sandbox-btn" data-src="../examples/swiss-editorial/index.html" data-name="Swiss Monograph" type="button">Swiss Monograph</button>
@@ -2477,7 +2656,7 @@
           </div>
 
           <div class="sandbox-viewports">
-            <span class="toolbar-label">[ Viewport: ]</span>
+            <span class="toolbar-label">Viewport</span>
             <div class="btn-group">
               <button class="viewport-btn" data-width="390px" type="button" aria-label="Mobile viewport 390 pixels">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
@@ -2536,7 +2715,7 @@
     <div class="container">
       <div class="section-header">
         <div class="tag-row">
-          <span>/</span>
+          <span class="tag-icon-dot"></span>
           <span>Craft Artifacts</span>
         </div>
         <h2 class="section-title">Built with Pixasso</h2>
@@ -2548,7 +2727,7 @@
       <div class="examples-grid">
         <a href="../examples/production-app/index.html" target="_blank" class="example-card">
           <div class="example-caption">
-            <span>[ Example 01 ]</span>
+            <span class="example-num">01</span>
             <span>Production App Suite</span>
           </div>
           <h3 class="example-title">Edge Service Operations Dashboard</h3>
@@ -2559,7 +2738,7 @@
 
         <a href="../examples/paper-editorial/index.html" target="_blank" class="example-card">
           <div class="example-caption">
-            <span>[ Example 02 ]</span>
+            <span class="example-num">02</span>
             <span>Paper Editorial</span>
           </div>
           <h3 class="example-title">Architectural Typography Specimen</h3>
@@ -2570,7 +2749,7 @@
 
         <a href="../examples/crt-terminal/index.html" target="_blank" class="example-card">
           <div class="example-caption">
-            <span>[ Example 03 ]</span>
+            <span class="example-num">03</span>
             <span>CRT-mono Retro Terminal</span>
           </div>
           <h3 class="example-title">Cathode-Ray Phosphor Console</h3>
@@ -2581,7 +2760,7 @@
 
         <a href="../examples/generative-wave/index.html" target="_blank" class="example-card">
           <div class="example-caption">
-            <span>[ Example 04 ]</span>
+            <span class="example-num">04</span>
             <span>Creative Canvas</span>
           </div>
           <h3 class="example-title">Harmonic Wave Synthesizer</h3>
@@ -2592,7 +2771,7 @@
 
         <a href="../examples/3d-suite/index.html" target="_blank" class="example-card" style="border-color: var(--accent);">
           <div class="example-caption">
-            <span>[ Example 05 ]</span>
+            <span class="example-num">05</span>
             <span style="color: var(--accent); font-weight: 600;">3D WebGL Suite</span>
           </div>
           <h3 class="example-title">Spatial 3D Studio & Exploded Hardware</h3>
@@ -2603,7 +2782,7 @@
 
         <a href="../examples/telemetry-dashboard/index.html" target="_blank" class="example-card">
           <div class="example-caption">
-            <span>[ Example 06 ]</span>
+            <span class="example-num">06</span>
             <span>Telemetry Dashboard</span>
           </div>
           <h3 class="example-title">Edge Telemetry & Cluster Ops</h3>
@@ -2614,7 +2793,7 @@
 
         <a href="../examples/spatial-3d-canvas/index.html" target="_blank" class="example-card">
           <div class="example-caption">
-            <span>[ Example 07 ]</span>
+            <span class="example-num">07</span>
             <span>Spatial 3D Canvas</span>
           </div>
           <h3 class="example-title">COBE Sphere & Liquid Glass Refraction</h3>
@@ -2625,7 +2804,7 @@
 
         <a href="../examples/swiss-editorial/index.html" target="_blank" class="example-card">
           <div class="example-caption">
-            <span>[ Example 08 ]</span>
+            <span class="example-num">08</span>
             <span>Swiss Editorial</span>
           </div>
           <h3 class="example-title">Die Monografie (Swiss Typographic Spread)</h3>
@@ -2636,12 +2815,23 @@
 
         <a href="../examples/bento-interactive/index.html" target="_blank" class="example-card">
           <div class="example-caption">
-            <span>[ Example 09 ]</span>
+            <span class="example-num">09</span>
             <span>Bento & Physics</span>
           </div>
           <h3 class="example-title">Asymmetric Bento Grid & Tactile UISFX</h3>
           <p class="example-desc">
             Bentogrids.com 60/40 dominant feature weighting, live concentric corner radii calculator (R_inner = R_outer - padding), magnetic button physics, and Web Audio API synthesized audio clicks.
+          </p>
+        </a>
+
+        <a href="../examples/taste-canvas/index.html" target="_blank" class="example-card" style="border-color: var(--accent);">
+          <div class="example-caption">
+            <span class="example-num">10</span>
+            <span style="color: var(--accent); font-weight: 600;">Living Taste Whiteboard</span>
+          </div>
+          <h3 class="example-title">tldraw Infinite Canvas &amp; Swarm Memory</h3>
+          <p class="example-desc">
+            Interactive visual whiteboard powered by tldraw. Freely explore, pan, drag, and sketch aesthetic movements, design tokens, color swatches, and live Cloudflare D1 swarm memories on an infinite canvas.
           </p>
         </a>
       </div>
@@ -2653,7 +2843,7 @@
     <div class="container">
       <div class="section-header">
         <div class="tag-row">
-          <span>/</span>
+          <span class="tag-icon-dot"></span>
           <span>Zero-Friction Setup</span>
         </div>
         <h2 class="section-title">Install Pixasso</h2>
@@ -2696,7 +2886,7 @@
   <!-- Footer -->
   <footer>
     <div class="container footer-inner">
-      <span>Pixasso // End-to-End Frontend Engineering & Design Orchestrator</span>
+      <span>Pixasso <span class="dot-sep">&bull;</span> End-to-End Frontend Engineering &amp; Design Orchestrator</span>
       <div class="footer-links">
         <a href="https://pixasso.erebuzzz.tech">pixasso.erebuzzz.tech</a>
         <a href="https://mcp.pixasso.erebuzzz.tech" target="_blank">mcp.pixasso.erebuzzz.tech (Remote)</a>
@@ -2727,7 +2917,7 @@
           <div>
             <div class="agent-badge-row">
               <span class="agent-pulse-dot" aria-hidden="true"></span>
-              <span class="agent-pill">AGENT_WORLD // v1.2.1</span>
+              <span class="agent-pill">AGENT_WORLD <span class="badge-dot"></span> v1.2.1</span>
               <span class="agent-mono-dim">JSON-RPC 2.0 &bull; STDIO</span>
             </div>
             <h2 class="agent-hud-title">Pixasso Machine Workstation</h2>
@@ -2741,7 +2931,7 @@
           </div>
           <div class="telemetry-box">
             <span class="telemetry-label">TRANSPORT</span>
-            <span class="telemetry-val">stdio // json-rpc</span>
+            <span class="telemetry-val">stdio &bull; json-rpc</span>
           </div>
           <div class="telemetry-box">
             <span class="telemetry-label">TOOLS</span>
@@ -2755,7 +2945,7 @@
 
         <div class="agent-hud-right">
           <!-- Focus Shift Camera Lens Button to Return to Human World -->
-          <button class="pill-btn rack-focus-btn" id="btnExitAgentMode" type="button" data-caption="Shift Focus to Human World [Esc]" aria-label="Shift focus to Human World">
+          <button class="pill-btn rack-focus-btn" id="btnExitAgentMode" type="button" data-caption="Return to Human World &bull; Key Esc" aria-label="Shift focus to Human World">
             <svg class="camera-lens-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="9"></circle>
               <circle cx="12" cy="12" r="3"></circle>
@@ -2765,7 +2955,7 @@
               <line x1="20" y1="12" x2="23" y2="12"></line>
             </svg>
             <span>Focus Human World</span>
-            <span class="nav-hotkey">[Esc]</span>
+            <span class="nav-hotkey">Esc</span>
           </button>
         </div>
       </div>
@@ -2953,7 +3143,7 @@
 
     btnSound.addEventListener('click', () => {
       audioEnabled = !audioEnabled;
-      btnSound.setAttribute('data-caption', 'Audio SFX: ' + (audioEnabled ? 'On' : 'Off') + ' [U]');
+      btnSound.setAttribute('data-caption', 'Audio Feedback: ' + (audioEnabled ? 'On' : 'Off') + ' &bull; Key U');
       const waves = btnSound.querySelectorAll('.audio-wave-1, .audio-wave-2');
       waves.forEach(w => { w.style.display = audioEnabled ? 'block' : 'none'; });
       if (audioEnabled) playSound(880, 'sine', 0.1);
@@ -3011,13 +3201,23 @@
       const lastSyncEl = document.getElementById('brainMetricLastSync');
       const syncStatusEl = document.getElementById('liveSyncStatus');
       const refreshBtn = document.getElementById('refreshBrainBtn');
+      const reloadCanvasBtn = document.getElementById('reloadCanvasBtn');
+      const canvasIframe = document.getElementById('brainCanvasIframe');
+
+      if (reloadCanvasBtn && canvasIframe) {
+        reloadCanvasBtn.addEventListener('click', () => {
+          playSound(640, 'sine', 0.1);
+          canvasIframe.src = canvasIframe.src;
+        });
+      }
 
       if (refreshBtn) {
         refreshBtn.addEventListener('click', async () => {
           playSound(720, 'sine', 0.12);
           refreshBtn.innerHTML = '<span>Synchronizing...</span>';
           await fetchBrainMetrics();
-          refreshBtn.innerHTML = '<span>Fetch Live Memory Snapshot</span><span>&circlearrowright;</span>';
+          if (canvasIframe) canvasIframe.src = canvasIframe.src;
+          refreshBtn.innerHTML = '<span>Sync Living Memory</span><span>&circlearrowright;</span>';
         });
       }
 
@@ -3352,7 +3552,7 @@
         const newUrl = new URL(window.location);
         newUrl.searchParams.set('mode', 'agent');
         window.history.replaceState({}, '', newUrl);
-        document.title = 'Pixasso // Agent World [ONLINE]';
+        document.title = 'Pixasso &bull; Agent World (Online)';
 
         if (!clockInterval) {
           updateAgentUtcClock();

@@ -647,6 +647,7 @@ Explore standalone, fully-functional examples in `examples/`:
 - **[COBE Spatial Sphere & Liquid Glass](examples/spatial-3d-canvas/index.html)**: Interactive 5kB WebGL dot-matrix globe with drag physics, Apple visionOS LiquidGL optical glass refraction, and procedural Thinking Orb synthesis.
 - **[Die Monografie (Swiss Typographic Spread)](examples/swiss-editorial/index.html)**: Strict 12-column mathematical Swiss grid with toggleable hairlines, botanical florals under optical glass blur, and editorial typography.
 - **[Asymmetric Bento Grid & Tactile UISFX](examples/bento-interactive/index.html)**: Bentogrids.com 60/40 geometry, live concentric corner radii calculator, magnetic button physics, and Web Audio API micro-interactions.
+- **[Living Taste Brain Whiteboard](examples/taste-canvas/index.html)**: Interactive visual whiteboard powered by tldraw. Freely explore, pan, drag, and sketch aesthetic movements, design tokens, color swatches, and live Cloudflare D1 swarm memories on an infinite canvas.
 
 ---
 
