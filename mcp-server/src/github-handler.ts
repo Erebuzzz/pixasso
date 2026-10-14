@@ -32,6 +32,8 @@ export type WorkerEnv = {
   OPENROUTER_API_KEY?: string;
 };
 
+const DEFAULT_GITHUB_CLIENT_ID = 'Ov23li0qSMO4zIV1ICJo';
+
 const app = new Hono<{ Bindings: WorkerEnv }>();
 
 app.on(['GET', 'HEAD'], '/health', async (c) => {
@@ -862,7 +864,8 @@ app.get('/authorize', async (c) => {
     headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
     headers.append('Set-Cookie', sessionBindingCookie);
 
-    return redirectToGithub(c.req.raw, stateToken, headers, c.env.GITHUB_CLIENT_ID);
+    const githubClientId = c.env.GITHUB_CLIENT_ID || DEFAULT_GITHUB_CLIENT_ID;
+    return redirectToGithub(c.req.raw, stateToken, headers, githubClientId);
   } catch (error: any) {
     console.error('GET /authorize error:', error);
     if (error instanceof OAuthError) {
@@ -907,7 +910,8 @@ app.post('/authorize', async (c) => {
     headers.append('Set-Cookie', approvedClientCookie);
     headers.append('Set-Cookie', sessionBindingCookie);
 
-    return redirectToGithub(c.req.raw, stateToken, headers, c.env.GITHUB_CLIENT_ID);
+    const githubClientId = c.env.GITHUB_CLIENT_ID || DEFAULT_GITHUB_CLIENT_ID;
+    return redirectToGithub(c.req.raw, stateToken, headers, githubClientId);
   } catch (error: any) {
     console.error('POST /authorize error:', error);
     if (error instanceof OAuthError) {
@@ -962,7 +966,7 @@ app.get('/callback', async (c) => {
   }
 
   const [accessToken, errResponse] = await fetchUpstreamAuthToken({
-    client_id: c.env.GITHUB_CLIENT_ID,
+    client_id: c.env.GITHUB_CLIENT_ID || DEFAULT_GITHUB_CLIENT_ID,
     client_secret: c.env.GITHUB_CLIENT_SECRET,
     code: c.req.query('code'),
     redirect_uri: new URL('/callback', c.req.url).href,
