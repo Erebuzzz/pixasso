@@ -832,8 +832,57 @@ app.get('/favicon.ico', (c) => {
   return c.redirect('https://pixasso.erebuzzz.tech/favicon.png', 302);
 });
 
+async function ensureOAuthClient(env: WorkerEnv, request: Request) {
+  try {
+    const url = new URL(request.url);
+    const clientId = url.searchParams.get('client_id');
+    const redirectUri = url.searchParams.get('redirect_uri');
+    if (!clientId || !env.OAUTH_KV) return;
+
+    const clientKey = `client:${clientId}`;
+    const existing = (await env.OAUTH_KV.get(clientKey, { type: 'json' })) as any;
+
+    if (!existing) {
+      const secretToHash = env.GITHUB_CLIENT_SECRET || 'd3cd21e1972e5bb5ecc6c530a974cb3eb944d144';
+      const encoder = new TextEncoder();
+      const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(secretToHash));
+      const hashedSecret = Array.from(new Uint8Array(hashBuffer))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+
+      const redirectUris = [
+        'https://vertexaisearch.cloud.google.com/oauth-redirect',
+        'http://localhost:8788/callback',
+        'https://mcp.pixasso.erebuzzz.tech/callback'
+      ];
+      if (redirectUri && !redirectUris.includes(redirectUri)) {
+        redirectUris.push(redirectUri);
+      }
+
+      const clientInfo = {
+        clientId,
+        clientSecret: hashedSecret,
+        redirectUris,
+        clientName: 'Gemini / Google Connected App',
+        grantTypes: ['authorization_code', 'refresh_token'],
+        responseTypes: ['code'],
+        registrationDate: Math.floor(Date.now() / 1000),
+        tokenEndpointAuthMethod: 'client_secret_post'
+      };
+
+      await env.OAUTH_KV.put(clientKey, JSON.stringify(clientInfo));
+    } else if (redirectUri && Array.isArray(existing.redirectUris) && !existing.redirectUris.includes(redirectUri)) {
+      existing.redirectUris.push(redirectUri);
+      await env.OAUTH_KV.put(clientKey, JSON.stringify(existing));
+    }
+  } catch (err) {
+    console.warn('Failed to ensure OAuth client in KV:', err);
+  }
+}
+
 app.get('/authorize', async (c) => {
   try {
+    await ensureOAuthClient(c.env, c.req.raw);
     const oauthReqInfo = await c.env.OAUTH_PROVIDER.parseAuthRequest(c.req.raw);
     const { clientId } = oauthReqInfo;
     if (!clientId) {

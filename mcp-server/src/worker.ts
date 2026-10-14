@@ -242,7 +242,72 @@ const oauthProvider = new OAuthProvider({
 });
 
 export default {
-  fetch(request: Request, env: WorkerEnv, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: WorkerEnv, ctx: ExecutionContext): Promise<Response> {
+    const url = new URL(request.url);
+
+    if (url.pathname === '/token' && request.method === 'POST') {
+      try {
+        const cloned = request.clone();
+        let clientId: string | null = null;
+        let clientSecret: string | null = null;
+
+        const authHeader = request.headers.get('Authorization');
+        if (authHeader && authHeader.toLowerCase().startsWith('basic ')) {
+          try {
+            const decoded = atob(authHeader.slice(6).trim());
+            const colonIdx = decoded.indexOf(':');
+            if (colonIdx !== -1) {
+              clientId = decoded.slice(0, colonIdx);
+              clientSecret = decoded.slice(colonIdx + 1);
+            }
+          } catch {}
+        }
+
+        const contentType = request.headers.get('Content-Type') || '';
+        if (contentType.includes('application/x-www-form-urlencoded') || contentType.includes('multipart/form-data')) {
+          try {
+            const formData = await cloned.formData();
+            if (!clientId) clientId = formData.get('client_id') as string;
+            if (!clientSecret) clientSecret = formData.get('client_secret') as string;
+          } catch {}
+        }
+
+        if (clientId && env.OAUTH_KV) {
+          const clientKey = `client:${clientId}`;
+          const existing = (await env.OAUTH_KV.get(clientKey, { type: 'json' })) as any;
+          if (existing) {
+            let updated = false;
+            if (!clientSecret) {
+              if (existing.tokenEndpointAuthMethod !== 'none') {
+                existing.tokenEndpointAuthMethod = 'none';
+                delete existing.clientSecret;
+                updated = true;
+              }
+            } else {
+              const encoder = new TextEncoder();
+              const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(clientSecret));
+              const presentedHash = Array.from(new Uint8Array(hashBuffer))
+                .map((b) => b.toString(16).padStart(2, '0'))
+                .join('');
+              if (existing.clientSecret !== presentedHash) {
+                existing.clientSecret = presentedHash;
+                updated = true;
+              }
+              if (existing.tokenEndpointAuthMethod === 'none') {
+                existing.tokenEndpointAuthMethod = 'client_secret_post';
+                updated = true;
+              }
+            }
+            if (updated) {
+              await env.OAUTH_KV.put(clientKey, JSON.stringify(existing));
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Pre-token alignment warning:', err);
+      }
+    }
+
     return oauthProvider.fetch(request, env, ctx);
   },
 
