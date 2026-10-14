@@ -221,23 +221,12 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
 
     // Register Prompts
     for (const p of PIXASSO_PROMPTS) {
-      this.server.prompt(p.name, p.description, async () => {
-        const rendered = renderPrompt(p.name);
+      this.server.prompt(p.name, p.description, async (args) => {
+        const rendered = renderPrompt(p.name, (args as Record<string, string>) || {});
         if (!rendered) {
           throw new Error(`Prompt "${p.name}" failed to render`);
         }
-        return {
-          description: rendered.description,
-          messages: [
-            {
-              role: 'user',
-              content: {
-                type: 'text',
-                text: rendered.prompt
-              }
-            }
-          ]
-        };
+        return rendered;
       });
     }
   }

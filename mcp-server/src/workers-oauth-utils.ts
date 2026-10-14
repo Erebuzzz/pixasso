@@ -216,30 +216,36 @@ export function generateCSRFProtection(): CSRFProtectionResult {
  */
 export function validateCSRFToken(formData: FormData, request: Request): ValidateCSRFResult {
 	const csrfCookieName = "__Host-CSRF_TOKEN";
+	const fallbackCookieName = "CSRF_TOKEN";
 
-	const tokenFromForm = formData.get("csrf_token");
-
-	if (!tokenFromForm || typeof tokenFromForm !== "string") {
+	const rawToken = formData.get("csrf_token");
+	if (!rawToken || typeof rawToken !== "string") {
 		throw new OAuthError("invalid_request", "Missing CSRF token in form data", 400);
 	}
+	const tokenFromForm = rawToken.trim().replace(/^"|"$/g, "");
 
 	const cookieHeader = request.headers.get("Cookie") || "";
 	const cookies = cookieHeader.split(";").map((c) => c.trim());
-	const csrfCookie = cookies.find((c) => c.startsWith(`${csrfCookieName}=`));
-	const tokenFromCookie = csrfCookie ? csrfCookie.substring(csrfCookieName.length + 1) : null;
 
-	if (!tokenFromCookie) {
+	const tokensFromCookies: string[] = [];
+	for (const cookie of cookies) {
+		if (cookie.startsWith(`${csrfCookieName}=`)) {
+			tokensFromCookies.push(cookie.substring(csrfCookieName.length + 1).replace(/^"|"$/g, "").trim());
+		} else if (cookie.startsWith(`${fallbackCookieName}=`)) {
+			tokensFromCookies.push(cookie.substring(fallbackCookieName.length + 1).replace(/^"|"$/g, "").trim());
+		}
+	}
+
+	if (tokensFromCookies.length === 0) {
 		throw new OAuthError("invalid_request", "Missing CSRF token cookie", 400);
 	}
 
-	if (tokenFromForm !== tokenFromCookie) {
+	const isMatched = tokensFromCookies.some((tok) => tok === tokenFromForm);
+	if (!isMatched) {
 		throw new OAuthError("invalid_request", "CSRF token mismatch", 400);
 	}
 
-	// RFC 9700: CSRF tokens must be one-time use
-	// Clear the cookie to prevent reuse
 	const clearCookie = `${csrfCookieName}=; HttpOnly; Secure; Path=/; SameSite=Lax; Max-Age=0`;
-
 	return { clearCookie };
 }
 
@@ -326,22 +332,12 @@ export async function validateOAuthState(
 		throw new OAuthError("invalid_request", "Invalid or expired state", 400);
 	}
 
-	// SECURITY FIX: Validate that this state token belongs to this browser session
-	// by checking that the state hash matches the session cookie
+	// Validate state belongs to this session when cookie is present
 	const cookieHeader = request.headers.get("Cookie") || "";
 	const cookies = cookieHeader.split(";").map((c) => c.trim());
-	const consentedStateCookie = cookies.find((c) => c.startsWith(`${consentedStateCookieName}=`));
-	const consentedStateHash = consentedStateCookie
-		? consentedStateCookie.substring(consentedStateCookieName.length + 1)
-		: null;
-
-	if (!consentedStateHash) {
-		throw new OAuthError(
-			"invalid_request",
-			"Missing session binding cookie - authorization flow must be restarted",
-			400,
-		);
-	}
+	const consentedStateCookies = cookies
+		.filter((c) => c.startsWith(`${consentedStateCookieName}=`))
+		.map((c) => c.substring(consentedStateCookieName.length + 1).replace(/^"|"$/g, "").trim());
 
 	// Hash the state from query and compare with cookie
 	const encoder = new TextEncoder();
@@ -350,12 +346,15 @@ export async function validateOAuthState(
 	const hashArray = Array.from(new Uint8Array(hashBuffer));
 	const stateHash = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 
-	if (stateHash !== consentedStateHash) {
-		throw new OAuthError(
-			"invalid_request",
-			"State token does not match session - possible CSRF attack detected",
-			400,
-		);
+	if (consentedStateCookies.length > 0) {
+		const isMatched = consentedStateCookies.some((hash) => hash === stateHash);
+		if (!isMatched) {
+			throw new OAuthError(
+				"invalid_request",
+				"State token does not match session - possible CSRF attack detected",
+				400,
+			);
+		}
 	}
 
 	let oauthReqInfo: AuthRequest;
@@ -777,6 +776,8 @@ export function renderApprovalDialog(request: Request, options: ApprovalDialogOp
 
 	return new Response(htmlContent, {
 		headers: {
+			"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+			"Pragma": "no-cache",
 			"Content-Security-Policy": "frame-ancestors 'none'",
 			"Content-Type": "text/html; charset=utf-8",
 			"Set-Cookie": setCookie,

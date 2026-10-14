@@ -831,33 +831,45 @@ app.get('/favicon.ico', (c) => {
 });
 
 app.get('/authorize', async (c) => {
-  const oauthReqInfo = await c.env.OAUTH_PROVIDER.parseAuthRequest(c.req.raw);
-  const { clientId } = oauthReqInfo;
-  if (!clientId) {
-    return c.text('Invalid request: Missing clientId', 400);
-  }
+  try {
+    const oauthReqInfo = await c.env.OAUTH_PROVIDER.parseAuthRequest(c.req.raw);
+    const { clientId } = oauthReqInfo;
+    if (!clientId) {
+      return c.text('Invalid request: Missing clientId', 400);
+    }
 
-  // Check if client is already approved
-  if (await isClientApproved(c.req.raw, clientId, c.env.COOKIE_ENCRYPTION_KEY)) {
+    // If explicit consent prompt is requested, render the approval dialog
+    if (c.req.query('prompt') === 'consent') {
+      const { token: csrfToken, setCookie } = generateCSRFProtection();
+      return renderApprovalDialog(c.req.raw, {
+        client: await c.env.OAUTH_PROVIDER.lookupClient(clientId),
+        csrfToken,
+        server: {
+          name: 'Pixasso MCP Server',
+          description: 'Hosted end-to-end frontend engineering and design orchestrator.',
+          logo: 'https://pixasso.erebuzzz.tech/favicon.png'
+        },
+        setCookie,
+        state: { oauthReqInfo }
+      });
+    }
+
+    // Direct federated OAuth redirection to GitHub
     const { stateToken } = await createOAuthState(oauthReqInfo, c.env.OAUTH_KV);
     const { setCookie: sessionBindingCookie } = await bindStateToSession(stateToken);
-    return redirectToGithub(c.req.raw, stateToken, { 'Set-Cookie': sessionBindingCookie }, c.env.GITHUB_CLIENT_ID);
+
+    const headers = new Headers();
+    headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    headers.append('Set-Cookie', sessionBindingCookie);
+
+    return redirectToGithub(c.req.raw, stateToken, headers, c.env.GITHUB_CLIENT_ID);
+  } catch (error: any) {
+    console.error('GET /authorize error:', error);
+    if (error instanceof OAuthError) {
+      return error.toResponse();
+    }
+    return c.text(`Authorization error: ${error?.message || error}`, 400);
   }
-
-  // Generate CSRF protection for approval form
-  const { token: csrfToken, setCookie } = generateCSRFProtection();
-
-  return renderApprovalDialog(c.req.raw, {
-    client: await c.env.OAUTH_PROVIDER.lookupClient(clientId),
-    csrfToken,
-    server: {
-      name: 'Pixasso MCP Server',
-      description: 'Hosted end-to-end frontend engineering and design orchestrator.',
-      logo: 'https://pixasso.erebuzzz.tech/favicon.png'
-    },
-    setCookie,
-    state: { oauthReqInfo }
-  });
 });
 
 app.post('/authorize', async (c) => {
@@ -891,10 +903,11 @@ app.post('/authorize', async (c) => {
     const { setCookie: sessionBindingCookie } = await bindStateToSession(stateToken);
 
     const headers = new Headers();
+    headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
     headers.append('Set-Cookie', approvedClientCookie);
     headers.append('Set-Cookie', sessionBindingCookie);
 
-    return redirectToGithub(c.req.raw, stateToken, Object.fromEntries(headers), c.env.GITHUB_CLIENT_ID);
+    return redirectToGithub(c.req.raw, stateToken, headers, c.env.GITHUB_CLIENT_ID);
   } catch (error: any) {
     console.error('POST /authorize error:', error);
     if (error instanceof OAuthError) {
@@ -907,20 +920,24 @@ app.post('/authorize', async (c) => {
 function redirectToGithub(
   request: Request,
   stateToken: string,
-  headers: Record<string, string> = {},
+  headers: Headers | Record<string, string> = {},
   clientId: string
 ) {
+  const responseHeaders = headers instanceof Headers ? new Headers(headers) : new Headers(headers);
+  responseHeaders.set(
+    'Location',
+    getUpstreamAuthorizeUrl({
+      client_id: clientId,
+      redirect_uri: new URL('/callback', request.url).href,
+      scope: 'read:user user:email',
+      state: stateToken,
+      upstream_url: 'https://github.com/login/oauth/authorize'
+    })
+  );
+  responseHeaders.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+
   return new Response(null, {
-    headers: {
-      ...headers,
-      location: getUpstreamAuthorizeUrl({
-        client_id: clientId,
-        redirect_uri: new URL('/callback', request.url).href,
-        scope: 'read:user user:email',
-        state: stateToken,
-        upstream_url: 'https://github.com/login/oauth/authorize'
-      })
-    },
+    headers: responseHeaders,
     status: 302
   });
 }
