@@ -32,7 +32,7 @@ export type WorkerEnv = {
   OPENROUTER_API_KEY?: string;
 };
 
-const DEFAULT_GITHUB_CLIENT_ID = 'Ov23li0qSMO4zIV1ICJo';
+const DEFAULT_GITHUB_CLIENT_ID = 'Ov23liAkJeVEzyrWHqU1';
 
 const app = new Hono<{ Bindings: WorkerEnv }>();
 
