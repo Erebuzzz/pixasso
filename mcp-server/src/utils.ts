@@ -53,7 +53,13 @@ export async function fetchUpstreamAuthToken({
   const body = await resp.formData();
   const accessToken = body.get('access_token') as string;
   if (!accessToken) {
-    return [null, new Response('Missing access token from authorization response', { status: 400 })];
+    const error = body.get('error') || 'unknown_error';
+    const errorDesc = body.get('error_description') || 'No description provided';
+    console.error(`Upstream OAuth token error: ${error} (${errorDesc})`);
+    return [
+      null,
+      new Response(`Upstream OAuth token error: ${error} (${errorDesc})`, { status: 400 })
+    ];
   }
   return [accessToken, null];
 }
