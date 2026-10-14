@@ -26,6 +26,7 @@ export type WorkerEnv = {
   OAUTH_KV: KVNamespace;
   OAUTH_PROVIDER: OAuthHelpers;
   PIXASSO_MCP_OBJECT: DurableObjectNamespace;
+  MCP_OBJECT?: DurableObjectNamespace;
   TASTE_DB?: D1Database;
   AI?: any;
   NVIDIA_API_KEY?: string;

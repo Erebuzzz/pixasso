@@ -233,8 +233,16 @@ export class PixassoMcpAgent extends McpAgent<WorkerEnv, unknown, GitHubAuthProp
 }
 
 const oauthProvider = new OAuthProvider({
-  apiRoute: '/mcp',
-  apiHandler: PixassoMcpAgent.serve('/mcp'),
+  apiRoute: ['/mcp', '/sse'],
+  apiHandler: PixassoMcpAgent.serve('/mcp', {
+    binding: 'PIXASSO_MCP_OBJECT',
+    transport: 'auto',
+    corsOptions: {
+      origin: '*',
+      headers: 'Content-Type, Accept, Authorization, mcp-session-id, mcp-protocol-version',
+      methods: 'GET, POST, DELETE, OPTIONS'
+    }
+  }),
   defaultHandler: GitHubHandler,
   authorizeEndpoint: '/authorize',
   tokenEndpoint: '/token',
@@ -243,7 +251,34 @@ const oauthProvider = new OAuthProvider({
 
 export default {
   async fetch(request: Request, env: WorkerEnv, ctx: ExecutionContext): Promise<Response> {
+    if (!env.MCP_OBJECT && env.PIXASSO_MCP_OBJECT) {
+      env.MCP_OBJECT = env.PIXASSO_MCP_OBJECT;
+    }
+
     const url = new URL(request.url);
+
+    // Route root MCP probes to /mcp
+    const isMcpRootProbe = url.pathname === '/' && (
+      request.method === 'POST' ||
+      request.headers.has('mcp-session-id') ||
+      request.headers.get('accept')?.includes('text/event-stream') ||
+      request.headers.get('content-type')?.includes('application/json')
+    );
+
+    if (isMcpRootProbe) {
+      url.pathname = '/mcp';
+      request = new Request(url.toString(), request);
+    }
+
+    // Normalize Accept header for MCP endpoints to avoid strict 406 Not Acceptable errors
+    if (url.pathname.startsWith('/mcp') || url.pathname.startsWith('/sse')) {
+      const accept = request.headers.get('accept') || '';
+      if (!accept.includes('application/json') || !accept.includes('text/event-stream')) {
+        const headers = new Headers(request.headers);
+        headers.set('accept', 'application/json, text/event-stream');
+        request = new Request(request, { headers });
+      }
+    }
 
     if (url.pathname === '/token' && request.method === 'POST') {
       try {

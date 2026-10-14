@@ -16,6 +16,10 @@
       {
         "class_name": "PixassoMcpAgent",
         "name": "PIXASSO_MCP_OBJECT"
+      },
+      {
+        "class_name": "PixassoMcpAgent",
+        "name": "MCP_OBJECT"
       }
     ]
   },
