@@ -1,4 +1,4 @@
-# Pixasso  [![Listed on MCP Market](https://mcpmarket.com/badge/server/pixasso.svg?style=compact&theme=dark)](https://mcpmarket.com/server/pixasso?utm_source=readme&utm_medium=badge)
+# Pixasso  [![Listed on MCP Market](https://mcpmarket.com/badge/server/pixasso.svg?style=compact&theme=dark)](https://mcpmarket.com/server/pixasso?utm_source=readme&utm_medium=badge) [![AgentShield Security](https://merx.help/badge/A+.svg)](https://merx.help/shield)
 
 > **The Complete End-to-End Frontend Engineering & Design Orchestrator for AI Agents and Humans.**
 
